@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace HybridSearch
 {
-    class SearchesDB : ISearchesDB
+    public class SearchesDB : ISearchesDB
     {
         private IDictionary<Guid, IDictionary<Guid, AgentResult>> Searches = new ConcurrentDictionary<Guid, IDictionary<Guid, AgentResult>>();
         private IClientsDB clients;
         private IAgentsPendingDB agentsPending;
 
-        SearchesDB(IClientsDB clients, IAgentsPendingDB agentsPending)
+        public SearchesDB(IClientsDB clients, IAgentsPendingDB agentsPending)
         {
             this.clients = clients;
             this.agentsPending = agentsPending;

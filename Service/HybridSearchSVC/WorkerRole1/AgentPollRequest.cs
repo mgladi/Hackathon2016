@@ -8,18 +8,22 @@ namespace HybridSearch
     {
         private readonly Guid customerId;
         private readonly Guid agentId;
-        public AgentPollRequest(Guid customerId, Guid agentId)
+        private readonly IAgentsPendingDB agentsPendingDb;
+        private readonly IClientsDB clientsDb;
+        public AgentPollRequest(IAgentsPendingDB agentsPendingDb, IClientsDB clientsDb, Guid customerId, Guid agentId)
         {
+            this.agentsPendingDb = agentsPendingDb;
+            this.clientsDb = clientsDb;
             this.customerId = customerId;
             this.agentId = agentId;
         }
 
         public Task ProcessRequest(HttpListenerContext context)
         {
-
-            IAgentsPendingDB agentsPending = new AgentsPendingDB2();
             SearchQuery nextSearchQuery;
-            bool isNextQueryAvailable = agentsPending.TryGetNextQuery(this.agentId, out nextSearchQuery);
+            clientsDb.CreateNewAgentByID(this.customerId, this.agentId, "content");
+
+            bool isNextQueryAvailable = this.agentsPendingDb.TryGetNextQuery(this.agentId, out nextSearchQuery);
             if (isNextQueryAvailable)
             {
                 HttpHelper.SendObject(context.Response, nextSearchQuery);

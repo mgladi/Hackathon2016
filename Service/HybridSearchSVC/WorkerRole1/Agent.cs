@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HybridSearch
 {
-    class Agent
+    public class Agent
     {
         private Guid agentId;
 

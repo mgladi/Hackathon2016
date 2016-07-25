@@ -15,36 +15,25 @@ namespace HybridSearch
         private readonly Guid customerId;
         private Guid searchId;
 
-        private readonly string content;
+		private readonly string query;
+        private readonly ISearchesDB searchesDB;
 
-        static private ISearchesDB searchesDB = new SearchesDB2();
-
-        public SearchRequest(Guid customerId, string content)
+        public SearchRequest(ISearchesDB searchesDB, Guid customerId, string query)
         {
+            this.searchesDB = searchesDB;
             this.customerId = customerId;
-            this.content = content;
+            this.query = query;
         }
 
         public async Task ProcessRequest(HttpListenerContext context)
         {
             Console.WriteLine("Got request of type SearchRequest");
-            const string customerIdKeyName = "customerId";
-            const string agentQueryKeyName = "q";
-
-            Console.WriteLine("Got request of type SearchRequest");
-
-            // get client id and query
-            string customerId = context.Request.QueryString[customerIdKeyName];
-            string query = context.Request.QueryString[agentQueryKeyName];
-
-            Guid customerIdGuid;
-            Guid.TryParse(customerId, out customerIdGuid);
 
             // initiate new search
-            var searchId = searchesDB.CreateNewSearch(customerIdGuid, query);
+            var searchId = searchesDB.CreateNewSearch(this.customerId, this.query);
 
             // wait for results
-            await GetSearchResults(context.Response, customerIdGuid, searchId);
+            await GetSearchResults(context.Response, this.customerId, searchId);
         }
 
         private async Task GetSearchResults(HttpListenerResponse response, Guid customerId, Guid searchId)

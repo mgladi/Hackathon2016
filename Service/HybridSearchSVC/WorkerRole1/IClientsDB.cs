@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HybridSearch
 {
-    interface IClientsDB
+    public interface IClientsDB
     {
         Agent CreateNewAgent(Guid clientId, string content);
         Agent CreateNewAgentByID(Guid clientId, Guid agentId, string content);
