@@ -17,6 +17,14 @@ namespace Agent.UniversalWindows
                 return DeviceType.Windows;
             }
         }
+        public string DeviceModel
+        {
+            get
+            {
+                throw new NotImplementedException("Writing files is not implemented");
+            }
+        }
+
         public bool Exists(string filename)
         {
             return false;

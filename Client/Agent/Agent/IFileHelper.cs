@@ -7,6 +7,7 @@ namespace Agent
     public interface IFileHelper
     {
         DeviceType DeviceType { get; }
+        string DeviceModel { get; }
         bool Exists(string filename);
 
         void WriteText(string filename, string text);

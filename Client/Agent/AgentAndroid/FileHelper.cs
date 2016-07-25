@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using Xamarin.Forms;
 using Android.OS;
+using AndroidOS = Android.OS;
 using AndroidOSEnvironment = Android.OS.Environment;
 
 [assembly: Dependency(typeof(Agent.Android.FileHelper))]
@@ -17,6 +18,14 @@ namespace Agent.Android
             get
             {
                 return DeviceType.Android;
+            }
+        }
+
+        public string DeviceModel
+        {
+            get
+            {
+                return AndroidOS.Build.Model;
             }
         }
 
@@ -43,7 +52,7 @@ namespace Agent.Android
         {
             //GetExternalStoragePublicDirectory(AndroidOS.Environment.RootDirectory)
             //AndroidOSEnvironment.ExternalStorageDirectory.AbsolutePath
-            IEnumerable<string> filepaths = (String.IsNullOrEmpty(searchPattern) ? Directory.GetFiles(GetDocsPath()) : Directory.GetFiles(GetDocsPath(), searchPattern, SearchOption.AllDirectories));
+            IEnumerable<string> filepaths = (String.IsNullOrEmpty(searchPattern) ? Directory.GetFiles(GetDocsPath()) : Directory.GetFiles(AndroidOSEnvironment.ExternalStorageDirectory.AbsolutePath, searchPattern, SearchOption.AllDirectories));
             List<FileMetadata> filenames = new List<FileMetadata>();
 
             foreach (string filepath in filepaths)

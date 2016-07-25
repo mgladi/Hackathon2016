@@ -20,6 +20,14 @@ namespace Agent
             }
         }
 
+        public string DeviceModel
+        {
+            get
+            {
+                return fileHelper.DeviceModel;
+            }
+        }
+
         public bool Exists(string filename)
         {
             return fileHelper.Exists(filename);
