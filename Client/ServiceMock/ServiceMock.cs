@@ -41,6 +41,11 @@ namespace ServiceMock
 
         public List<ResultDataFromAgent> SearchFileInAllDeveices(SearchItem FileNameToSearch, Guid AgentGuid, Guid UserGuid)
         {
+            if(FileNameToSearch.PollingResultType == PollingResultType.FileToTransferPath)
+            {
+                return new List<ResultDataFromAgent> { new ResultDataFromAgent { FileContent = "A file content!" } };
+            }
+
             return new List<ResultDataFromAgent>
             {
                 new ResultDataFromAgent
@@ -60,6 +65,7 @@ namespace ServiceMock
                 DeviceName = "My PC2",
                 DeviceType = DeviceType.Android,
                 AgentGuid = new Guid(),
+                
                 ResultType = ResultDataFromAgentType.FilesMetadataList,
                 FilesMetadata = new List<FileMetadata>
             {
