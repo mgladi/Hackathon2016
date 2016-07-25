@@ -11,8 +11,21 @@ namespace ServiceInterface
         FileContent,
         FilesMetadataList
     }
+
+    public enum DeviceType
+    {
+        Windows,
+        Android
+    }
+
     public class ResultDataFromAgent
     {
+        public Guid AgentGuid { get; set; }
+
+        public DeviceType DeviceType { get; set; }
+
+        public string DeviceName { get; set; }
+
         public ResultDataFromAgentType ResultType { get; set; }
 
         public string FileContent { get;  set; }
