@@ -9,11 +9,14 @@ namespace HybridSearch
 {
     public class ErrorRequest : IRequest
     {
-        public void ProcessRequest(HttpListenerContext context)
+        public Task ProcessRequest(HttpListenerContext context)
         {
             Console.WriteLine("Got error request");
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             context.Response.Close();
+
+            return Task.FromResult(0);
+
         }
     }
 }

@@ -1,11 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
-using WorkerRole1;
 
 namespace HybridSearch
 {
@@ -19,9 +14,10 @@ namespace HybridSearch
             this.agentId = agentId;
         }
 
-        public void ProcessRequest(HttpListenerContext context)
+        public Task ProcessRequest(HttpListenerContext context)
         {
-            IAgentsPendingDB agentsPending;
+
+            IAgentsPendingDB agentsPending = new AgentsPendingDB2();
             SearchQuery nextSearchQuery;
             bool isNextQueryAvailable = agentsPending.TryGetNextQuery(this.agentId, out nextSearchQuery);
             if (isNextQueryAvailable)
@@ -32,6 +28,7 @@ namespace HybridSearch
             {
                 HttpHelper.SendEmpty(context.Response);
             }
+            return Task.FromResult(0);
         }
     }
 }

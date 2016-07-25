@@ -9,6 +9,6 @@ namespace HybridSearch
 {
     public interface IRequest
     {
-        void ProcessRequest(HttpListenerContext context);
+        Task ProcessRequest(HttpListenerContext context);
     }
 }

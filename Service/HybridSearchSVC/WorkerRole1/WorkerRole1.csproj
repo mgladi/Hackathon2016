@@ -78,9 +78,10 @@
     <Compile Include="Agent.cs" />
     <Compile Include="AgentPollRequest.cs" />
     <Compile Include="AgentResult.cs" />
+    <Compile Include="AgentsPendingDB2.cs" />
+    <Compile Include="ClientsDB2.cs" />
     <Compile Include="ErrorRequest.cs" />
     <Compile Include="HttpHelper.cs" />
-    <Compile Include="HybridListenerProcessor.cs" />
     <Compile Include="HybridSearchListener.cs" />
     <Compile Include="HybridSearchManager.cs" />
     <Compile Include="IAgentsPendingDB.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestCreator.cs" />
     <Compile Include="SearcherAgent.cs" />
+    <Compile Include="SearchesDB2.cs" />
     <Compile Include="SearchQuery.cs" />
     <Compile Include="SearchRequest.cs" />
     <Compile Include="SearchResults.cs" />

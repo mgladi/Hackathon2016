@@ -23,11 +23,13 @@ namespace HybridSearch
             this.content = content;
         }
 
-        public void ProcessRequest(HttpListenerContext context)
+        public Task ProcessRequest(HttpListenerContext context)
         {
-            ISearchesDB db;
+            ISearchesDB db = new SearchesDB2();
             byte[] contentBytes = Encoding.UTF8.GetBytes(this.content);
             db.UpdateSearch(this.searchId, this.agentId, contentBytes);
+            return Task.FromResult(0);
+
         }
     }
 }
