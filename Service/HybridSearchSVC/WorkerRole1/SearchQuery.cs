@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HybridSearch
 {
-    class SearchQuery
+    public class SearchQuery
     {
         private Guid searchId;
         private string query;

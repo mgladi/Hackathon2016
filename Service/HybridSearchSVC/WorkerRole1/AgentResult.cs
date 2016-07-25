@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace HybridSearch
 {
-    class AgentResult
+    public class AgentResult
     {
+        private readonly byte[] result;
+        public AgentResult(byte[] result)
+        {
+            this.result = result;
+        }
     }
 }

@@ -15,13 +15,13 @@ namespace HybridSearch
         private readonly Guid customerId;
         private Guid searchId;
 
-        private readonly string query;
+		private readonly string query;
+        private readonly ISearchesDB searchesDB;
 
-        static private ISearchesDB searchesDB = new SearchesDB2();
-
-        public SearchRequest(Guid customerId, string query)
+        public SearchRequest(ISearchesDB searchesDB, Guid customerId, string query)
         {
-            this.customerId = customerId;
+            this.searchesDB = searchesDB;
+            this.clientId = customerId;
             this.query = query;
         }
 

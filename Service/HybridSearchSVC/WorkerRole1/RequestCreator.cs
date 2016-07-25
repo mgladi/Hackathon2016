@@ -11,6 +11,10 @@ namespace HybridSearch
     {
         private const string agentQuery_QueryStringKey = "q";
 
+        public static IClientsDB clientsDb = new ClientsDB();
+        public static IAgentsPendingDB agentsPendingDb = new AgentsPendingDB();
+        public static ISearchesDB searchesDb = new SearchesDB(clientsDb, agentsPendingDb);
+
         public static IRequest CreateRequest(HttpListenerRequest request)
         {
             string path = request.Url.PathAndQuery;
@@ -19,14 +23,14 @@ namespace HybridSearch
                 string customerId = request.Headers["CustomerId"];
                 string agentId = request.Headers["AgentId"];
 
-                return new AgentPollRequest(Guid.Parse(customerId), Guid.Parse(agentId));
+                return new AgentPollRequest(agentsPendingDb, clientsDb, Guid.Parse(customerId), Guid.Parse(agentId));
             }
             else if (path.StartsWith("/GetSearch"))
             {
                 string customerId = request.Headers["CustomerId"];
-                string query = request.QueryString[agentQuery_QueryStringKey];
+                string query = request.QueryString[agentQuery_QueryStringKey];              
                 
-                return new SearchRequest(Guid.Parse(customerId), query);
+                return new SearchRequest(searchesDb, Guid.Parse(customerId), query);
             }
             else if (path.StartsWith("/PostResults"))
             {
@@ -36,7 +40,7 @@ namespace HybridSearch
                 string searchId = request.Headers["SearchId"];
 
                 string content = HttpHelper.GetRequestPostData(request);
-                return new SearchRequest(Guid.Parse(customerId), content);
+                return new PostResultsRequest(searchesDb, Guid.Parse(customerId), Guid.Parse(agentId), Guid.Parse(searchId), content);
             }
             return new ErrorRequest();
         }
