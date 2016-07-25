@@ -47,7 +47,7 @@ namespace ServiceMock
                 {
                 DeviceName = "My PC",
                 DeviceType = DeviceType.Windows,
-                AgentGuid = new Guid(),
+                AgentGuid = Guid.NewGuid(),
                 ResultType = ResultDataFromAgentType.FilesMetadataList,
                 FilesMetadata = new List<FileMetadata>
             {
@@ -59,7 +59,7 @@ namespace ServiceMock
                 {
                 DeviceName = "My PC2",
                 DeviceType = DeviceType.Android,
-                AgentGuid = new Guid(),
+                AgentGuid = Guid.NewGuid(),
                 
                 ResultType = ResultDataFromAgentType.FilesMetadataList,
                 FilesMetadata = new List<FileMetadata>

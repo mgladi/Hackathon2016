@@ -9,9 +9,9 @@ namespace Hello
 {
     public class Client
     {
-        private IService serviceMock = new ServiceMock.ServiceMock();
-        private Guid AgentGuid = new Guid();
-        private Guid customerId = new Guid();
+        private IService serviceMock = new ServiceInterface.HybridSearchService("http://10.93.172.22:81");
+        private Guid AgentGuid = Guid.NewGuid();
+        private Guid customerId = new Guid("5286515c-4ddf-41fe-a908-ace03a0318bb");
 
         public List<ResultDataFromAgent> SearchFileInAllDeveices(string FileNameToSearch) // search acording to User Guid and fileNameToSearch
         {
