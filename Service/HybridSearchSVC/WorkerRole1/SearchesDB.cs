@@ -57,7 +57,7 @@ namespace HybridSearch
             return !this.Searches[searchId].ContainsKey(agentId);
         }
 
-        public SearchResults GetSearchResults(Guid? customerId, Guid searchId, string type = "search")
+        public SearchResults GetSearchResults(Guid customerId, Guid searchId, string type = "search")
         {
             return new SearchResults(this.Searches[searchId], type);
         }
