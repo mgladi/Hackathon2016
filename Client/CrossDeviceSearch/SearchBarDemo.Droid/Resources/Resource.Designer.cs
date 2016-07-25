@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("CrossDeviceSearch.Droid.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("SearchBarDemo.Droid.Resource", IsApplication=true)]
 
-namespace CrossDeviceSearch.Droid
+namespace SearchBarDemo.Droid
 {
 	
 	
@@ -26,7 +26,7 @@ namespace CrossDeviceSearch.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::CrossDeviceSearch.Droid.Resource.Attribute.actionBarSize;
+			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::SearchBarDemo.Droid.Resource.Attribute.actionBarSize;
 		}
 		
 		public partial class Animation

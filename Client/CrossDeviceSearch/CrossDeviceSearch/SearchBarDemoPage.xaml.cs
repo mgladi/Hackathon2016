@@ -95,9 +95,12 @@ namespace CrossDeviceSearch
             resultItemStack.Children.Add(GetTextInfoStackLayout());
             Button button = new Button
             {
-                Text = "Download"
+                Text = "Open",
+                BackgroundColor = Color.FromRgb(30, 144, 255),
+                TextColor = Color.White,
+                BorderColor = Color.White
             };
-
+            
             resultItemStack.Children.Add(button);
             resultsStack.Children.Add(new BoxView
             {

@@ -13,7 +13,8 @@
         <SearchBar x:Name="searchBar"
                    Placeholder="Search text"
                    TextChanged="OnSearchBarTextChanged"
-                   SearchButtonPressed="OnSearchBarButtonPressed" />
+                   SearchButtonPressed="OnSearchBarButtonPressed"
+                   />
 
         <ScrollView x:Name="resultsScroll"
                     VerticalOptions="FillAndExpand">
