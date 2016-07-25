@@ -8,10 +8,10 @@ namespace WorkerRole1
 {
     interface ISearchesDB
     {
-        Guid NewSearch();
-        void UpdateSearch(Guid searchId, Guid agentId, byte[] result);
-        bool AwaitingResults(Guid searchId);
-        SearchResults GetSearchResults(Guid searchId); // <AgentId, result> dictionary
+        Guid CreateNewSearch(Guid clientId, SearchQuery searchQuery);
+        void UpdateSearch(Guid searchId, Guid agentId, AgentResult result);
+        bool IsAwaitingResults(Guid clientId, Guid searchId);
+        SearchResults GetSearchResults(Guid clientId, Guid searchId); // <AgentId, result> dictionary
         void DeleteSearch(Guid searchId);
     }
 }

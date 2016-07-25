@@ -12,6 +12,8 @@ namespace WorkerRole1
         /// Get the search if exists and remove at the end.
         /// </summary>
         bool TryGetNextQuery(Guid agentId, out SearchQuery searchQuery);
+
+        void CreateNewAgent(Agent agent, SearchQuery searchQuery);
     }
 
     

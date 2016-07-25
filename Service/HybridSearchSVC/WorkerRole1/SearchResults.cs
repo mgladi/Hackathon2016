@@ -9,5 +9,14 @@ namespace WorkerRole1
     class SearchResults
     {
         private List<AgentResult> results;
+
+        public SearchResults(IDictionary<Guid, AgentResult> resultsDict)
+        {
+            this.results = new List<AgentResult>();
+            foreach (KeyValuePair<Guid, AgentResult> item in resultsDict)
+            {
+                this.results.Add(item.Value);
+            }
+        }
     }
 }

@@ -14,5 +14,10 @@ namespace WorkerRole1
         {
             this.agentId = agentId;
         }
+
+        public Guid getId()
+        {
+            return this.agentId;
+        }
     }
 }

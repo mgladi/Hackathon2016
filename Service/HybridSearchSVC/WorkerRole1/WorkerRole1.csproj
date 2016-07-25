@@ -78,6 +78,7 @@
     <Compile Include="Agent.cs" />
     <Compile Include="AgentPollRequest.cs" />
     <Compile Include="AgentResult.cs" />
+    <Compile Include="SearchesDB.cs" />
     <Compile Include="ErrorRequest.cs" />
     <Compile Include="HttpHelper.cs" />
     <Compile Include="HybridListenerProcessor.cs" />
