@@ -11,7 +11,8 @@ namespace HybridSearch
         Guid CreateNewSearch(Guid customerId, string query);
         void UpdateSearch(Guid searchId, Guid agentId, AgentResult result);
         bool IsAwaitingResults(Guid customerId, Guid searchId);
-        SearchResults GetSearchResults(Guid customerId, Guid searchId); // <AgentId, result> dictionary
+        bool IsAwaitingFile(Guid customerId, Guid searchId, Guid agentId);
+        SearchResults GetSearchResults(Guid customerId, Guid searchId);
         void DeleteSearch(Guid searchId);
     }
 }
