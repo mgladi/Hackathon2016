@@ -8,10 +8,17 @@ namespace HybridSearch
 {
     public class AgentResult
     {
-        private readonly byte[] result;
-        public AgentResult(byte[] result)
+        public byte[] result { get; set; }
+        public Guid agentId { get; set; }
+
+        public AgentResult()
+        {
+
+        }
+        public AgentResult(Guid agentId, byte[] result)
         {
             this.result = result;
+            this.agentId = agentId;
         }
     }
 }

@@ -27,7 +27,7 @@ namespace HybridSearch
             List<Agent> agents = this.clients.GetAgents(customerId);
             foreach (Agent agent in agents)
             {
-                SearchQuery searchQuery = new SearchQuery(searchId, query);
+                SearchQuery searchQuery = new SearchQuery(searchId, query, "search");
                 this.agentsPending.SubmitNewQuery(agent, searchQuery);
             }
 

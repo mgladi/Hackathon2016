@@ -8,7 +8,12 @@ namespace HybridSearch
 {
     public class SearchResults
     {
-        private List<AgentResult> results;
+        public List<AgentResult> results { get; set; }
+
+        public SearchResults()
+        {
+            this.results = new List<AgentResult>();
+        }
 
         public SearchResults(IDictionary<Guid, AgentResult> resultsDict)
         {

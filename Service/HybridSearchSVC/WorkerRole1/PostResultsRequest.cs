@@ -28,7 +28,7 @@ namespace HybridSearch
         public Task ProcessRequest(HttpListenerContext context)
         {
             byte[] contentBytes = Encoding.UTF8.GetBytes(this.content);
-            AgentResult result = new AgentResult(contentBytes);
+            AgentResult result = new AgentResult(this.agentId, contentBytes);
             searchesDb.UpdateSearch(this.searchId, this.agentId, result);
             return Task.FromResult(0);
 
