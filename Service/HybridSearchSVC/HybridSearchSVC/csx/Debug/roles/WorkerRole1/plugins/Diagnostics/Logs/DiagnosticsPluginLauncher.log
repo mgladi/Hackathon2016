@@ -1,0 +1,15 @@
+DiagnosticsPluginLauncher.exe Information: 0 : [7/25/2016 5:55:17 AM] Emulator config file set to c:\users\t-alkoll\documents\visual studio 2015\Projects\HybridSearchSVC\HybridSearchSVC\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
+DiagnosticsPluginLauncher.exe Information: 0 : [7/25/2016 5:55:17 AM] DiagnosticsStoreRootPath set to: C:\Users\t-alkoll\AppData\Local\dftmp\Resources\08716347-2a90-42f1-a3f9-9f94364dc72c
+DiagnosticsPluginLauncher.exe Information: 0 : [7/25/2016 5:55:17 AM] Loading config file: c:\users\t-alkoll\documents\visual studio 2015\Projects\HybridSearchSVC\HybridSearchSVC\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
+DiagnosticsPluginLauncher.exe Information: 0 : [7/25/2016 5:55:17 AM] Config file to read: c:\users\t-alkoll\documents\visual studio 2015\Projects\HybridSearchSVC\HybridSearchSVC\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
+DiagnosticsPluginLauncher.exe Information: 0 : [7/25/2016 5:55:17 AM] Checking VM Type
+DiagnosticsPluginLauncher.exe Information: 0 : [7/25/2016 5:55:17 AM] Emulator config file set to c:\users\t-alkoll\documents\visual studio 2015\Projects\HybridSearchSVC\HybridSearchSVC\csx\Debug\roles\WorkerRole1\approot\diagnostics.wadcfgx
+DiagnosticsPluginLauncher.exe Information: 0 : [7/25/2016 5:55:17 AM] Extension set to Emulator Mode
+DiagnosticsPluginLauncher.exe Information: 0 : [7/25/2016 5:55:17 AM] Reading XML configuration file
+DiagnosticsPluginLauncher.exe Information: 0 : [7/25/2016 5:55:17 AM] Bypassing private config decryption
+DiagnosticsPluginLauncher.exe Information: 0 : [7/25/2016 5:55:17 AM] Stopping the running plugin, if any
+DiagnosticsPluginLauncher.exe Information: 0 : [7/25/2016 5:55:18 AM] No DiagnosticsPlugin is running.
+DiagnosticsPluginLauncher.exe Information: 0 : [7/25/2016 5:55:18 AM] Killing any DiagnosticsPlugin that might remain.
+DiagnosticsPluginLauncher.exe Information: 0 : [7/25/2016 5:55:18 AM] Killing any MonAgentHost that might remain.
+DiagnosticsPluginLauncher.exe Information: 0 : [7/25/2016 5:55:18 AM] Diagnostics plugin stopped successfully
+DiagnosticsPluginLauncher.exe Information: 0 : [7/25/2016 5:55:18 AM] Resetting DiagnosticPlugin
