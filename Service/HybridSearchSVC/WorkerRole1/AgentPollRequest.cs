@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using WorkerRole1;
 
 namespace HybridSearch
 {
@@ -19,7 +21,17 @@ namespace HybridSearch
 
         public void ProcessRequest(HttpListenerContext context)
         {
-            HttpHelper.SendString(context.Response, "your customer id is " + this.customerId.ToString());
+            IAgentsPendingDB agentsPending;
+            SearchQuery nextSearchQuery;
+            bool isNextQueryAvailable = agentsPending.TryGetNextQuery(this.agentId, out nextSearchQuery);
+            if (isNextQueryAvailable)
+            {
+                HttpHelper.SendObject(context.Response, nextSearchQuery);
+            }
+            else
+            {
+                HttpHelper.SendEmpty(context.Response);
+            }
         }
     }
 }

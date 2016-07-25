@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 
-namespace CrossSearch
+namespace HybridSearch
 {
     class PostResultsRequest : IRequest
     {
@@ -25,7 +25,9 @@ namespace CrossSearch
 
         public void ProcessRequest(HttpListenerContext context)
         {
-            HttpHelper.GetRequestPostData(context.Request);
+            ISearchesDB db;
+            byte[] contentBytes = Encoding.UTF8.GetBytes(this.content);
+            db.UpdateSearch(this.searchId, this.agentId, contentBytes);
         }
     }
 }

@@ -11,7 +11,7 @@ using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.Storage;
 using HybridSearch;
 
-namespace WorkerRole1
+namespace HybridSearch
 {
     public class WorkerRole : RoleEntryPoint
     {
