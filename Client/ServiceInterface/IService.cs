@@ -10,8 +10,8 @@ namespace ServiceInterface
     {
         SearchItem PollService(Guid AgentGuid, Guid UserGuid);
 
-        void SendResult(Guid AgentGUID, ResultDataFromAgent FilesMetadataList);
+        void SendResult(Guid AgentGUID, ResultDataFromAgent agentResult);
 
-        ResultDataFromAgent SearchFileInAllDeveices(SearchItem FileNameToSearch, Guid AgentGuid, Guid UserGuid);
+        List<ResultDataFromAgent> SearchFileInAllDeveices(SearchItem FileNameToSearch, Guid AgentGuid, Guid UserGuid);
     }
 }
