@@ -13,6 +13,8 @@ namespace Hello
         private IService serviceMock = new ServiceMock.ServiceMock();
         private Guid AgentGuid = new Guid();
         private Guid UserGuid = new Guid();
+        private Guid RequestGuid;
+
 
 
         public void PollService()
@@ -22,10 +24,12 @@ namespace Hello
             if (result.PollingResultType == PollingResultType.SearchQuery)
             {
                 SearchFileInTheDevice(result.ResultQuery);
+                RequestGuid = result.RequestId;
             }
             else if (result.PollingResultType == PollingResultType.FileToTransferPath)
             {
                 SendFileContent(result.ResultQuery);
+                RequestGuid = result.RequestId;
             }
         }
 
@@ -33,13 +37,13 @@ namespace Hello
         {
             //Send file
             string dummyData = "ThisIsDummyContent of file: " + FilePathToSend;
-            serviceMock.SendResult(AgentGuid, new ResultDataFromAgent { ResultType = ResultDataFromAgentType.FileContent, FileContent = dummyData });
+            serviceMock.SendResult(UserGuid, AgentGuid, RequestGuid, new ResultDataFromAgent { ResultType = ResultDataFromAgentType.FileContent, FileContent = dummyData });
         }
 
         private void SearchFileInTheDevice(string FileNameToSearch)
         {
             //search and send the local results to server
-            serviceMock.SendResult(AgentGuid, agentResult: new ResultDataFromAgent
+            serviceMock.SendResult(UserGuid, AgentGuid, RequestGuid, agentResult: new ResultDataFromAgent
             {
                 AgentGuid = new Guid(),
                 DeviceType = DeviceType.Windows,

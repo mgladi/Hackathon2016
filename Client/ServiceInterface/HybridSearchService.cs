@@ -68,7 +68,7 @@ namespace ServiceInterface
 
             if (!string.IsNullOrEmpty(resultContent))
             {
-                SearchResults searchResult = JsonConvert.DeserializeObject<SearchResults>(content);
+                SearchResults searchResult = JsonConvert.DeserializeObject<SearchResults>(resultContent);
 
                 List<ResultDataFromAgent> resultDataFromAgent = new List<ResultDataFromAgent>();
 
