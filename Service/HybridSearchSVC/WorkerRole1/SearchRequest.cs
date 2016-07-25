@@ -17,10 +17,11 @@ namespace HybridSearch
             this.content = content;
         }
 
-        public void ProcessRequest(HttpListenerContext context)
+        public Task ProcessRequest(HttpListenerContext context)
         {
             Console.WriteLine("Got request of type SearchRequest");
             HttpHelper.SendString(context.Response, "string");
+            return Task.FromResult(0);
         }
     }
 }

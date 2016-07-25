@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -22,6 +23,25 @@ namespace HybridSearch
             response.Close();
         }
 
+        public static void SendObject(HttpListenerResponse response, object obj)
+        {
+            var serializedObj = JObject.FromObject(obj);
+            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(serializedObj.ToString());
+            // Get a response stream and write the response to it.
+            response.ContentLength64 = buffer.Length;
+            System.IO.Stream output = response.OutputStream;
+            output.Write(buffer, 0, buffer.Length);
+            output.Close();
+
+            response.StatusCode = (int)HttpStatusCode.OK;
+            response.Close();
+        }
+
+        public static void SendEmpty(HttpListenerResponse response)
+        {
+            response.StatusCode = (int)HttpStatusCode.OK;
+            response.Close();
+        }
         public static string GetRequestPostData(HttpListenerRequest request)
         {
             if (!request.HasEntityBody)

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HybridSearch
@@ -17,9 +14,21 @@ namespace HybridSearch
             this.agentId = agentId;
         }
 
-        public void ProcessRequest(HttpListenerContext context)
+        public Task ProcessRequest(HttpListenerContext context)
         {
-            HttpHelper.SendString(context.Response, "your customer id is " + this.customerId.ToString());
+
+            IAgentsPendingDB agentsPending = new AgentsPendingDB2();
+            SearchQuery nextSearchQuery;
+            bool isNextQueryAvailable = agentsPending.TryGetNextQuery(this.agentId, out nextSearchQuery);
+            if (isNextQueryAvailable)
+            {
+                HttpHelper.SendObject(context.Response, nextSearchQuery);
+            }
+            else
+            {
+                HttpHelper.SendEmpty(context.Response);
+            }
+            return Task.FromResult(0);
         }
     }
 }

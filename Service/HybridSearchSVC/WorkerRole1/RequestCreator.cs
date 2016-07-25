@@ -23,10 +23,12 @@ namespace HybridSearch
             {
                 string customerId = request.Headers["CustomerId"];
                 string content = HttpHelper.GetRequestPostData(request);
+                
                 return new SearchRequest(Guid.Parse(customerId), content);
             }
             else if (path.StartsWith("/PostResults"))
             {
+
                 string customerId = request.Headers["CustomerId"];
                 string agentId = request.Headers["AgentId"];
                 string searchId = request.Headers["SearchId"];
