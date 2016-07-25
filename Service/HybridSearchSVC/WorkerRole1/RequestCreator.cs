@@ -9,6 +9,8 @@ namespace HybridSearch
 {
     public class RequestCreator
     {
+        private const string agentQuery_QueryStringKey = "q";
+
         public static IRequest CreateRequest(HttpListenerRequest request)
         {
             string path = request.Url.PathAndQuery;
@@ -22,9 +24,9 @@ namespace HybridSearch
             else if (path.StartsWith("/GetSearch"))
             {
                 string customerId = request.Headers["CustomerId"];
-                string content = HttpHelper.GetRequestPostData(request);
+                string query = request.QueryString[agentQuery_QueryStringKey];
                 
-                return new SearchRequest(Guid.Parse(customerId), content);
+                return new SearchRequest(Guid.Parse(customerId), query);
             }
             else if (path.StartsWith("/PostResults"))
             {
