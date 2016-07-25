@@ -14,7 +14,7 @@ namespace Agent
         ServiceMock.ServiceMock mock = new ServiceMock.ServiceMock();
         Guid agentGuid = Guid.NewGuid();
         Guid userGuid = new Guid("c610a71d-91fd-4ef8-947f-8e4d4013106d");
-        string deviceName = "Nirs_test";
+
         public App()
         {
             Task task = new Task(() =>
@@ -28,6 +28,7 @@ namespace Agent
                             mock.SendResult(userGuid, agentGuid, searchItem.RequestId, SearchQuery(searchItem.ResultQuery));
                             break;
                         case PollingResultType.FileToTransferPath:
+                            //mock.SendResult(userGuid, agentGuid, searchItem.RequestId, FileToTransferPath(searchItem.ResultQuery));
                             break;
                     }
                     Task.Delay(1000).Wait();
@@ -44,9 +45,21 @@ namespace Agent
             {
                 AgentGuid = agentGuid,
                 DeviceType = fileHelper.DeviceType,
-                DeviceName = deviceName,
+                DeviceName = fileHelper.DeviceModel,
                 FilesMetadata = fileHelper.SearchFiles(query),
                 ResultType = ResultDataFromAgentType.FilesMetadataList
+            };
+        }
+        private ResultDataFromAgent FileToTransferPath(string filepath)
+        {
+            FileHelper fileHelper = new FileHelper();
+            return new ResultDataFromAgent
+            {
+                AgentGuid = agentGuid,
+                DeviceType = fileHelper.DeviceType,
+                DeviceName = deviceName,
+                FileContent = fileHelper.ReadText(filepath),
+                ResultType = ResultDataFromAgentType.FileContent
             };
         }
 
