@@ -8,10 +8,10 @@ namespace HybridSearch
 {
     interface ISearchesDB
     {
-        Guid CreateNewSearch(Guid clientId, string query);
+        Guid CreateNewSearch(Guid customerId, string query);
         void UpdateSearch(Guid searchId, Guid agentId, AgentResult result);
-        bool IsAwaitingResults(Guid clientId, Guid searchId);
-        SearchResults GetSearchResults(Guid clientId, Guid searchId); // <AgentId, result> dictionary
+        bool IsAwaitingResults(Guid customerId, Guid searchId);
+        SearchResults GetSearchResults(Guid customerId, Guid searchId); // <AgentId, result> dictionary
         void DeleteSearch(Guid searchId);
     }
 }

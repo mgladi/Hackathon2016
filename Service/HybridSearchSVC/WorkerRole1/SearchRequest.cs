@@ -12,7 +12,7 @@ namespace HybridSearch
         private const int maxIterations = 50;
         private const int iterationDelayMilliseconds = 200;
 
-        private readonly Guid clientId;
+        private readonly Guid customerId;
         private Guid searchId;
 
         private readonly string content;
@@ -21,30 +21,30 @@ namespace HybridSearch
 
         public SearchRequest(Guid customerId, string content)
         {
-            this.clientId = customerId;
+            this.customerId = customerId;
             this.content = content;
         }
 
         public async Task ProcessRequest(HttpListenerContext context)
         {
             Console.WriteLine("Got request of type SearchRequest");
-            const string clientIdKeyName = "clientId";
+            const string customerIdKeyName = "customerId";
             const string agentQueryKeyName = "q";
 
             Console.WriteLine("Got request of type SearchRequest");
 
             // get client id and query
-            string clientId = context.Request.QueryString[clientIdKeyName];
+            string customerId = context.Request.QueryString[customerIdKeyName];
             string query = context.Request.QueryString[agentQueryKeyName];
 
-            Guid clientIdGuid;
-            Guid.TryParse(clientId, out clientIdGuid);
+            Guid customerIdGuid;
+            Guid.TryParse(customerId, out customerIdGuid);
 
             // initiate new search
-            var searchId = searchesDB.CreateNewSearch(clientIdGuid, query);
+            var searchId = searchesDB.CreateNewSearch(customerIdGuid, query);
 
             // wait for results
-            await GetSearchResults(context.Response, clientIdGuid, searchId);
+            await GetSearchResults(context.Response, customerIdGuid, searchId);
         }
 
         private async Task GetSearchResults(HttpListenerResponse response, Guid customerId, Guid searchId)
