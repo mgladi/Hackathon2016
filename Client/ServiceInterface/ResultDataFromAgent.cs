@@ -26,10 +26,18 @@ namespace ServiceInterface
 
         public string DeviceName { get; set; }
 
+        //According to this field 1 of the following 2 fields will be relevant:
         public ResultDataFromAgentType ResultType { get; set; }
 
+        //1.
         public string FileContent { get;  set; }
 
+        //2.
         public List<FileMetadata> FilesMetadata { get; set; }
+
+        public override string ToString()
+        {
+            return "Device Name: " + DeviceName + "\nDevice Type: " + DeviceType;
+        }
     }
 }

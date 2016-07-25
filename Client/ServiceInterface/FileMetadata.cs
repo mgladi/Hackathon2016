@@ -6,12 +6,6 @@ using System.Threading.Tasks;
 
 namespace ServiceInterface
 {
-    public enum DeviceType
-    {
-        Windows,
-        Android
-    }
-
     public class FileMetadata
     {
         public string FullPathAndName { get; set; }
