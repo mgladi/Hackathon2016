@@ -21,7 +21,7 @@ namespace HybridSearch
         public SearchRequest(ISearchesDB searchesDB, Guid customerId, string query)
         {
             this.searchesDB = searchesDB;
-            this.clientId = customerId;
+            this.customerId = customerId;
             this.query = query;
         }
 
