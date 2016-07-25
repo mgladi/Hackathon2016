@@ -9,6 +9,7 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Diagnostics;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.Storage;
+using HybridSearch;
 
 namespace WorkerRole1
 {
@@ -16,7 +17,7 @@ namespace WorkerRole1
     {
         private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private readonly ManualResetEvent runCompleteEvent = new ManualResetEvent(false);
-
+        private HybridSearchListener hybridSearchListener = new HybridSearchListener();
         public override void Run()
         {
             Trace.TraceInformation("WorkerRole1 is running");
@@ -38,6 +39,7 @@ namespace WorkerRole1
 
             // For information on handling configuration changes
             // see the MSDN topic at http://go.microsoft.com/fwlink/?LinkId=166357.
+            hybridSearchListener.StartListen();
 
             bool result = base.OnStart();
 
@@ -60,11 +62,18 @@ namespace WorkerRole1
 
         private async Task RunAsync(CancellationToken cancellationToken)
         {
-            // TODO: Replace the following with your own logic.
-            while (!cancellationToken.IsCancellationRequested)
+            try
             {
-                Trace.TraceInformation("Working");
-                await Task.Delay(1000);
+                // TODO: Replace the following with your own logic.
+                Task.Run(hybridSearchListener.GetRequests);
+                while (true)
+                {
+                    await Task.Delay(1000);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
     }

@@ -6,6 +6,7 @@
     </ConfigurationSettings>
     <Endpoints>
       <InputEndpoint name="test" protocol="http" port="80" localPort="80" />
+      <InputEndpoint name="test2" protocol="http" port="6575" localPort="6575" />
     </Endpoints>
   </WorkerRole>
 </ServiceDefinition>
