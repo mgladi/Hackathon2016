@@ -10,13 +10,15 @@ namespace HybridSearch
 {
     class PostResultsRequest : IRequest
     {
-        Guid customerId;
-        Guid agentId;
-        Guid searchId;
-        string content;
+        private readonly Guid customerId;
+        private readonly Guid agentId;
+        private readonly Guid searchId;
+        private readonly string content;
+        private readonly ISearchesDB searchesDb;
 
-        public PostResultsRequest(Guid customerId, Guid agentId, Guid searchId, string content)
+        public PostResultsRequest(ISearchesDB searchesDb, Guid customerId, Guid agentId, Guid searchId, string content)
         {
+            this.searchesDb = searchesDb;
             this.customerId = customerId;
             this.agentId = agentId;
             this.searchId = searchId;
@@ -25,9 +27,9 @@ namespace HybridSearch
 
         public Task ProcessRequest(HttpListenerContext context)
         {
-            ISearchesDB db = new SearchesDB2();
             byte[] contentBytes = Encoding.UTF8.GetBytes(this.content);
-            db.UpdateSearch(this.searchId, this.agentId, contentBytes);
+            AgentResult result = new AgentResult(contentBytes);
+            searchesDb.UpdateSearch(this.searchId, this.agentId, result);
             return Task.FromResult(0);
 
         }

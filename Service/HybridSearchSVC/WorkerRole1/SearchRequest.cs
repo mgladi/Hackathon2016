@@ -16,11 +16,11 @@ namespace HybridSearch
         private Guid searchId;
 
         private readonly string content;
+        private readonly ISearchesDB searchesDB;
 
-        static private ISearchesDB searchesDB = new SearchesDB2();
-
-        public SearchRequest(Guid customerId, string content)
+        public SearchRequest(ISearchesDB searchesDB, Guid customerId, string content)
         {
+            this.searchesDB = searchesDB;
             this.clientId = customerId;
             this.content = content;
         }

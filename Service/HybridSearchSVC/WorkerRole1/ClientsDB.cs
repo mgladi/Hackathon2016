@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HybridSearch
 {
-    class ClientsDB : IClientsDB
+    public class ClientsDB : IClientsDB
     {
         private IDictionary<Guid, List<Agent>> Clients = new ConcurrentDictionary<Guid, List<Agent>>();
 
