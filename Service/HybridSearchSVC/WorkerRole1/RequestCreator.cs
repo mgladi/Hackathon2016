@@ -42,6 +42,13 @@ namespace HybridSearch
                 string content = HttpHelper.GetRequestPostData(request);
                 return new PostResultsRequest(searchesDb, Guid.Parse(customerId), Guid.Parse(agentId), Guid.Parse(searchId), content);
             }
+            else if (path.StartsWith("/Register"))
+            {
+                string customerId = request.Headers["CustomerId"];
+                string content = request.Headers["Content"];
+
+                return new RegisterRequest(clientsDb, Guid.Parse(customerId), content);
+            }
             return new ErrorRequest();
         }
     }
