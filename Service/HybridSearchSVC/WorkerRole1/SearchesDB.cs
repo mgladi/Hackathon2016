@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorkerRole1
+namespace HybridSearch
 {
     class SearchesDB : ISearchesDB
     {
@@ -19,7 +19,7 @@ namespace WorkerRole1
             this.agentsPending = agentsPending;
         }
 
-        public Guid CreateNewSearch(Guid clientId, SearchQuery searchQuery)
+        public Guid CreateNewSearch(Guid clientId, string query)
         {
             Guid searchId = Guid.NewGuid();
             Searches[searchId] = new ConcurrentDictionary<Guid, AgentResult>();
@@ -27,7 +27,8 @@ namespace WorkerRole1
             List<Agent> agents = this.clients.GetAgents(clientId);
             foreach (Agent agent in agents)
             {
-                this.agentsPending.CreateNewAgent(agent, searchQuery);
+                SearchQuery searchQuery = new SearchQuery(searchId, query);
+                this.agentsPending.SubmitNewQuery(agent, searchQuery);
             }
 
             return searchId;

@@ -10,7 +10,7 @@ namespace HybridSearch
     {
         private Guid agentId;
 
-        Agent(Guid agentId, string content)
+        public Agent(Guid agentId, string content)
         {
             this.agentId = agentId;
         }

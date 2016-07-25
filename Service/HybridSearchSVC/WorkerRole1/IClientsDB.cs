@@ -8,7 +8,8 @@ namespace HybridSearch
 {
     interface IClientsDB
     {
-        Agent NewAgent(Guid clientId, string content);
+        Agent CreateNewAgent(Guid clientId, string content);
+        Agent CreateNewAgentByID(Guid clientId, Guid agentId, string content);
         List<Agent> GetAgents(Guid clientId);
     }
 }

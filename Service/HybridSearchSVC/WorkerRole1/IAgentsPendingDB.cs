@@ -13,7 +13,7 @@ namespace HybridSearch
         /// </summary>
         bool TryGetNextQuery(Guid agentId, out SearchQuery searchQuery);
 
-        void CreateNewAgent(Agent agent, SearchQuery searchQuery);
+        void SubmitNewQuery(Agent agent, SearchQuery searchQuery);
     }
 
     
