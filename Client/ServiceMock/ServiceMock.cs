@@ -24,7 +24,7 @@ namespace ServiceMock
             else if (rInt == 1)
             {
                 result.PollingResultType = PollingResultType.SearchQuery;
-                result.ResultQuery = "SomeTextFile";
+                result.ResultQuery = "1.txt";
             }
             else
             {
