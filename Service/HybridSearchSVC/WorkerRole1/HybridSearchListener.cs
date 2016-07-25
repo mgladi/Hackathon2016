@@ -11,8 +11,6 @@ namespace HybridSearch
     public class HybridSearchListener
     {
         HttpListener listener = new HttpListener();
-        string endpoint = "127.0.0.1:55646";
-        HybridListenerProcessor processor = new HybridListenerProcessor();
 
         public void StartListen()
         {
