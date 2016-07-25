@@ -39,15 +39,33 @@ namespace ServiceMock
             //combine all data. return jsut 200 OK to each machine
         }
 
-        public ResultDataFromAgent SearchFileInAllDeveices(SearchItem FileNameToSearch, Guid AgentGuid, Guid UserGuid)
+        public List<ResultDataFromAgent> SearchFileInAllDeveices(SearchItem FileNameToSearch, Guid AgentGuid, Guid UserGuid)
         {
-            return new ResultDataFromAgent
+            return new List<ResultDataFromAgent>
             {
+                new ResultDataFromAgent
+                {
+                DeviceName = "My PC",
+                DeviceType = DeviceType.Windows,
+                AgentGuid = new Guid(),
                 ResultType = ResultDataFromAgentType.FilesMetadataList,
                 FilesMetadata = new List<FileMetadata>
             {
-                new FileMetadata { AgentGuid = new Guid(), FullPathAndName = @"C:\Users\yaland\Desktop\HelloXamarin\SomeTextFile.txt", Size = 22, Time = DateTime.Now, DeviceType = DeviceType.Windows },
-                new FileMetadata { AgentGuid = new Guid(), FullPathAndName = @"C:\Users\yaland\Desktop\HelloXamarin\SomeTextFile2.txt", Size = 23, Time = DateTime.Now, DeviceType = DeviceType.Android }
+                new FileMetadata { FullPathAndName = @"C:\Users\yaland\Desktop\HelloXamarin\SomeTextFile11.txt", Size = 22, Time = DateTime.Now, },
+                new FileMetadata { FullPathAndName = @"C:\Users\yaland\Desktop\HelloXamarin\SomeTextFile12.txt", Size = 23, Time = DateTime.Now }
+                }
+                },
+                new ResultDataFromAgent
+                {
+                DeviceName = "My PC2",
+                DeviceType = DeviceType.Android,
+                AgentGuid = new Guid(),
+                ResultType = ResultDataFromAgentType.FilesMetadataList,
+                FilesMetadata = new List<FileMetadata>
+            {
+                new FileMetadata { FullPathAndName = @"C:\Users\yaland\Desktop\HelloXamarin\SomeTextFile21.txt", Size = 22, Time = DateTime.Now, },
+                new FileMetadata { FullPathAndName = @"C:\Users\yaland\Desktop\HelloXamarin\SomeTextFile22.txt", Size = 23, Time = DateTime.Now }
+                }
                 }
             };
         }
