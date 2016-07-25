@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HybridSearch
 {
-    class AgentsPendingDB : IAgentsPendingDB
+    public class AgentsPendingDB : IAgentsPendingDB
     {
         private IDictionary<Guid, ConcurrentQueue<SearchQuery>> agentsPending = new ConcurrentDictionary<Guid, ConcurrentQueue<SearchQuery>>();
         public void SubmitNewQuery(Agent agent, SearchQuery searchQuery)

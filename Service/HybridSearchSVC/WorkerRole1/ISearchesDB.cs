@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HybridSearch
 {
-    interface ISearchesDB
+    public interface ISearchesDB
     {
         Guid CreateNewSearch(Guid clientId, string query);
         void UpdateSearch(Guid searchId, Guid agentId, AgentResult result);

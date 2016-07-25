@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HybridSearch
 {
-    interface IAgentsPendingDB
+    public interface IAgentsPendingDB
     {
         /// <summary>
         /// Get the search if exists and remove at the end.

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HybridSearch
 {
-    class SearchResults
+    public class SearchResults
     {
         private List<AgentResult> results;
 
