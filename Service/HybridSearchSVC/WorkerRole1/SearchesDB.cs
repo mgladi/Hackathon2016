@@ -52,16 +52,19 @@ namespace HybridSearch
             return false;
         }
 
-        public SearchResults GetSearchResults(Guid customerId, Guid searchId)
+        public bool IsAwaitingFile(Guid customerId, Guid searchId, Guid agentId)
         {
-            List<Agent> agents = this.clients.GetAgents(customerId);
-            SearchResults results = new SearchResults(this.Searches[searchId]);
-            return results;
+            return !this.Searches[searchId].ContainsKey(agentId);
+        }
+
+        public SearchResults GetSearchResults(Guid customerId, Guid searchId, string type = "search")
+        {
+            return new SearchResults(this.Searches[searchId], type);
         }
 
         public void DeleteSearch(Guid searchId)
         {
-            this.Searches.Remove(searchId);
+              this.Searches.Remove(searchId);
         }
     }
 }

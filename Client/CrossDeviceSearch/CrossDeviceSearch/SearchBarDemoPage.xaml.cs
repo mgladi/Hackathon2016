@@ -3,6 +3,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using Xamarin.Forms;
+using ServiceInterface;
+using ServiceMock;
+using System.Collections.Generic;
 
 namespace CrossDeviceSearch
 {
@@ -10,6 +13,7 @@ namespace CrossDeviceSearch
     {
         const double MaxMatches = 100;
         string bookText;
+        IService service = new ServiceMock.ServiceMock();
 
         public CrossDeviceSearchPage()
         {
@@ -39,7 +43,8 @@ namespace CrossDeviceSearch
             resultsScroll.Content = null;
 
             resultsStack.Children.Clear();
-            SearchBookForText(searchBar.Text);
+            //SearchBookForText(searchBar.Text);
+            List<ResultDataFromAgent> results = service.SearchFileInAllDeveices(new SearchItem() { PollingResultType = PollingResultType.SearchQuery, ResultQuery = searchBar.Text }, new Guid(), new Guid());
 
             // Reattach resultsStack to layout.
             resultsScroll.Content = resultsStack;
@@ -95,9 +100,12 @@ namespace CrossDeviceSearch
             resultItemStack.Children.Add(GetTextInfoStackLayout());
             Button button = new Button
             {
-                Text = "Download"
+                Text = "Open",
+                BackgroundColor = Color.FromRgb(30, 144, 255),
+                TextColor = Color.White,
+                BorderColor = Color.White
             };
-
+            
             resultItemStack.Children.Add(button);
             resultsStack.Children.Add(new BoxView
             {

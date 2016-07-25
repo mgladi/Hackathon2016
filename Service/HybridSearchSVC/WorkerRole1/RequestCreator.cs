@@ -32,6 +32,14 @@ namespace HybridSearch
                 
                 return new SearchRequest(searchesDb, Guid.Parse(customerId), query);
             }
+            else if (path.StartsWith("/GetFile"))
+            {
+                string customerId = request.Headers["CustomerId"];
+                string agentId = request.Headers["AgentId"];
+                string query = request.QueryString[agentQuery_QueryStringKey];
+
+                return new FileRequest(searchesDb, Guid.Parse(customerId), Guid.Parse(agentId), query);
+            }
             else if (path.StartsWith("/PostResults"))
             {
 

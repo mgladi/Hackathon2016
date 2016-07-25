@@ -79,6 +79,7 @@
     <Compile Include="AgentPollRequest.cs" />
     <Compile Include="AgentResult.cs" />
     <Compile Include="AgentsPendingDB.cs" />
+    <Compile Include="FileRequest.cs" />
     <Compile Include="ClientsDB.cs" />
     <Compile Include="ErrorRequest.cs" />
     <Compile Include="HttpHelper.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="ISearchesDB.cs" />
     <Compile Include="PostResultsRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegisterRequest.cs" />
     <Compile Include="RequestCreator.cs" />
     <Compile Include="SearcherAgent.cs" />
     <Compile Include="SearchesDB.cs" />

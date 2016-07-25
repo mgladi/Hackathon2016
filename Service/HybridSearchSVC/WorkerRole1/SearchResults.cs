@@ -10,18 +10,20 @@ namespace HybridSearch
     {
         public List<AgentResult> results { get; set; }
 
+        public string type { set; get; }
+
         public SearchResults()
         {
-            this.results = new List<AgentResult>();
         }
 
-        public SearchResults(IDictionary<Guid, AgentResult> resultsDict)
+        public SearchResults(IDictionary<Guid, AgentResult> resultsDict, string type)
         {
             this.results = new List<AgentResult>();
             foreach (KeyValuePair<Guid, AgentResult> item in resultsDict)
             {
                 this.results.Add(item.Value);
             }
+            this.type = type;
         }
     }
 }
