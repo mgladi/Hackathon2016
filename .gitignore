@@ -1,1 +1,6 @@
 /Service/HybridSearchSVC/WorkerRole1/bin/
+/Service/HybridSearchSVC/WorkerRole1/obj/
+/Service/HybridSearchSVC/HybridSearchSVC/bin/
+/Service/HybridSearchSVC/HybridSearchSVC/csx/
+/Service/HybridSearchSVC/HybridSearchSVC/ecf/
+/Service/HybridSearchSVC/HybridSearchSVC/obj/
