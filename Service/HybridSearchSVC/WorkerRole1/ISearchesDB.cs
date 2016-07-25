@@ -12,7 +12,7 @@ namespace HybridSearch
         void UpdateSearch(Guid searchId, Guid agentId, AgentResult result);
         bool IsAwaitingResults(Guid customerId, Guid searchId);
         bool IsAwaitingFile(Guid customerId, Guid searchId, Guid agentId);
-        SearchResults GetSearchResults(Guid customerId, Guid searchId);
+        SearchResults GetSearchResults(Guid customerId, Guid searchId, string type = "search");
         void DeleteSearch(Guid searchId);
     }
 }
