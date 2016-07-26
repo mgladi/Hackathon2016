@@ -37,6 +37,7 @@ namespace CrossDeviceSearch.Droid
         {
             string tempPath = Path.Combine(GetPersonalPath(), Path.GetFileName(filepath));
             File.WriteAllBytes(tempPath, bytes);
+            bool b = File.Exists(tempPath);
             return tempPath;
         }
 
@@ -64,7 +65,7 @@ namespace CrossDeviceSearch.Droid
 
         public void OpenFile(string filepath)
         {
-            string extension = System.IO.Path.GetExtension(filepath);
+            string extension = Path.GetExtension(filepath);
             string application = "";
             switch (extension.ToLower())
             {
@@ -115,7 +116,11 @@ namespace CrossDeviceSearch.Droid
 
         private string GetPersonalPath()
         {
-            return System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+            return AndroidOSEnvironment.ExternalStorageDirectory.Path;
+            //AndroidOSEnvironment.ExternalStorageDirectory.Path;
+            //AndroidOSEnvironment.DownloadCacheDirectory.Path;
+            //global::Android.OS.Environment.ExternalStorageDirectory.Path;
+            //System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
         }
 
         private FileMetadata GetFileMetaData(string filepath)

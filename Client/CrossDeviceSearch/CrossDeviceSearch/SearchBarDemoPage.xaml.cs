@@ -215,17 +215,14 @@ namespace CrossDeviceSearch
             button.Clicked += async(object s, EventArgs e) =>
             {
                 Button openButton = (Button)s;
-                string fullPathWithName = (string)openButton.Resources["FullPath"];
-                var result = service.GetFileFromDevice(fullPathWithName, agentGuid, userGuid);
-
-                var content = result.FileContent;
+                string fullPathWithName = (string)openButton.Resources["FullPath"]; 
+                
                 bool shouldOpen = await DisplayAlert("", GetDetailsString(openButton), "Open", "Cancel");
                 if (shouldOpen)
                 {
-                    //do nothing
+                    var result = service.GetFileFromDevice(fullPathWithName, agentGuid, userGuid);
+                    fileHelper.SaveAndOpenFile(fullPathWithName, result.FileContent);
                 }
-
-                fileHelper.SaveAndOpenFile(fullPathWithName, result.FileContent);
             };
 
             resultItemStack.Children.Add(button);
