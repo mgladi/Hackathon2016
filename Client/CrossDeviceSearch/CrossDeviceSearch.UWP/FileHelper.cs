@@ -49,6 +49,12 @@ namespace CrossDeviceSearch.UWP
             return File.ReadAllBytes(filepath);
         }
 
+        public void WriteFile(string filepath, byte[] bytes)
+        {
+            string tempPath = Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(filepath));
+            File.WriteAllBytes(tempPath, bytes);
+        }
+
         // Private methods.
         string GetRootPath()
         {

@@ -12,6 +12,7 @@ namespace CrossDeviceSearch
         string ReadText(string filepath);
 
         byte[] ReadFile(string filepath);
+        void WriteFile(string filepath, byte[] bytes);
 
         List<FileMetadata> SearchFiles(string searchPattern = "");
     }

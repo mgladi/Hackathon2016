@@ -42,9 +42,19 @@ namespace CrossDeviceSearch
             return GetFileContentFromByte(fileHelper.ReadFile(filepath));
         }
 
+        public void WriteFile(string filepath, string fileContent)
+        {
+            fileHelper.WriteFile(filepath, GetBytesFromFileContent(fileContent));
+        }
+
         private string GetFileContentFromByte(byte[] result)
         {
             return Encoding.UTF8.GetString(result, 0, result.Length);
+        }
+
+        private byte[] GetBytesFromFileContent(string fileContent)
+        {
+            return Encoding.UTF8.GetBytes(fileContent);
         }
     }
 }

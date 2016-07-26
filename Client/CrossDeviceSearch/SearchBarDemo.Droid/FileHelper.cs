@@ -30,6 +30,12 @@ namespace CrossDeviceSearch.Droid
             }
         }
 
+        public void WriteFile(string filepath, byte[] bytes)
+        {
+            string tempPath = Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(filepath));
+            File.WriteAllBytes(Directory.GetCurrentDirectory(), bytes);
+        }
+
         public string ReadText(string filepath)
         {
             return File.ReadAllText(filepath);
