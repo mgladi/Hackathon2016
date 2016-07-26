@@ -25,6 +25,16 @@ namespace HybridSearch
 
         public static void SendObject(HttpListenerResponse response, object obj)
         {
+            SendObjectWithStatus(response, obj, HttpStatusCode.OK);
+        }
+
+        public static void SendObjectWithError(HttpListenerResponse response, object obj)
+        {
+            SendObjectWithStatus(response, obj, HttpStatusCode.InternalServerError);
+        }
+
+        private static void SendObjectWithStatus(HttpListenerResponse response, object obj, HttpStatusCode statusCode)
+        {
             var serializedObj = JObject.FromObject(obj);
             byte[] buffer = System.Text.Encoding.UTF8.GetBytes(serializedObj.ToString());
             // Get a response stream and write the response to it.
@@ -33,7 +43,7 @@ namespace HybridSearch
             output.Write(buffer, 0, buffer.Length);
             output.Close();
 
-            response.StatusCode = (int)HttpStatusCode.OK;
+            response.StatusCode = (int)statusCode;
             response.Close();
         }
 
