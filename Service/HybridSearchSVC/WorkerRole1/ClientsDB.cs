@@ -60,12 +60,15 @@ namespace HybridSearch
 
         public void updateAgentLastSeen(Guid customerId, Guid agentId)
         {
-            foreach (Agent agent in this.Clients[customerId])
+            if (this.Clients.ContainsKey(customerId))
             {
-                if (agent.getId() == agentId)
+                foreach (Agent agent in this.Clients[customerId])
                 {
-                    agent.lastSeen = DateTime.Now;
-                    return;
+                    if (agent.getId() == agentId)
+                    {
+                        agent.lastSeen = DateTime.Now;
+                        return;
+                    }
                 }
             }
         }
