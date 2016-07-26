@@ -35,6 +35,7 @@ namespace CrossDeviceSearch
             resultsScroll.Content = null;
 
             resultsStack.Children.Clear();
+
             ActivityIndicator activityIndicator = new ActivityIndicator()
             {
                 VerticalOptions = LayoutOptions.Center,
@@ -42,6 +43,7 @@ namespace CrossDeviceSearch
                 IsEnabled = true
             };
             resultsStack.Children.Add(activityIndicator);
+            
             resultsScroll.Content = resultsStack;
             var results = await Task.Run(() =>
             {
@@ -156,7 +158,7 @@ namespace CrossDeviceSearch
 
             foreach (FileMetadata fileMetadata in resultFromDevice.FilesMetadata)
             {
-                resultsStack.Children.Add(GetDeviceResultsListStack(fileMetadata));
+                resultsStack.Children.Add(GetDeviceResultsListStack(fileMetadata, resultFromDevice.AgentGuid));
             }
 
             StackLayout resultsListStack = (StackLayout)resultsStack.Children[resultsStack.Children.Count - 1];
@@ -164,7 +166,7 @@ namespace CrossDeviceSearch
             return resultsStack;
         }
 
-        private StackLayout GetDeviceResultsListStack(FileMetadata fileMetadata)
+        private StackLayout GetDeviceResultsListStack(FileMetadata fileMetadata, Guid agentGuid)
         {
             StackLayout resultStack = new StackLayout()
             {
@@ -194,7 +196,18 @@ namespace CrossDeviceSearch
                 TextColor = Color.White,
                 BorderColor = Color.White
             };
-            
+
+            button.Resources = new ResourceDictionary();
+            button.Resources.Add("FullPath", fileMetadata.FullPathAndName);
+
+            button.Clicked += (object s, EventArgs e) =>
+            {
+                Button openButton = (Button)s;
+                string fullPathWithName = (string)openButton.Resources["FullPath"];
+                var result = service.GetFileFromDevice(fullPathWithName, agentGuid, userGuid);
+                var content = result.FileContent;
+            };
+
             resultItemStack.Children.Add(button);
             
             resultStack.Children.Add(resultItemStack);
