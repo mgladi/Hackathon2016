@@ -41,11 +41,6 @@ namespace CrossDeviceSearch.Droid
             return tempPath;
         }
 
-        public string ReadText(string filepath)
-        {
-            return File.ReadAllText(filepath);
-        }
-
         public List<FileMetadata> SearchFiles(string searchPattern)
         {
             IEnumerable<string> filepaths = (String.IsNullOrEmpty(searchPattern) ? Directory.GetFiles(GetRootPath()) : Directory.GetFiles(GetRootPath(), searchPattern, SearchOption.AllDirectories));

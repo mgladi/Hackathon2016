@@ -221,7 +221,7 @@ namespace CrossDeviceSearch
                 if (shouldOpen)
                 {
                     var result = service.GetFileFromDevice(fullPathWithName, agentGuid, userGuid);
-                    fileHelper.SaveAndOpenFile(fullPathWithName, result.FileContent);
+                    fileHelper.SaveAndOpenFile(fullPathWithName, result.FileContent);                 
                 }
             };
 

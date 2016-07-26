@@ -28,11 +28,6 @@ namespace CrossDeviceSearch
             }
         }
 
-        public string ReadText(string filename)
-        {
-            return fileHelper.ReadText(filename);
-        }
-
         public List<FileMetadata> SearchFiles(string searchPattern)
         {
             return (String.IsNullOrEmpty(searchPattern) ? fileHelper.SearchFiles() : fileHelper.SearchFiles(searchPattern)).OrderByDescending(fileMetadata => fileMetadata.Time).Take(50).ToList();
