@@ -14,7 +14,7 @@ namespace HybridSearch
 
         private readonly Guid customerId;
         private Guid searchId;
-
+        private const string type = "search";
 		private readonly string query;
         private readonly ISearchesDB searchesDB;
 
@@ -30,7 +30,7 @@ namespace HybridSearch
             Console.WriteLine("Got request of type SearchRequest");
 
             // initiate new search
-            var searchId = searchesDB.CreateNewSearch(this.customerId, this.query);
+            var searchId = searchesDB.CreateNewSearch(this.customerId, this.query, type);
 
             // wait for results
             await GetSearchResults(context.Response, this.customerId, searchId);
@@ -55,7 +55,7 @@ namespace HybridSearch
                     }
                 }
 
-                SearchResults results = searchesDB.GetSearchResults(customerId, searchId);
+                SearchResults results = searchesDB.GetSearchResults(customerId, searchId, type);
                 HttpHelper.SendObject(response, results);
             });
 

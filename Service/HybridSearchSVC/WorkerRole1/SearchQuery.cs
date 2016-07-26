@@ -11,9 +11,9 @@ namespace HybridSearch
         public Guid requestId { get; set; }
         public string query { get; set; }
         public string type { get; set; }
-        public SearchQuery(Guid searchId, string query, string type)
+        public SearchQuery(Guid requestId, string query, string type)
         {
-            this.searchId = searchId;
+            this.requestId = requestId;
             this.query = query;
             this.type = type;
         }
