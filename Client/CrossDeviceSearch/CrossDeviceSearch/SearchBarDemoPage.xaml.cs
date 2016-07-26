@@ -15,9 +15,8 @@ namespace CrossDeviceSearch
         const double MaxMatches = 100;
         //string bookText;
         IService service = new HybridSearchService("http://hybridsearchsvc.cloudapp.net");
-        //IService service = new ServiceMock.ServiceMock();
-
-        Guid userGuid = new Guid("c610a71d-91fd-4ef8-947f-8e4d4013106d");
+        FileHelper fileHelper = new FileHelper();
+        string userGuid = "User1";
 
         public CrossDeviceSearchPage()
         {
@@ -218,12 +217,15 @@ namespace CrossDeviceSearch
                 Button openButton = (Button)s;
                 string fullPathWithName = (string)openButton.Resources["FullPath"];
                 var result = service.GetFileFromDevice(fullPathWithName, agentGuid, userGuid);
+
                 var content = result.FileContent;
                 bool shouldOpen = await DisplayAlert("", GetDetailsString(openButton), "Open", "Cancel");
                 if (shouldOpen)
                 {
                     //do nothing
                 }
+
+                fileHelper.SaveAndOpenFile(fullPathWithName, result.FileContent);
             };
 
             resultItemStack.Children.Add(button);
