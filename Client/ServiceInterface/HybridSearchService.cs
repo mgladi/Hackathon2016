@@ -20,12 +20,11 @@ namespace ServiceInterface
 
         public SearchItem PollService(Guid agentId, string customerName)
         {
-            Guid customerId = this.StringToGuid(customerName);
             string resultContent;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(url +"/AgentPoll");
-                client.DefaultRequestHeaders.Add("CustomerId", customerId.ToString());
+                client.DefaultRequestHeaders.Add("CustomerId", customerName);
                 client.DefaultRequestHeaders.Add("AgentId", agentId.ToString());
                 HttpResponseMessage result = client.GetAsync("").Result;
                 resultContent = result.Content.ReadAsStringAsync().Result;
@@ -55,12 +54,11 @@ namespace ServiceInterface
 
         public List<ResultDataFromAgent> SearchFileInAllDevices(string query, string customerName)
         {
-            Guid customerId = this.StringToGuid(customerName);
             string resultContent;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(url);
-                client.DefaultRequestHeaders.Add("CustomerId", customerId.ToString());
+                client.DefaultRequestHeaders.Add("CustomerId", customerName);
                 HttpResponseMessage result = client.GetAsync("/GetSearch?q=" + query).Result;
                 resultContent = result.Content.ReadAsStringAsync().Result;
             }
@@ -95,12 +93,11 @@ namespace ServiceInterface
 
         public ResultDataFromAgent GetFileFromDevice(string path, Guid agentId, string customerName)
         {
-            Guid customerId = this.StringToGuid(customerName);
             string resultContent;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(url);
-                client.DefaultRequestHeaders.Add("CustomerId", customerId.ToString());
+                client.DefaultRequestHeaders.Add("CustomerId", customerName);
                 client.DefaultRequestHeaders.Add("AgentId", agentId.ToString());
 
                 HttpResponseMessage result = client.GetAsync("/GetFile?p=" + path).Result;
@@ -152,14 +149,13 @@ namespace ServiceInterface
 
         public void SendResult(string customerName, Guid agentId, Guid requestId, ResultDataFromAgent agentResult)
         {
-            Guid customerId = this.StringToGuid(customerName);
             if (agentResult.ResultType == ResultDataFromAgentType.FileContent)
             {
 
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(url);
-                    client.DefaultRequestHeaders.Add("CustomerId", customerId.ToString());
+                    client.DefaultRequestHeaders.Add("CustomerId", customerName);
                     client.DefaultRequestHeaders.Add("AgentId", agentId.ToString());
                     client.DefaultRequestHeaders.Add("RequestId", requestId.ToString());
                     client.DefaultRequestHeaders.Add("DeviceType", agentResult.DeviceType.ToString());
@@ -174,7 +170,7 @@ namespace ServiceInterface
                 using (var client = new HttpClient())
                 {
                     client.BaseAddress = new Uri(url);
-                    client.DefaultRequestHeaders.Add("CustomerId", customerId.ToString());
+                    client.DefaultRequestHeaders.Add("CustomerId", customerName);
                     client.DefaultRequestHeaders.Add("AgentId", agentId.ToString());
                     client.DefaultRequestHeaders.Add("RequestId", requestId.ToString());
                     client.DefaultRequestHeaders.Add("DeviceType", agentResult.DeviceType.ToString());
@@ -184,16 +180,6 @@ namespace ServiceInterface
                     HttpResponseMessage result = client.PostAsync("/PostResults", content).Result;
                 }
             }
-        }
-
-        private Guid StringToGuid(string src)
-        {
-            byte[] stringbytes = Encoding.UTF8.GetBytes(src);
-            byte[] hashedBytes = new System.Security.Cryptography
-                .SHA1CryptoServiceProvider()
-                .ComputeHash(stringbytes);
-            Array.Resize(ref hashedBytes, 16);
-            return new Guid(hashedBytes);
         }
     }
 }

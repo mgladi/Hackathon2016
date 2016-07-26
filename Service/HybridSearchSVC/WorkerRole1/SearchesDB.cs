@@ -13,6 +13,8 @@ namespace HybridSearch
         private IClientsDB clients;
         private IAgentsPendingDB agentsPending;
 
+        private const int timeToAgentCleanup = 10;
+
         public SearchesDB(IClientsDB clients, IAgentsPendingDB agentsPending)
         {
             this.clients = clients;
@@ -41,7 +43,7 @@ namespace HybridSearch
 
         public bool IsAwaitingResults(Guid customerId, Guid searchId)
         {
-            List<Agent> agents = this.clients.GetAgents(customerId, (agent) => (agent.lastSeen - DateTime.Now).TotalSeconds < 60);
+            List<Agent> agents = this.clients.GetAgents(customerId, (agent) => (agent.lastSeen - DateTime.Now).TotalSeconds < timeToAgentCleanup);
             foreach(Agent agent in agents)
             {
                 if (!this.Searches[searchId].ContainsKey(agent.getId()))

@@ -24,14 +24,14 @@ namespace HybridSearch
                 string customerId = request.Headers["CustomerId"];
                 string agentId = request.Headers["AgentId"];
 
-                return new AgentPollRequest(agentsPendingDb, clientsDb, Guid.Parse(customerId), Guid.Parse(agentId));
+                return new AgentPollRequest(agentsPendingDb, clientsDb, StringToGuid(customerId), Guid.Parse(agentId));
             }
             else if (path.StartsWith("/GetSearch"))
             {
                 string customerId = request.Headers["CustomerId"];
                 string query = request.QueryString[agentQuery_QueryStringKey];              
                 
-                return new SearchRequest(searchesDb, Guid.Parse(customerId), query);
+                return new SearchRequest(searchesDb, StringToGuid(customerId), query);
             }
             else if (path.StartsWith("/GetFile"))
             {
@@ -39,7 +39,7 @@ namespace HybridSearch
                 string agentId = request.Headers["AgentId"];
                 string query = request.QueryString[agentQuery_QueryStringKeyFile];
 
-                return new FileRequest(searchesDb, Guid.Parse(customerId), Guid.Parse(agentId), query);
+                return new FileRequest(searchesDb, StringToGuid(customerId), Guid.Parse(agentId), query);
             }
             else if (path.StartsWith("/PostResults"))
             {
@@ -51,16 +51,27 @@ namespace HybridSearch
                 string deviceName = request.Headers["DeviceName"];
 
                 string content = HttpHelper.GetRequestPostData(request);
-                return new PostResultsRequest(searchesDb, Guid.Parse(customerId), Guid.Parse(agentId), Guid.Parse(searchId), deviceType, deviceName, content);
+                return new PostResultsRequest(searchesDb, StringToGuid(customerId), Guid.Parse(agentId), Guid.Parse(searchId), deviceType, deviceName, content);
             }
             else if (path.StartsWith("/Register"))
             {
                 string customerId = request.Headers["CustomerId"];
                 string content = request.Headers["Content"];
 
-                return new RegisterRequest(clientsDb, Guid.Parse(customerId), content);
+                return new RegisterRequest(clientsDb, StringToGuid(customerId), content);
             }
             return new ErrorRequest();
+        }
+
+
+        private static Guid StringToGuid(string src)
+        {
+            byte[] stringbytes = Encoding.UTF8.GetBytes(src);
+            byte[] hashedBytes = new System.Security.Cryptography
+                .SHA1CryptoServiceProvider()
+                .ComputeHash(stringbytes);
+            Array.Resize(ref hashedBytes, 16);
+            return new Guid(hashedBytes);
         }
     }
 }
