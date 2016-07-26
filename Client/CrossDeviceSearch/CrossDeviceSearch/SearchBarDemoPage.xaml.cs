@@ -16,7 +16,7 @@ namespace CrossDeviceSearch
         //string bookText;
         IService service = new HybridSearchService("http://hybridsearchsvc.cloudapp.net");
         FileHelper fileHelper = new FileHelper();
-        Guid userGuid = new Guid("d8d41657-c8e4-41dc-9b03-f5ba678e48e8");
+        string userGuid = "User1";
 
         public CrossDeviceSearchPage()
         {
@@ -35,12 +35,14 @@ namespace CrossDeviceSearch
 
             resultsStack.Children.Clear();
 
-            resultsStack.Children.Add(new ActivityIndicator()
+            ActivityIndicator activityIndicator = new ActivityIndicator()
             {
-                //Color = Color.Red,
-                //BackgroundColor = Color.Yellow,
-                // VerticalOptions = LayoutOptions.FillAndExpand
-            });
+                VerticalOptions = LayoutOptions.Center,
+                IsRunning = true,
+                IsEnabled = true
+            };
+            resultsStack.Children.Add(activityIndicator);
+            
             resultsScroll.Content = resultsStack;
             var results = await Task.Run(() =>
             {
@@ -48,6 +50,8 @@ namespace CrossDeviceSearch
             });
             
             resultsStack.Children.Clear();
+            activityIndicator.IsRunning = false;
+            activityIndicator.IsEnabled = false;
 
             if (results.Count == 0)
             {

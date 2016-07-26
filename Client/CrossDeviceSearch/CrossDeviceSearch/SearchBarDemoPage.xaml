@@ -12,10 +12,10 @@
     <StackLayout>
         <SearchBar x:Name="searchBar"
                    Placeholder="Search text"
+                   TextColor="Black"                   
                    TextChanged="OnSearchBarTextChanged"
                    SearchButtonPressed="OnSearchBarButtonPressed"
                    BackgroundColor="White"
-                   TextColor="Black"
                    />
 
         <ScrollView x:Name="resultsScroll"
