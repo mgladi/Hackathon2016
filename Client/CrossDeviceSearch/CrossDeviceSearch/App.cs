@@ -31,7 +31,7 @@ namespace CrossDeviceSearch
                                 service.SendResult(userGuid, agentGuid, searchItem.RequestId, SearchQuery(searchItem.ResultQuery));
                                 break;
                             case PollingResultType.FileToTransferPath:
-                                mock.SendResult(userGuid, agentGuid, searchItem.RequestId, FileToTransferPath(searchItem.ResultQuery));
+                                service.SendResult(userGuid, agentGuid, searchItem.RequestId, FileToTransferPath(searchItem.ResultQuery));
                                 break;
                         }
                     });
