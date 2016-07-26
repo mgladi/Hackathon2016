@@ -13,7 +13,8 @@ namespace CrossDeviceSearch
     {
         const double MaxMatches = 100;
         //string bookText;
-        IService service = new ServiceMock.ServiceMock();
+        IService service = new HybridSearchService("http://hybridsearchsvc.cloudapp.net");
+        Guid userGuid = new Guid("c610a71d-91fd-4ef8-947f-8e4d4013106d");
 
         public CrossDeviceSearchPage()
         {
@@ -32,7 +33,7 @@ namespace CrossDeviceSearch
 
             resultsStack.Children.Clear();
             //SearchBookForText(searchBar.Text);
-            List<ResultDataFromAgent> results = service.SearchFileInAllDevices(searchBar.Text, new Guid());
+            List<ResultDataFromAgent> results = service.SearchFileInAllDevices(searchBar.Text, userGuid);
             
             if (results.Count == 0)
             {

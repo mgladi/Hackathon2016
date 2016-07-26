@@ -14,6 +14,7 @@ namespace CrossDeviceSearch
         ServiceMock.ServiceMock mock = new ServiceMock.ServiceMock();
         Guid agentGuid = Guid.NewGuid();
         Guid userGuid = new Guid("c610a71d-91fd-4ef8-947f-8e4d4013106d");
+        IService service = new HybridSearchService("http://hybridsearchsvc.cloudapp.net");
 
         public App()
         {
@@ -21,17 +22,20 @@ namespace CrossDeviceSearch
             {
                 while (true)
                 {
-                    SearchItem searchItem = mock.PollService(agentGuid, userGuid);
-                    switch (searchItem.PollingResultType)
+                    SearchItem searchItem = service.PollService(agentGuid, userGuid);
+                    Task.Run(() =>
                     {
-                        case PollingResultType.SearchQuery:
-                            mock.SendResult(userGuid, agentGuid, searchItem.RequestId, SearchQuery(searchItem.ResultQuery));
-                            break;
-                        case PollingResultType.FileToTransferPath:
-                            //mock.SendResult(userGuid, agentGuid, searchItem.RequestId, FileToTransferPath(searchItem.ResultQuery));
-                            break;
-                    }
-                    Task.Delay(1000).Wait();
+                        switch (searchItem.PollingResultType)
+                        {
+                            case PollingResultType.SearchQuery:
+                                service.SendResult(userGuid, agentGuid, searchItem.RequestId, SearchQuery(searchItem.ResultQuery));
+                                break;
+                            case PollingResultType.FileToTransferPath:
+                                //mock.SendResult(userGuid, agentGuid, searchItem.RequestId, FileToTransferPath(searchItem.ResultQuery));
+                                break;
+                        }
+                    });
+                    Task.Delay(2000).Wait();
                 }
             });
             task.Start();
@@ -41,7 +45,7 @@ namespace CrossDeviceSearch
         private ResultDataFromAgent SearchQuery(string query)
         {
             FileHelper fileHelper = new FileHelper();
-            return new ResultDataFromAgent
+            ResultDataFromAgent results = new ResultDataFromAgent
             {
                 AgentGuid = agentGuid,
                 DeviceType = fileHelper.DeviceType,
@@ -49,6 +53,7 @@ namespace CrossDeviceSearch
                 FilesMetadata = fileHelper.SearchFiles(query),
                 ResultType = ResultDataFromAgentType.FilesMetadataList
             };
+            return results;
         }
         private ResultDataFromAgent FileToTransferPath(string filepath)
         {

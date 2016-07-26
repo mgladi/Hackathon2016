@@ -79,7 +79,7 @@ namespace ServiceInterface
                         AgentGuid = item.agentId,
                         FilesMetadata = GetFilesMetadataFromByte(item.result),
                         ResultType = ResultDataFromAgentType.FilesMetadataList, 
-                        DeviceType = item.deviceType,
+                        DeviceType = (DeviceType)Enum.Parse(typeof(DeviceType), item.deviceType),
                         DeviceName = item.deviceName
                     };
                     resultDataFromAgent.Add(tempResult);
@@ -161,8 +161,8 @@ namespace ServiceInterface
                     client.DefaultRequestHeaders.Add("CustomerId", customerId.ToString());
                     client.DefaultRequestHeaders.Add("AgentId", agentId.ToString());
                     client.DefaultRequestHeaders.Add("RequestId", requestId.ToString());
-                    client.DefaultRequestHeaders.Add("DeviceType", agentResult.DeviceType);
-                    client.DefaultRequestHeaders.Add("DeviceName", agentResult.DeviceName);
+                    client.DefaultRequestHeaders.Add("DeviceType", agentResult.DeviceType.ToString());
+                    client.DefaultRequestHeaders.Add("DeviceName", agentResult.DeviceName.ToString());
 
                     HttpContent content = new ByteArrayContent(CreateByteArrayFromFileContent(agentResult.FileContent));
                     HttpResponseMessage result = client.PostAsync("/PostResults", content).Result;
@@ -176,6 +176,8 @@ namespace ServiceInterface
                     client.DefaultRequestHeaders.Add("CustomerId", customerId.ToString());
                     client.DefaultRequestHeaders.Add("AgentId", agentId.ToString());
                     client.DefaultRequestHeaders.Add("RequestId", requestId.ToString());
+                    client.DefaultRequestHeaders.Add("DeviceType", agentResult.DeviceType.ToString());
+                    client.DefaultRequestHeaders.Add("DeviceName", agentResult.DeviceName.ToString());
 
                     HttpContent content = new ByteArrayContent(CreateByteArrayFromFilesMetadata(agentResult.FilesMetadata));
                     HttpResponseMessage result = client.PostAsync("/PostResults", content).Result;
