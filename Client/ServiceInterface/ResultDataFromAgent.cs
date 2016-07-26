@@ -64,15 +64,19 @@ namespace ServiceInterface
     {
         public byte[] result { get; set; }
         public Guid agentId { get; set; }
+        public string deviceType { get; set; }
+        public string deviceName { get; set; }
 
         public AgentResult()
         {
 
         }
-        public AgentResult(Guid agentId, byte[] result)
+        public AgentResult(Guid agentId, string deviceType, string deviceName, byte[] result)
         {
             this.result = result;
             this.agentId = agentId;
+            this.deviceType = deviceType;
+            this.deviceName = deviceName;
         }
     }
 

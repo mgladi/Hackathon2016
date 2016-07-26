@@ -78,7 +78,9 @@ namespace ServiceInterface
                     {
                         AgentGuid = item.agentId,
                         FilesMetadata = GetFilesMetadataFromByte(item.result),
-                        ResultType = ResultDataFromAgentType.FilesMetadataList
+                        ResultType = ResultDataFromAgentType.FilesMetadataList, 
+                        DeviceType = item.deviceType,
+                        DeviceName = item.deviceName
                     };
                     resultDataFromAgent.Add(tempResult);
 
@@ -159,6 +161,8 @@ namespace ServiceInterface
                     client.DefaultRequestHeaders.Add("CustomerId", customerId.ToString());
                     client.DefaultRequestHeaders.Add("AgentId", agentId.ToString());
                     client.DefaultRequestHeaders.Add("RequestId", requestId.ToString());
+                    client.DefaultRequestHeaders.Add("DeviceType", agentResult.DeviceType);
+                    client.DefaultRequestHeaders.Add("DeviceName", agentResult.DeviceName);
 
                     HttpContent content = new ByteArrayContent(CreateByteArrayFromFileContent(agentResult.FileContent));
                     HttpResponseMessage result = client.PostAsync("/PostResults", content).Result;
