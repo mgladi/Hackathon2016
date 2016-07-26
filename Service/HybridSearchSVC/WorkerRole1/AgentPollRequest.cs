@@ -32,6 +32,7 @@ namespace HybridSearch
             {
                 HttpHelper.SendEmpty(context.Response);
             }
+
             return Task.FromResult(0);
         }
     }

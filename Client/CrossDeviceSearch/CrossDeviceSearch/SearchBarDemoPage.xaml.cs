@@ -14,7 +14,8 @@ namespace CrossDeviceSearch
     {
         const double MaxMatches = 100;
         //string bookText;
-        IService service = new ServiceMock.ServiceMock();
+        IService service = new HybridSearchService("http://hybridsearchsvc.cloudapp.net");
+        Guid userGuid = new Guid("c610a71d-91fd-4ef8-947f-8e4d4013106d");
 
         public CrossDeviceSearchPage()
         {
@@ -37,7 +38,7 @@ namespace CrossDeviceSearch
             resultsScroll.Content = resultsStack;
             var results = await Task.Run(() =>
             {
-                return service.SearchFileInAllDevices(searchBar.Text, new Guid());
+                return service.SearchFileInAllDevices(searchBar.Text, userGuid);
             });
             
             resultsStack.Children.Clear();
@@ -99,6 +100,7 @@ namespace CrossDeviceSearch
                 TextColor = Color.FromRgb(30, 144, 255),
                 BackgroundColor = Color.White
             };
+
             deviceTitle.Children.Add(nameLabel);
 
             StackLayout deviceResultsStack = CreateDeviceResultsStack(resultFromDevice);

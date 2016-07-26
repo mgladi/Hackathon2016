@@ -9,12 +9,14 @@ namespace HybridSearch
 {
     public class SearchRequest : IRequest
     {
-        private const int maxIterations = 50;
+        private const int maxIterations = 150;
         private const int iterationDelayMilliseconds = 200;
 
         private readonly Guid customerId;
-        private Guid searchId;
+
+        //private Guid searchId;
         private const string type = "search";
+
 		private readonly string query;
         private readonly ISearchesDB searchesDB;
 
@@ -39,7 +41,7 @@ namespace HybridSearch
         private async Task GetSearchResults(HttpListenerResponse response, Guid customerId, Guid searchId)
         {
             Console.WriteLine("Starting wait for search results for search {0}", searchId);
-            bool searchCompletedSuccsefully = false;
+            bool searchCompletedSuccessfully = false;
 
             for (int i = 0; i < maxIterations; i++)
             {
@@ -51,14 +53,13 @@ namespace HybridSearch
                 else
                 {
                     Console.WriteLine("All search results ready after {0} iterations", i);
-                    searchCompletedSuccsefully = true;
+                    searchCompletedSuccessfully = true;
                     break;
                 }
             }
 
             SearchResults results = searchesDB.GetSearchResults(customerId, searchId, type);
-
-            if (searchCompletedSuccsefully)
+            if (searchCompletedSuccessfully)
             {
                 HttpHelper.SendObject(response, results);
             }
