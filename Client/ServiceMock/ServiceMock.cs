@@ -41,6 +41,7 @@ namespace ServiceMock
 
         public List<ResultDataFromAgent> SearchFileInAllDevices(string query, Guid customerId)
         {
+            Task.Delay(5000).Wait();
             return new List<ResultDataFromAgent>
             {
                 new ResultDataFromAgent

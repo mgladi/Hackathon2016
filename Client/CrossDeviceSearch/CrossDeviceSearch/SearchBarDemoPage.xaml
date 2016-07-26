@@ -14,12 +14,13 @@
                    Placeholder="Search text"
                    TextChanged="OnSearchBarTextChanged"
                    SearchButtonPressed="OnSearchBarButtonPressed"
+                   BackgroundColor="White"
                    />
 
         <ScrollView x:Name="resultsScroll"
                     VerticalOptions="FillAndExpand"
                     BackgroundColor="White">
-            <StackLayout x:Name="resultsStack" Spacing="30" BackgroundColor="White" Padding="0,10,0,0"/>
+            <StackLayout x:Name="resultsStack" Spacing="30" BackgroundColor="White" Padding="0,10,0,100"/>
         </ScrollView>
     </StackLayout>
 </ContentPage>

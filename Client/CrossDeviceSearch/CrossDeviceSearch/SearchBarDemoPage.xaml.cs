@@ -6,6 +6,7 @@ using Xamarin.Forms;
 using ServiceInterface;
 using ServiceMock;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CrossDeviceSearch
 {
@@ -17,7 +18,7 @@ namespace CrossDeviceSearch
 
         public CrossDeviceSearchPage()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
 
         void OnSearchBarTextChanged(object sender, TextChangedEventArgs args)
@@ -25,15 +26,22 @@ namespace CrossDeviceSearch
             resultsStack.Children.Clear();
         }
 
-        void OnSearchBarButtonPressed(object sender, EventArgs args)
+        async void OnSearchBarButtonPressed(object sender, EventArgs args)
         {
             // Detach resultsStack from layout.
             resultsScroll.Content = null;
 
             resultsStack.Children.Clear();
-            //SearchBookForText(searchBar.Text);
-            List<ResultDataFromAgent> results = service.SearchFileInAllDevices(searchBar.Text, new Guid());
             
+            resultsStack.Children.Add(new ActivityIndicator());
+            resultsScroll.Content = resultsStack;
+            var results = await Task.Run(() =>
+            {
+                return service.SearchFileInAllDevices(searchBar.Text, new Guid());
+            });
+            
+            resultsStack.Children.Clear();
+
             if (results.Count == 0)
             {
                 PresentNoResultsFound();
@@ -41,10 +49,11 @@ namespace CrossDeviceSearch
             else
             {
                 SetResults(results);
-            }            
+
+            }
 
             // Reattach resultsStack to layout.
-            resultsScroll.Content = resultsStack;
+
         }
 
         private void PresentNoResultsFound()
