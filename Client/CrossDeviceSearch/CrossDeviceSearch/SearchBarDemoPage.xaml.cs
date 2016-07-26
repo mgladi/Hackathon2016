@@ -90,6 +90,7 @@ namespace CrossDeviceSearch
                 TextColor = Color.FromRgb(30, 144, 255),
                 BackgroundColor = Color.White
             };
+
             deviceTitle.Children.Add(nameLabel);
 
             StackLayout deviceResultsStack = CreateDeviceResultsStack(resultFromDevice);
