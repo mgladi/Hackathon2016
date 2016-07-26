@@ -65,7 +65,11 @@ namespace ServiceMock
                 FilesMetadata = new List<FileMetadata>
             {
                 new FileMetadata { FullPathAndName = @"C:\Users\yaland\Desktop\HelloXamarin\SomeTextFile21.txt", Size = 22, Time = DateTime.Now, },
-                new FileMetadata { FullPathAndName = @"C:\Users\yaland\Desktop\HelloXamarin\SomeTextFile22.txt", Size = 23, Time = DateTime.Now }
+                new FileMetadata { FullPathAndName = @"C:\Users\yaland\Desktop\HelloXamarin\SomeTextFile22.txt", Size = 23, Time = DateTime.Now },
+                new FileMetadata { FullPathAndName = @"C:\Users\yaland\Desktop\HelloXamarin\SomeTextFile23.txt", Size = 23, Time = DateTime.Now },
+                new FileMetadata { FullPathAndName = @"C:\Users\yaland\Desktop\HelloXamarin\SomeTextFile24.txt", Size = 23, Time = DateTime.Now },
+                new FileMetadata { FullPathAndName = @"C:\Users\yaland\Desktop\HelloXamarin\SomeTextFile25.txt", Size = 23, Time = DateTime.Now },
+                new FileMetadata { FullPathAndName = @"C:\Users\yaland\Desktop\HelloXamarin\SomeTextFile26.txt", Size = 23, Time = DateTime.Now },
                 }
                 }
             };
