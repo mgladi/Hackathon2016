@@ -9,7 +9,7 @@ namespace HybridSearch
 {
     public class FileRequest : IRequest
     {
-        private const int maxIterations = 50;
+        private const int maxIterations = 150;
         private const int iterationDelayMilliseconds = 200;
 
         private const string type = "file";

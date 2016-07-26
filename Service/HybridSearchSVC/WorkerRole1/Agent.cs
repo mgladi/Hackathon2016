@@ -9,10 +9,12 @@ namespace HybridSearch
     public class Agent
     {
         private Guid agentId;
+        public DateTime lastSeen;
 
         public Agent(Guid agentId, string content)
         {
             this.agentId = agentId;
+            this.lastSeen = DateTime.Now;
         }
 
         public Guid getId()
