@@ -107,12 +107,27 @@ namespace CrossDeviceSearch
             {
                 Orientation = StackOrientation.Horizontal
             };
+            //Image arrowImage = new Image()
+            //{
+            //    Aspect = Aspect.AspectFit
+            //};
+            //arrowImage.Source = ImageSource.FromResource("C:\\Users\\nirnah\\Documents\\MS\\Hackaton\\arrowSide.jpg");
+            //            deviceTitle.Children.Add(arrowImage);
+
+
+            FileImageSource image = new FileImageSource()
+            {
+
+                File = @"C:\Users\nirnah\Documents\MS\Hackaton\arrowSide.jpg"
+            };
 
             Button arrowButton = new Button
             {
+                Image = image,
                 BackgroundColor = Color.White,
-                Text = ">"
+                //Text = ">"
             };
+
             deviceTitle.Children.Add(arrowButton);
 
             Label nameLabel = new Label
@@ -180,12 +195,15 @@ namespace CrossDeviceSearch
             };
             
             resultItemStack.Children.Add(button);
+            
+            resultStack.Children.Add(resultItemStack);
+
             resultStack.Children.Add(new BoxView
             {
                 HeightRequest = 1,
-                BackgroundColor = Color.Gray
+                BackgroundColor = Color.Gray,
+
             });
-            resultStack.Children.Add(resultItemStack);
 
             return resultStack;
         }
