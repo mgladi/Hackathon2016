@@ -200,7 +200,7 @@ namespace CrossDeviceSearch
                 Button openButton = (Button)s;
                 string fullPathWithName = (string)openButton.Resources["FullPath"];
                 var result = service.GetFileFromDevice(fullPathWithName, agentGuid, userGuid);
-                fileHelper.WriteFile(fullPathWithName, result.FileContent);
+                fileHelper.SaveAndOpenFile(fullPathWithName, result.FileContent);
             };
 
             resultItemStack.Children.Add(button);
