@@ -21,7 +21,7 @@
         <ScrollView x:Name="resultsScroll"
                     VerticalOptions="FillAndExpand"
                     BackgroundColor="White">
-            <StackLayout x:Name="resultsStack" Spacing="30" BackgroundColor="White" Padding="0,10,0,100"/>
+            <StackLayout x:Name="resultsStack" Spacing="30" BackgroundColor="White" Padding="10,30,10,10"/>
         </ScrollView>
     </StackLayout>
 </ContentPage>

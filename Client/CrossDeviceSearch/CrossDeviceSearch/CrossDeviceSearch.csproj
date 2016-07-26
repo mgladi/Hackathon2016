@@ -52,6 +52,9 @@
     <EmbeddedResource Include="Texts\MobyDick.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Mono.Android">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v6.0\Mono.Android.dll</HintPath>
+    </Reference>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xamarin.Forms.2.1.0.6529\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.Core.dll</HintPath>
     </Reference>
@@ -66,11 +69,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ServiceInterface\ServiceInterface.csproj">
+    <ProjectReference Include="..\..\ServiceInterface\ServiceInterface.csproj">
       <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
       <Name>ServiceInterface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServiceMock\ServiceMock.csproj">
+    <ProjectReference Include="..\..\ServiceMock\ServiceMock.csproj">
       <Project>{67ea4a76-6e37-4f6c-a6a8-2dec012baf34}</Project>
       <Name>ServiceMock</Name>
     </ProjectReference>

@@ -107,13 +107,15 @@ namespace CrossDeviceSearch
 
             Label nameLabel = new Label
             {
-                Text = resultFromDevice.DeviceName,
+                Text = resultFromDevice.DeviceName+ "  (" + resultFromDevice.FilesMetadata.Count + ")",
                 TextColor = Color.FromRgb(30, 144, 255),
-                BackgroundColor = Color.White
+                BackgroundColor = Color.White,
+                VerticalTextAlignment = TextAlignment.Center,
+                VerticalOptions = LayoutOptions.Center
             };
 
             deviceTitle.Children.Add(nameLabel);
-
+            
             StackLayout deviceResultsStack = CreateDeviceResultsStack(resultFromDevice);
 
             deviceStack.Children.Add(deviceTitle);
@@ -176,8 +178,9 @@ namespace CrossDeviceSearch
             StackLayout resultItemStack = new StackLayout()
             {
                 Orientation = StackOrientation.Horizontal,
-                Padding = new Thickness(0, 0, 20, 0),
-                BackgroundColor = Color.White
+                Padding = new Thickness(0, 0, 10, 0),
+                BackgroundColor = Color.White,
+                VerticalOptions = LayoutOptions.Center
             };
             
             resultItemStack.Children.Add(new Label()
@@ -186,26 +189,41 @@ namespace CrossDeviceSearch
                 Text = fileMetadata.FullPathAndName,
                 FontSize = 14,
                 TextColor = Color.Gray,
-                BackgroundColor = Color.White
+                BackgroundColor = Color.White,
+                VerticalTextAlignment = TextAlignment.Center,
+                VerticalOptions = LayoutOptions.Center                
             });
 
             Button button = new Button
             {
-                Text = "Open",
-                BackgroundColor = Color.FromRgb(30, 144, 255),
-                TextColor = Color.White,
-                BorderColor = Color.White
+                Text = "...",
+                BackgroundColor = Color.White,
+                TextColor = Color.Gray,
+                BorderColor = Color.FromRgb(211, 211, 211),
+                BorderWidth = 0.5,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center,
+                HeightRequest = 25,
+                WidthRequest = 25,
+                FontSize = 10
             };
 
             button.Resources = new ResourceDictionary();
             button.Resources.Add("FullPath", fileMetadata.FullPathAndName);
+            button.Resources.Add("Time", fileMetadata.Time);
+            button.Resources.Add("Size", fileMetadata.Size);
 
-            button.Clicked += (object s, EventArgs e) =>
+            button.Clicked += async(object s, EventArgs e) =>
             {
                 Button openButton = (Button)s;
                 string fullPathWithName = (string)openButton.Resources["FullPath"];
                 var result = service.GetFileFromDevice(fullPathWithName, agentGuid, userGuid);
                 var content = result.FileContent;
+                bool shouldOpen = await DisplayAlert("", GetDetailsString(openButton), "Open", "Cancel");
+                if (shouldOpen)
+                {
+                    //do nothing
+                }
             };
 
             resultItemStack.Children.Add(button);
@@ -219,6 +237,26 @@ namespace CrossDeviceSearch
             });
 
             return resultStack;
+        }
+
+        private string GetDetailsString(Button button)
+        {
+            string result = "Created: " + button.Resources["Time"].ToString() + "\n";
+            result += "Size: " + SizeSuffix((int)button.Resources["Size"]) + "\n";
+            result += "File: " + (string)button.Resources["FullPath"];
+            return result;
+        }
+
+        readonly string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
+        string SizeSuffix(int value, int decimalPlaces = 0)
+        {
+            if (value < 0)
+            {
+                throw new ArgumentException("Bytes should not be negative", "value");
+            }
+            var mag = (int)Math.Max(0, Math.Log(value, 1024));
+            var adjustedSize = Math.Round(value / Math.Pow(1024, mag), decimalPlaces);
+            return String.Format("{0} {1}", adjustedSize, SizeSuffixes[mag]);
         }
     }
 }
