@@ -8,10 +8,12 @@ namespace ServiceInterface
 {
     public interface IService
     {
-        SearchItem PollService(Guid AgentGuid, Guid UserGuid);
+        SearchItem PollService(Guid agentId, Guid customerId);
 
-        void SendResult(Guid AgentGUID, ResultDataFromAgent agentResult);
+        List<ResultDataFromAgent> SearchFileInAllDevices(string query, Guid customerId);
 
-        List<ResultDataFromAgent> SearchFileInAllDeveices(SearchItem FileNameToSearch, Guid AgentGuid, Guid UserGuid);
+        ResultDataFromAgent GetFileFromDevice(string path, Guid agentId, Guid customerId);
+
+        void SendResult(Guid customerId, Guid agentId, Guid requestId, ResultDataFromAgent agentResult);
     }
 }

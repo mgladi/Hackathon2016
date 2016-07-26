@@ -8,12 +8,14 @@ namespace HybridSearch
 {
     public class SearchQuery
     {
-        private Guid searchId;
-        private string query;
-        public SearchQuery(Guid searchId, string query)
+        public Guid requestId { get; set; }
+        public string query { get; set; }
+        public string type { get; set; }
+        public SearchQuery(Guid searchId, string query, string type)
         {
             this.searchId = searchId;
             this.query = query;
+            this.type = type;
         }
     }
 }

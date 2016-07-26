@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace HybridSearch
 
         private static void SendObjectWithStatus(HttpListenerResponse response, object obj, HttpStatusCode statusCode)
         {
-            var serializedObj = JObject.FromObject(obj);
+            var serializedObj = JsonConvert.SerializeObject(obj);
             byte[] buffer = System.Text.Encoding.UTF8.GetBytes(serializedObj.ToString());
             // Get a response stream and write the response to it.
             response.ContentLength64 = buffer.Length;

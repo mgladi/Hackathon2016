@@ -13,18 +13,18 @@ namespace HybridSearch
         public void SubmitNewQuery(Agent agent, SearchQuery searchQuery)
         {
             Guid agentId = agent.getId();
-            ConcurrentQueue<SearchQuery> queue = this.agentsPending[agentId];
-            if (queue == null)
+            ConcurrentQueue<SearchQuery> queue;
+            if (!this.agentsPending.TryGetValue(agentId, out queue))
             {
-                queue = new ConcurrentQueue<SearchQuery>();
+                this.agentsPending[agentId] = new ConcurrentQueue<SearchQuery>();
             }
-            queue.Enqueue(searchQuery);
+            this.agentsPending[agentId].Enqueue(searchQuery);
         }
 
         public bool TryGetNextQuery(Guid agentId, out SearchQuery searchQuery)
         {
-            ConcurrentQueue<SearchQuery> queue = this.agentsPending[agentId];
-            if (queue == null)
+            ConcurrentQueue<SearchQuery> queue;
+            if (!this.agentsPending.TryGetValue(agentId, out queue))
             {
                 searchQuery = null;
                 return false;

@@ -28,10 +28,10 @@ namespace HybridSearch
                 {
                     HttpListenerContext ctx = await listener.GetContextAsync();
 
-                    Task.Factory.StartNew(() =>
+                    Task.Factory.StartNew(async () =>
                     {
                         IRequest request = RequestCreator.CreateRequest(ctx.Request);
-                        request.ProcessRequest(ctx);
+                        await request.ProcessRequest(ctx);
                     });
                 }
                 catch (Exception e)

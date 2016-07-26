@@ -40,4 +40,40 @@ namespace ServiceInterface
             return "Device Name: " + DeviceName + "\nDevice Type: " + DeviceType;
         }
     }
+
+    public class SearchResults
+    {
+        public List<AgentResult> results { get; set; }
+
+        public SearchResults()
+        {
+            this.results = new List<AgentResult>();
+        }
+
+        public SearchResults(IDictionary<Guid, AgentResult> resultsDict)
+        {
+            this.results = new List<AgentResult>();
+            foreach (KeyValuePair<Guid, AgentResult> item in resultsDict)
+            {
+                this.results.Add(item.Value);
+            }
+        }
+    }
+
+    public class AgentResult
+    {
+        public byte[] result { get; set; }
+        public Guid agentId { get; set; }
+
+        public AgentResult()
+        {
+
+        }
+        public AgentResult(Guid agentId, byte[] result)
+        {
+            this.result = result;
+            this.agentId = agentId;
+        }
+    }
+
 }

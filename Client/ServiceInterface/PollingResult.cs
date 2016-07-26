@@ -18,5 +18,7 @@ namespace ServiceInterface
         public PollingResultType PollingResultType { get; set; }
 
         public string ResultQuery { get; set; }
+
+        public Guid RequestId { get; set; }
     }
 }

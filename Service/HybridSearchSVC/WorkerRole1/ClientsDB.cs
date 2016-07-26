@@ -13,12 +13,11 @@ namespace HybridSearch
 
         private void addAgentToList(Guid clientId, Agent agent)
         {
-            List<Agent> agents;
-            if (!this.Clients.TryGetValue(clientId, out agents))
+            if (!this.Clients.ContainsKey(clientId))
             {
                 this.Clients[clientId] = new List<Agent>();
             }
-            agents.Add(agent);
+            this.Clients[clientId].Add(agent);
         }
         public Agent CreateNewAgent(Guid clientId, string content)
         {
@@ -28,7 +27,7 @@ namespace HybridSearch
 
         public Agent CreateNewAgentByID(Guid clientId, Guid agentId, string content)
         {
-            if (this.Clients[clientId] == null)
+            if (!this.Clients.ContainsKey(clientId))
             {
                 Agent newAgent = new Agent(agentId, content);
                 addAgentToList(clientId, newAgent);
@@ -47,7 +46,12 @@ namespace HybridSearch
 
         public List<Agent> GetAgents(Guid clientId)
         {
-            return this.Clients[clientId];
+            List<Agent> list = new List<Agent>();
+            if (this.Clients.ContainsKey(clientId))
+            {
+                return this.Clients[clientId];
+            }
+            return list;
         }
     }
 }

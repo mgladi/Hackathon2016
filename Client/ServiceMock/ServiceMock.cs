@@ -10,7 +10,7 @@ namespace ServiceMock
 {
     public class ServiceMock : IService
     {
-        public SearchItem PollService(Guid AgentGuid, Guid UserGuid)
+        public SearchItem PollService(Guid agentId, Guid customerId)
         {
             Random r = new Random();
             int rInt = r.Next(0, 5);
@@ -34,12 +34,12 @@ namespace ServiceMock
             return result;
         }
 
-        public void SendResult(Guid AgentGUID, ResultDataFromAgent FilesMetadataList)
+        public void SendResult(Guid customerId, Guid agentId, Guid requestId, ResultDataFromAgent agentResult)
         {
             //combine all data. return jsut 200 OK to each machine
         }
 
-        public List<ResultDataFromAgent> SearchFileInAllDeveices(SearchItem FileNameToSearch, Guid AgentGuid, Guid UserGuid)
+        public List<ResultDataFromAgent> SearchFileInAllDevices(string query, Guid customerId)
         {
             return new List<ResultDataFromAgent>
             {
@@ -47,7 +47,7 @@ namespace ServiceMock
                 {
                 DeviceName = "My PC",
                 DeviceType = DeviceType.Windows,
-                AgentGuid = new Guid(),
+                AgentGuid = Guid.NewGuid(),
                 ResultType = ResultDataFromAgentType.FilesMetadataList,
                 FilesMetadata = new List<FileMetadata>
             {
@@ -59,7 +59,8 @@ namespace ServiceMock
                 {
                 DeviceName = "My PC2",
                 DeviceType = DeviceType.Android,
-                AgentGuid = new Guid(),
+                AgentGuid = Guid.NewGuid(),
+                
                 ResultType = ResultDataFromAgentType.FilesMetadataList,
                 FilesMetadata = new List<FileMetadata>
             {
@@ -68,6 +69,11 @@ namespace ServiceMock
                 }
                 }
             };
+        }
+
+        public ResultDataFromAgent GetFileFromDevice(string path, Guid agentId, Guid customerId)
+        {
+            return new ResultDataFromAgent { FileContent = "A file content!" };
         }
     }
 }
