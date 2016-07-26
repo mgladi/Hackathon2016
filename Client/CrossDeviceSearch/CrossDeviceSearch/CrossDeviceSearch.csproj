@@ -66,11 +66,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ServiceInterface\ServiceInterface.csproj">
+    <ProjectReference Include="..\ServiceInterface\ServiceInterface.csproj">
       <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
       <Name>ServiceInterface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\ServiceMock\ServiceMock.csproj">
+    <ProjectReference Include="..\ServiceMock\ServiceMock.csproj">
       <Project>{67ea4a76-6e37-4f6c-a6a8-2dec012baf34}</Project>
       <Name>ServiceMock</Name>
     </ProjectReference>
