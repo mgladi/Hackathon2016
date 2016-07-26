@@ -13,7 +13,7 @@ namespace CrossDeviceSearch
     {
         ServiceMock.ServiceMock mock = new ServiceMock.ServiceMock();
         Guid agentGuid = Guid.NewGuid();
-        Guid userGuid = new Guid("c610a71d-91fd-4ef8-947f-8e4d4013106d");
+        string user = "User1";
         IService service = new HybridSearchService("http://hybridsearchsvc.cloudapp.net");
 
         public App()
@@ -22,16 +22,16 @@ namespace CrossDeviceSearch
             {
                 while (true)
                 {
-                    SearchItem searchItem = service.PollService(agentGuid, userGuid);
+                    SearchItem searchItem = service.PollService(agentGuid, user);
                     Task.Run(() =>
                     {
                         switch (searchItem.PollingResultType)
                         {
                             case PollingResultType.SearchQuery:
-                                service.SendResult(userGuid, agentGuid, searchItem.RequestId, SearchQuery(searchItem.ResultQuery));
+                                service.SendResult(user, agentGuid, searchItem.RequestId, SearchQuery(searchItem.ResultQuery));
                                 break;
                             case PollingResultType.FileToTransferPath:
-                                service.SendResult(userGuid, agentGuid, searchItem.RequestId, FileToTransferPath(searchItem.ResultQuery));
+                                service.SendResult(user, agentGuid, searchItem.RequestId, FileToTransferPath(searchItem.ResultQuery));
                                 break;
                         }
                     });

@@ -16,13 +16,13 @@ namespace HybridSearch
             this.clientsDb = clientsDb;
             this.customerId = customerId;
             this.agentId = agentId;
-            this.clientsDb.updateAgentLastSeen(customerId, agentId);
         }
 
         public Task ProcessRequest(HttpListenerContext context)
         {
             SearchQuery nextSearchQuery;
-            clientsDb.CreateNewAgentByID(this.customerId, this.agentId, "content");
+            this.clientsDb.CreateNewAgentByID(this.customerId, this.agentId, "content");
+            this.clientsDb.updateAgentLastSeen(this.customerId, this.agentId);
 
             bool isNextQueryAvailable = this.agentsPendingDb.TryGetNextQuery(this.agentId, out nextSearchQuery);
             if (isNextQueryAvailable)

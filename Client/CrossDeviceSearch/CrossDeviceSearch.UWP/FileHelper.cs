@@ -49,8 +49,19 @@ namespace CrossDeviceSearch.UWP
             return File.ReadAllBytes(filepath);
         }
 
-        // Private methods.
-        string GetRootPath()
+        public string WriteTempFile(string filepath, byte[] bytes)
+        {
+            string tempPath = Path.Combine(Directory.GetCurrentDirectory(), Path.GetFileName(filepath));
+            File.WriteAllBytes(tempPath, bytes);
+            return tempPath;
+        }
+
+        public void OpenFile(string filepath)
+        {
+        }
+
+            // Private methods.
+            string GetRootPath()
         {
             return @"C:\Users\nirgafni\Documents\";
         }
