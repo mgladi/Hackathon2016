@@ -15,6 +15,7 @@
                    TextChanged="OnSearchBarTextChanged"
                    SearchButtonPressed="OnSearchBarButtonPressed"
                    BackgroundColor="White"
+                   TextColor="Black"
                    />
 
         <ScrollView x:Name="resultsScroll"
