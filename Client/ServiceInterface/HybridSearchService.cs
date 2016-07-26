@@ -158,6 +158,8 @@ namespace ServiceInterface
                     client.BaseAddress = new Uri(url);
                     client.DefaultRequestHeaders.Add("CustomerId", customerId.ToString());
                     client.DefaultRequestHeaders.Add("AgentId", agentId.ToString());
+                    client.DefaultRequestHeaders.Add("RequestId", requestId.ToString());
+
                     HttpContent content = new ByteArrayContent(CreateByteArrayFromFileContent(agentResult.FileContent));
                     HttpResponseMessage result = client.PostAsync("/PostResults", content).Result;
                 }

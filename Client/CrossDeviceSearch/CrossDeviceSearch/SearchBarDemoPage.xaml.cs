@@ -18,18 +18,6 @@ namespace CrossDeviceSearch
         public CrossDeviceSearchPage()
         {
             InitializeComponent();
-
-            // Load embedded resource bitmap.
-            //string resourceID = "CrossDeviceSearch.Texts.MobyDick.txt";
-            //Assembly assembly = GetType().GetTypeInfo().Assembly;
-
-            //using (Stream stream = assembly.GetManifestResourceStream(resourceID))
-            //{
-            //    using (StreamReader reader = new StreamReader(stream))
-            //    {
-            //        bookText = reader.ReadToEnd();
-            //    }
-            //}
         }
 
         void OnSearchBarTextChanged(object sender, TextChangedEventArgs args)
@@ -45,51 +33,29 @@ namespace CrossDeviceSearch
             resultsStack.Children.Clear();
             //SearchBookForText(searchBar.Text);
             List<ResultDataFromAgent> results = service.SearchFileInAllDevices(searchBar.Text, new Guid());
-
-            SetResults(results);
+            
+            if (results.Count == 0)
+            {
+                PresentNoResultsFound();
+            }
+            else
+            {
+                SetResults(results);
+            }            
 
             // Reattach resultsStack to layout.
             resultsScroll.Content = resultsStack;
         }
 
-        //void SearchBookForText(string searchText)
-        //{
-        //    int count = 0;
-        //    bool isTruncated = false;
-
-        //    using (StringReader reader = new StringReader(bookText))
-        //    {
-        //        int lineNumber = 0;
-        //        string line;
-
-        //        while (null != (line = reader.ReadLine()))
-        //        {
-        //            lineNumber++;
-        //            int index = 0;
-
-        //            while (-1 != (index = (line.IndexOf(searchText, index, 
-        //                                                StringComparison.OrdinalIgnoreCase))))
-        //            {
-        //                if (count == MaxMatches)
-        //                {
-        //                    isTruncated = true;
-        //                    break;
-        //                }
-        //                index += 1;
-
-        //                // Add the information to the StackLayout.
-        //                SetResults();
-
-        //                count++;
-        //            }
-
-        //            if (isTruncated)
-        //            {
-        //                break;
-        //            }
-        //        }
-        //    }
-        //}
+        private void PresentNoResultsFound()
+        {
+            resultsStack.Children.Add(new Label()
+            {
+                BackgroundColor = Color.White,
+                Text = "No results were found.",
+                TextColor = Color.Gray
+            });
+        }
 
         private void SetResults(List<ResultDataFromAgent> results)
         {
@@ -105,35 +71,26 @@ namespace CrossDeviceSearch
 
             StackLayout deviceTitle = new StackLayout()
             {
-                Orientation = StackOrientation.Horizontal
+                Orientation = StackOrientation.Horizontal,
+                BackgroundColor = Color.White
             };
-            //Image arrowImage = new Image()
-            //{
-            //    Aspect = Aspect.AspectFit
-            //};
-            //arrowImage.Source = ImageSource.FromResource("C:\\Users\\nirnah\\Documents\\MS\\Hackaton\\arrowSide.jpg");
-            //            deviceTitle.Children.Add(arrowImage);
 
-
-            FileImageSource image = new FileImageSource()
+            Label arrowLabel = new Label
             {
-
-                File = @"C:\Users\nirnah\Documents\MS\Hackaton\arrowSide.jpg"
+                Text = "^",
+                TextColor = Color.FromRgb(30, 144, 255),
+                BackgroundColor = Color.White
             };
 
-            Button arrowButton = new Button
-            {
-                Image = image,
-                BackgroundColor = Color.White,
-                //Text = ">"
-            };
-
-            deviceTitle.Children.Add(arrowButton);
+            deviceTitle.Children.Add(arrowLabel);
 
             Label nameLabel = new Label
             {
-                Text = resultFromDevice.DeviceName
+                Text = resultFromDevice.DeviceName,
+                TextColor = Color.FromRgb(30, 144, 255),
+                BackgroundColor = Color.White
             };
+
             deviceTitle.Children.Add(nameLabel);
 
             StackLayout deviceResultsStack = CreateDeviceResultsStack(resultFromDevice);
@@ -142,12 +99,28 @@ namespace CrossDeviceSearch
 
             deviceStack.Children.Add(deviceResultsStack);
 
+            deviceStack.Children.Add(new BoxView
+            {
+                HeightRequest = 0.5,
+                BackgroundColor = Color.FromRgb(30, 144, 255)
+            });
+
             var tapGestureRecognizer = new TapGestureRecognizer();
             tapGestureRecognizer.Tapped += (s, e) =>
             {
                 View view = (View)s;
                 StackLayout stackLayout = (StackLayout)view.Parent;
                 stackLayout.Children[1].IsVisible = !stackLayout.Children[1].IsVisible;
+                StackLayout titleStackLayout = (StackLayout)stackLayout.Children[0];
+                Label label = (Label)titleStackLayout.Children[0];
+                if (stackLayout.Children[1].IsVisible)
+                {                    
+                    label.Text = ">";
+                }
+                else
+                {
+                    label.Text = "^";
+                }
             };
             deviceTitle.GestureRecognizers.Add(tapGestureRecognizer);
 
@@ -158,7 +131,8 @@ namespace CrossDeviceSearch
         {
             StackLayout resultsStack = new StackLayout()
             {
-                IsVisible = false
+                IsVisible = false,
+                BackgroundColor = Color.White
             };
 
             foreach (FileMetadata fileMetadata in resultFromDevice.FilesMetadata)
@@ -166,26 +140,34 @@ namespace CrossDeviceSearch
                 resultsStack.Children.Add(GetDeviceResultsListStack(fileMetadata));
             }
 
+            StackLayout resultsListStack = (StackLayout)resultsStack.Children[resultsStack.Children.Count - 1];
+            resultsListStack.Children.RemoveAt(resultsListStack.Children.Count - 1);
             return resultsStack;
         }
 
         private StackLayout GetDeviceResultsListStack(FileMetadata fileMetadata)
         {
-            StackLayout resultStack = new StackLayout();
+            StackLayout resultStack = new StackLayout()
+            {
+                BackgroundColor = Color.White
+            };
 
             StackLayout resultItemStack = new StackLayout()
             {
                 Orientation = StackOrientation.Horizontal,
-                Padding = new Thickness(0, 0, 20, 0)
+                Padding = new Thickness(0, 0, 20, 0),
+                BackgroundColor = Color.White
             };
             
             resultItemStack.Children.Add(new Label()
             {
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 Text = fileMetadata.FullPathAndName,
-                FontSize = 14
-
+                FontSize = 14,
+                TextColor = Color.Gray,
+                BackgroundColor = Color.White
             });
+
             Button button = new Button
             {
                 Text = "Open",
@@ -200,53 +182,11 @@ namespace CrossDeviceSearch
 
             resultStack.Children.Add(new BoxView
             {
-                HeightRequest = 1,
-                BackgroundColor = Color.Gray,
-
+                HeightRequest = 0.5,
+                BackgroundColor = Color.FromRgb(211, 211, 211)
             });
 
             return resultStack;
         }
-
-        //private StackLayout GetTextInfoStackLayout()
-        //{
-        //    StackLayout textStack = new StackLayout()
-        //    {
-        //        HorizontalOptions = LayoutOptions.FillAndExpand
-        //    };
-        //    textStack.Children.Add(new Label()
-        //    {
-        //        Text = "Title: name",
-        //        FontSize = 14
-
-        //    });
-        //    StackLayout resultDetailsStack = new StackLayout()
-        //    {
-        //        Orientation = StackOrientation.Horizontal,
-        //        Spacing = 50
-        //    };
-
-        //    resultDetailsStack.Children.Add(new Label()
-        //    {
-        //        Text = "Device: mydevice",
-        //        TextColor = Color.Gray,
-        //        FontSize = 10
-        //    });
-        //    resultDetailsStack.Children.Add(new Label()
-        //    {
-        //        Text = "OS: myos",
-        //        TextColor = Color.Gray,
-        //        FontSize = 10
-
-        //    });
-
-        //    textStack.Children.Add(resultDetailsStack);
-        //    return textStack;
-        //}
-
-        //private void OnButtonClicked(object sender, EventArgs e)
-        //{
-        //    Debug.WriteLine("clicked");
-        //}
     }
 }

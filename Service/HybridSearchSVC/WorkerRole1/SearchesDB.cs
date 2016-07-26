@@ -19,7 +19,7 @@ namespace HybridSearch
             this.agentsPending = agentsPending;
         }
 
-        public Guid CreateNewSearch(Guid customerId, string query)
+        public Guid CreateNewSearch(Guid customerId, string query, string type)
         {
             Guid searchId = Guid.NewGuid();
             Searches[searchId] = new ConcurrentDictionary<Guid, AgentResult>();
@@ -27,7 +27,7 @@ namespace HybridSearch
             List<Agent> agents = this.clients.GetAgents(customerId);
             foreach (Agent agent in agents)
             {
-                SearchQuery searchQuery = new SearchQuery(searchId, query, "search");
+                SearchQuery searchQuery = new SearchQuery(searchId, query, type);
                 this.agentsPending.SubmitNewQuery(agent, searchQuery);
             }
 
@@ -57,7 +57,7 @@ namespace HybridSearch
             return !this.Searches[searchId].ContainsKey(agentId);
         }
 
-        public SearchResults GetSearchResults(Guid customerId, Guid searchId, string type = "search")
+        public SearchResults GetSearchResults(Guid customerId, Guid searchId, string type)
         {
             return new SearchResults(this.Searches[searchId], type);
         }

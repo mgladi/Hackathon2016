@@ -15,7 +15,8 @@ namespace HybridSearch
         public void StartListen()
         {
             var ipendpoint = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["test"].IPEndpoint;
-            string prefix = string.Format("http://{0}/", ipendpoint.ToString());
+            string localHost = "*:81";
+            string prefix = string.Format("http://{0}/", localHost);
             listener.Prefixes.Add(prefix);
             listener.Start();
         }

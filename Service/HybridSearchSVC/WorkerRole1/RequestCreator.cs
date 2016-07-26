@@ -10,6 +10,7 @@ namespace HybridSearch
     public class RequestCreator
     {
         private const string agentQuery_QueryStringKey = "q";
+        private const string agentQuery_QueryStringKeyFile = "p";
 
         public static IClientsDB clientsDb = new ClientsDB();
         public static IAgentsPendingDB agentsPendingDb = new AgentsPendingDB();
@@ -36,7 +37,7 @@ namespace HybridSearch
             {
                 string customerId = request.Headers["CustomerId"];
                 string agentId = request.Headers["AgentId"];
-                string query = request.QueryString[agentQuery_QueryStringKey];
+                string query = request.QueryString[agentQuery_QueryStringKeyFile];
 
                 return new FileRequest(searchesDb, Guid.Parse(customerId), Guid.Parse(agentId), query);
             }
@@ -45,7 +46,7 @@ namespace HybridSearch
 
                 string customerId = request.Headers["CustomerId"];
                 string agentId = request.Headers["AgentId"];
-                string searchId = request.Headers["SearchId"];
+                string searchId = request.Headers["RequestId"];
 
                 string content = HttpHelper.GetRequestPostData(request);
                 return new PostResultsRequest(searchesDb, Guid.Parse(customerId), Guid.Parse(agentId), Guid.Parse(searchId), content);
