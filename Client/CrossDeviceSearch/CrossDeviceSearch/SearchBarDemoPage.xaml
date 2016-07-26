@@ -18,7 +18,7 @@
 
         <ScrollView x:Name="resultsScroll"
                     VerticalOptions="FillAndExpand">
-            <StackLayout x:Name="resultsStack"/>
+            <StackLayout x:Name="resultsStack" />
         </ScrollView>
     </StackLayout>
 </ContentPage>

@@ -23,10 +23,10 @@ namespace ServiceInterface
             string resultContent;
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(url);
+                client.BaseAddress = new Uri(url +"/AgentPoll");
                 client.DefaultRequestHeaders.Add("CustomerId", customerId.ToString());
                 client.DefaultRequestHeaders.Add("AgentId", agentId.ToString());
-                HttpResponseMessage result = client.GetAsync("/AgentPoll").Result;
+                HttpResponseMessage result = client.GetAsync("").Result;
                 resultContent = result.Content.ReadAsStringAsync().Result;
             }
 
@@ -68,7 +68,7 @@ namespace ServiceInterface
 
             if (!string.IsNullOrEmpty(resultContent))
             {
-                SearchResults searchResult = JsonConvert.DeserializeObject<SearchResults>(content);
+                SearchResults searchResult = JsonConvert.DeserializeObject<SearchResults>(resultContent);
 
                 List<ResultDataFromAgent> resultDataFromAgent = new List<ResultDataFromAgent>();
 

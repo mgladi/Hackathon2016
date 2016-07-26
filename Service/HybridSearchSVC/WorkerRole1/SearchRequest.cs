@@ -39,25 +39,33 @@ namespace HybridSearch
         private async Task GetSearchResults(HttpListenerResponse response, Guid customerId, Guid searchId)
         {
             Console.WriteLine("Starting wait for search results for search {0}", searchId);
-            await Task.Run(async () => 
-            {               
-                for (int i = 0; i < maxIterations; i++)
+            bool searchCompletedSuccsefully = false;
+
+            for (int i = 0; i < maxIterations; i++)
+            {
+                if (searchesDB.IsAwaitingResults(customerId, searchId))
                 {
-                    if (searchesDB.IsAwaitingResults(customerId, searchId))
-                    {
-                        await Task.Delay(iterationDelayMilliseconds);
+                    await Task.Delay(iterationDelayMilliseconds);
 
-                    }
-                    else
-                    {
-                        Console.WriteLine("All search results ready after {0} iterations", i);
-                        break;
-                    }
                 }
+                else
+                {
+                    Console.WriteLine("All search results ready after {0} iterations", i);
+                    searchCompletedSuccsefully = true;
+                    break;
+                }
+            }
 
-                SearchResults results = searchesDB.GetSearchResults(customerId, searchId, type);
+            SearchResults results = searchesDB.GetSearchResults(customerId, searchId, type);
+
+            if (searchCompletedSuccsefully)
+            {
                 HttpHelper.SendObject(response, results);
-            });
+            }
+            else
+            {
+                HttpHelper.SendObjectWithError(response, results);
+            }
 
             Console.WriteLine("Finished wait for search results for search {0}", searchId);
         }
