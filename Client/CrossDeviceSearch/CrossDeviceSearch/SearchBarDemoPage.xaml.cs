@@ -185,7 +185,16 @@ namespace CrossDeviceSearch
                 TextColor = Color.White,
                 BorderColor = Color.White
             };
-            
+
+            button.Resources["FullPath"] = ((Label)(resultItemStack).Children[0]).Text;
+
+            button.Clicked += (object s, EventArgs e) =>
+            {
+                Button openButton = (Button)s;
+                string fullPathWithName = (string)openButton.Resources["FullPath"];
+                service.GetFileFromDevice("PATH", new Guid(), userGuid);
+            };
+
             resultItemStack.Children.Add(button);
             
             resultStack.Children.Add(resultItemStack);
