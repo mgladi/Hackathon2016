@@ -33,7 +33,13 @@ namespace CrossDeviceSearch
             resultsScroll.Content = null;
 
             resultsStack.Children.Clear();
-            resultsStack.Children.Add(new ActivityIndicator());
+
+            resultsStack.Children.Add(new ActivityIndicator()
+            {
+                //Color = Color.Red,
+                //BackgroundColor = Color.Yellow,
+                // VerticalOptions = LayoutOptions.FillAndExpand
+            });
             resultsScroll.Content = resultsStack;
             var results = await Task.Run(() =>
             {
@@ -146,7 +152,7 @@ namespace CrossDeviceSearch
 
             foreach (FileMetadata fileMetadata in resultFromDevice.FilesMetadata)
             {
-                resultsStack.Children.Add(GetDeviceResultsListStack(fileMetadata));
+                resultsStack.Children.Add(GetDeviceResultsListStack(fileMetadata, resultFromDevice.AgentGuid));
             }
 
             StackLayout resultsListStack = (StackLayout)resultsStack.Children[resultsStack.Children.Count - 1];
@@ -154,7 +160,7 @@ namespace CrossDeviceSearch
             return resultsStack;
         }
 
-        private StackLayout GetDeviceResultsListStack(FileMetadata fileMetadata)
+        private StackLayout GetDeviceResultsListStack(FileMetadata fileMetadata, Guid agentGuid)
         {
             StackLayout resultStack = new StackLayout()
             {
@@ -185,7 +191,6 @@ namespace CrossDeviceSearch
                 BorderColor = Color.White
             };
 
-            //button.Resources = new ResourceDictionary() { "FullPath", ((Label)(resultItemStack).Children[0]).Text };
             button.Resources = new ResourceDictionary();
             button.Resources.Add("FullPath", fileMetadata.FullPathAndName);
 
@@ -193,7 +198,8 @@ namespace CrossDeviceSearch
             {
                 Button openButton = (Button)s;
                 string fullPathWithName = (string)openButton.Resources["FullPath"];
-                service.GetFileFromDevice(fullPathWithName, new Guid(), userGuid);
+                var result = service.GetFileFromDevice(fullPathWithName, agentGuid, userGuid);
+                var content = result.FileContent;
             };
 
             resultItemStack.Children.Add(button);
