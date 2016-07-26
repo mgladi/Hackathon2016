@@ -130,9 +130,11 @@ namespace CrossDeviceSearch
             var tapGestureRecognizer = new TapGestureRecognizer();
             tapGestureRecognizer.Tapped += (s, e) =>
             {
-                ((StackLayout)s).Children[1].IsVisible = !((StackLayout)s).Children[1].IsVisible;
+                View view = (View)s;
+                StackLayout stackLayout = (StackLayout)view.Parent;
+                stackLayout.Children[1].IsVisible = !stackLayout.Children[1].IsVisible;
             };
-            deviceStack.GestureRecognizers.Add(tapGestureRecognizer);
+            deviceTitle.GestureRecognizers.Add(tapGestureRecognizer);
 
             return deviceStack;
         }
