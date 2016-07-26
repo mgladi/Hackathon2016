@@ -33,7 +33,6 @@ namespace CrossDeviceSearch
             resultsScroll.Content = null;
 
             resultsStack.Children.Clear();
-            
             resultsStack.Children.Add(new ActivityIndicator());
             resultsScroll.Content = resultsStack;
             var results = await Task.Run(() =>
@@ -186,13 +185,15 @@ namespace CrossDeviceSearch
                 BorderColor = Color.White
             };
 
-            button.Resources["FullPath"] = ((Label)(resultItemStack).Children[0]).Text;
+            //button.Resources = new ResourceDictionary() { "FullPath", ((Label)(resultItemStack).Children[0]).Text };
+            button.Resources = new ResourceDictionary();
+            button.Resources.Add("FullPath", fileMetadata.FullPathAndName);
 
             button.Clicked += (object s, EventArgs e) =>
             {
                 Button openButton = (Button)s;
                 string fullPathWithName = (string)openButton.Resources["FullPath"];
-                service.GetFileFromDevice("PATH", new Guid(), userGuid);
+                service.GetFileFromDevice(fullPathWithName, new Guid(), userGuid);
             };
 
             resultItemStack.Children.Add(button);
