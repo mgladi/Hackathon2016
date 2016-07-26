@@ -10,7 +10,7 @@ namespace ServiceMock
 {
     public class ServiceMock : IService
     {
-        public SearchItem PollService(Guid agentId, Guid customerId)
+        public SearchItem PollService(Guid agentId, string customerName)
         {
             Random r = new Random();
             int rInt = r.Next(0, 5);
@@ -34,12 +34,12 @@ namespace ServiceMock
             return result;
         }
 
-        public void SendResult(Guid customerId, Guid agentId, Guid requestId, ResultDataFromAgent agentResult)
+        public void SendResult(string customerName, Guid agentId, Guid requestId, ResultDataFromAgent agentResult)
         {
             //combine all data. return jsut 200 OK to each machine
         }
 
-        public List<ResultDataFromAgent> SearchFileInAllDevices(string query, Guid customerId)
+        public List<ResultDataFromAgent> SearchFileInAllDevices(string query, string customerName)
         {
             Task.Delay(5000).Wait();
             return new List<ResultDataFromAgent>
@@ -76,7 +76,7 @@ namespace ServiceMock
             };
         }
 
-        public ResultDataFromAgent GetFileFromDevice(string path, Guid agentId, Guid customerId)
+        public ResultDataFromAgent GetFileFromDevice(string path, Guid agentId, string customerName)
         {
             return new ResultDataFromAgent { FileContent = "A file content!" };
         }
