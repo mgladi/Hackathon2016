@@ -8,16 +8,11 @@ namespace Agent
     {
         DeviceType DeviceType { get; }
         string DeviceModel { get; }
-        bool Exists(string filename);
 
-        void WriteText(string filename, string text);
+        string ReadText(string filepath);
 
-        string ReadText(string filename);
+        byte[] ReadFile(string filepath);
 
         List<FileMetadata> SearchFiles(string searchPattern = "");
-
-        void Delete(string filename);
-
-        FileMetadata GetFileMetaData(string filepath);
     }
 }

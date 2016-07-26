@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using Xamarin.Forms;
 using ServiceInterface;
-
+using System.Text;
 
 namespace Agent
 {
-    class FileHelper : IFileHelper
+    class FileHelper
     {
         IFileHelper fileHelper = DependencyService.Get<IFileHelper>();
 
@@ -28,24 +28,9 @@ namespace Agent
             }
         }
 
-        public bool Exists(string filename)
-        {
-            return fileHelper.Exists(filename);
-        }
-
-        public void WriteText(string filename, string text)
-        {
-            fileHelper.WriteText(filename, text);
-        }
-
         public string ReadText(string filename)
         {
             return fileHelper.ReadText(filename);
-        }
-
-        public FileMetadata GetFileMetaData(string filepath)
-        {
-            return fileHelper.GetFileMetaData(filepath);
         }
 
         public List<FileMetadata> SearchFiles(string searchPattern)
@@ -53,9 +38,14 @@ namespace Agent
             return String.IsNullOrEmpty(searchPattern) ? fileHelper.SearchFiles() : fileHelper.SearchFiles(searchPattern);
         }
 
-        public void Delete(string filename)
+        public string ReadFile(string filepath)
         {
-            fileHelper.Delete(filename);
+            return GetFileContentFromByte(fileHelper.ReadFile(filepath));
+        }
+
+        private string GetFileContentFromByte(byte[] result)
+        {
+            return Encoding.UTF8.GetString(result, 0, result.Length);
         }
     }
 }

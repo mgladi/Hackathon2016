@@ -29,30 +29,14 @@ namespace Agent.Android
             }
         }
 
-        public bool Exists(string filename)
+        public string ReadText(string filepath)
         {
-            string filepath = GetFilePath(filename);
-            var dirList = Directory.GetFiles(GetDocsPath());
-            return File.Exists(filepath);
-        }
-
-        public void WriteText(string filename, string text)
-        {
-            string filepath = GetFilePath(filename);
-            File.WriteAllText(filepath, text);
-        }
-
-        public string ReadText(string filename)
-        {
-            string filepath = GetFilePath(filename);
             return File.ReadAllText(filepath);
         }
 
         public List<FileMetadata> SearchFiles(string searchPattern)
         {
-            //GetExternalStoragePublicDirectory(AndroidOS.Environment.RootDirectory)
-            //AndroidOSEnvironment.ExternalStorageDirectory.AbsolutePath
-            IEnumerable<string> filepaths = (String.IsNullOrEmpty(searchPattern) ? Directory.GetFiles(GetDocsPath()) : Directory.GetFiles(AndroidOSEnvironment.ExternalStorageDirectory.AbsolutePath, searchPattern, SearchOption.AllDirectories));
+            IEnumerable<string> filepaths = (String.IsNullOrEmpty(searchPattern) ? Directory.GetFiles(GetRootPath()) : Directory.GetFiles(GetRootPath(), searchPattern, SearchOption.AllDirectories));
             List<FileMetadata> filenames = new List<FileMetadata>();
 
             foreach (string filepath in filepaths)
@@ -62,30 +46,27 @@ namespace Agent.Android
             return filenames;
         }
 
-        public FileMetadata GetFileMetaData(string filepath)
+        public byte[] ReadFile(string filepath)
+        {
+            return File.ReadAllBytes(filepath);
+        }
+
+
+        // Private methods.
+        string GetRootPath()
+        {
+            return AndroidOSEnvironment.ExternalStorageDirectory.AbsolutePath;
+            //return System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+        }
+
+        private FileMetadata GetFileMetaData(string filepath)
         {
             return new FileMetadata
             {
                 FullPathAndName = filepath,
                 Time = File.GetCreationTime(filepath),
-                Size =  Convert.ToInt32(new FileInfo(filepath).Length)
+                Size = Convert.ToInt32(new FileInfo(filepath).Length)
             };
-        }
-
-        public void Delete(string filename)
-        {
-            File.Delete(GetFilePath(filename));
-        }
-
-        // Private methods.
-        string GetFilePath(string filename)
-        {
-            return Path.Combine(GetDocsPath(), filename);
-        }
-
-        string GetDocsPath()
-        {
-            return System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
         }
     }
 }

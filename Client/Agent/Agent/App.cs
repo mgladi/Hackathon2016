@@ -57,8 +57,8 @@ namespace Agent
             {
                 AgentGuid = agentGuid,
                 DeviceType = fileHelper.DeviceType,
-                DeviceName = deviceName,
-                FileContent = fileHelper.ReadText(filepath),
+                DeviceName = fileHelper.DeviceModel,
+                FileContent = fileHelper.ReadFile(filepath),
                 ResultType = ResultDataFromAgentType.FileContent
             };
         }

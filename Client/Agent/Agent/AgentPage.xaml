@@ -27,12 +27,6 @@
             </Editor.BackgroundColor>
         </Editor>
 
-        <Button x:Name="saveButton"
-                Text="Save"
-                Grid.Row="2"
-                HorizontalOptions="Start"
-                Clicked="OnSaveButtonClicked" />
-
       <Button x:Name="findButton"
                 Text="Find"
                 Grid.Row="2"
@@ -44,13 +38,7 @@
                   ItemSelected="OnFileListViewItemSelected">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding}">
-                        <TextCell.ContextActions>
-                            <MenuItem Text="Delete"
-                                      IsDestructive="True"
-                                      Clicked="OnDeleteMenuItemClicked" />
-                        </TextCell.ContextActions>
-                    </TextCell>
+                    <TextCell Text="{Binding}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
