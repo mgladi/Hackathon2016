@@ -8,8 +8,9 @@ namespace HybridSearch
 {
     public interface IClientsDB
     {
-        Agent CreateNewAgent(Guid clientId, string content);
-        Agent CreateNewAgentByID(Guid clientId, Guid agentId, string content);
-        List<Agent> GetAgents(Guid clientId);
+        Agent CreateNewAgent(Guid customerId, string content);
+        Agent CreateNewAgentByID(Guid customerId, Guid agentId, string content);
+        List<Agent> GetAgents(Guid customerId, Func<Agent,bool> shouldInclude = null);
+        void updateAgentLastSeen(Guid customerId, Guid agentId);
     }
 }

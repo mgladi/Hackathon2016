@@ -11,47 +11,63 @@ namespace HybridSearch
     {
         private IDictionary<Guid, List<Agent>> Clients = new ConcurrentDictionary<Guid, List<Agent>>();
 
-        private void addAgentToList(Guid clientId, Agent agent)
+        private void addAgentToList(Guid customerId, Agent agent)
         {
-            if (!this.Clients.ContainsKey(clientId))
+            if (!this.Clients.ContainsKey(customerId))
             {
-                this.Clients[clientId] = new List<Agent>();
+                this.Clients[customerId] = new List<Agent>();
             }
-            this.Clients[clientId].Add(agent);
+            this.Clients[customerId].Add(agent);
         }
-        public Agent CreateNewAgent(Guid clientId, string content)
+        public Agent CreateNewAgent(Guid customerId, string content)
         {
             Guid agentId = Guid.NewGuid();
-            return CreateNewAgentByID(clientId, agentId, content);
+            return CreateNewAgentByID(customerId, agentId, content);
         }
 
-        public Agent CreateNewAgentByID(Guid clientId, Guid agentId, string content)
+        public Agent CreateNewAgentByID(Guid customerId, Guid agentId, string content)
         {
-            if (!this.Clients.ContainsKey(clientId))
+            if (!this.Clients.ContainsKey(customerId))
             {
                 Agent newAgent = new Agent(agentId, content);
-                addAgentToList(clientId, newAgent);
+                addAgentToList(customerId, newAgent);
                 return newAgent;
             }
             
-            Agent agent = this.Clients[clientId].FirstOrDefault(a => a.getId() == agentId);
+            Agent agent = this.Clients[customerId].FirstOrDefault(a => a.getId() == agentId);
             if (agent == null)
             {
                 agent = new Agent(agentId, content);
-                addAgentToList(clientId, agent);
+                addAgentToList(customerId, agent);
             }
             return agent;
         }
 
 
-        public List<Agent> GetAgents(Guid clientId)
+        public List<Agent> GetAgents(Guid customerId, Func<Agent, bool> shouldInclude = null)
         {
-            List<Agent> list = new List<Agent>();
-            if (this.Clients.ContainsKey(clientId))
+            if (shouldInclude == null)
             {
-                return this.Clients[clientId];
+                shouldInclude = (agent) => true;
+            }
+            List<Agent> list = new List<Agent>();
+            if (this.Clients.ContainsKey(customerId))
+            {
+                return this.Clients[customerId].Where(shouldInclude).ToList();
             }
             return list;
+        }
+
+        public void updateAgentLastSeen(Guid customerId, Guid agentId)
+        {
+            foreach (Agent agent in this.Clients[customerId])
+            {
+                if (agent.getId() == agentId)
+                {
+                    agent.lastSeen = DateTime.Now;
+                    return;
+                }
+            }
         }
     }
 }

@@ -16,6 +16,7 @@ namespace HybridSearch
             this.clientsDb = clientsDb;
             this.customerId = customerId;
             this.agentId = agentId;
+            this.clientsDb.updateAgentLastSeen(customerId, agentId);
         }
 
         public Task ProcessRequest(HttpListenerContext context)
