@@ -14,7 +14,7 @@ namespace ServiceInterface
 
         List<ResultDataFromAgent> SearchFileInAllDevices(string query);
 
-        ResultDataFromAgent GetFileFromDevice(string path);
+        ResultDataFromAgent GetFileFromDevice(string path, Guid agentId);
 
         void SendResult(Guid requestId, ResultDataFromAgent agentResult);
     }

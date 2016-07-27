@@ -77,7 +77,7 @@ namespace ServiceMock
             };
         }
 
-        public ResultDataFromAgent GetFileFromDevice(string path)
+        public ResultDataFromAgent GetFileFromDevice(string path, Guid agentId)
         {
             return new ResultDataFromAgent { FileContent = "A file content!" };
         }

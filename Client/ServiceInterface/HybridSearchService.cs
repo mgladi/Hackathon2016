@@ -95,14 +95,14 @@ namespace ServiceInterface
             }
         }
 
-        public ResultDataFromAgent GetFileFromDevice(string path)
+        public ResultDataFromAgent GetFileFromDevice(string path, Guid agentIdForFile)
         {
             string resultContent;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Add("CustomerId", customerName);
-                client.DefaultRequestHeaders.Add("AgentId", agentId.ToString());
+                client.DefaultRequestHeaders.Add("AgentId", agentIdForFile.ToString());
 
                 HttpResponseMessage result = client.GetAsync("/GetFile?p=" + path).Result;
                 resultContent = result.Content.ReadAsStringAsync().Result;

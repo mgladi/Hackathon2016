@@ -217,7 +217,7 @@ namespace CrossDeviceSearch
                 Button openButton = (Button)s;
                 string fullPathWithName = (string)openButton.Resources["FullPath"];
                 Task<ResultDataFromAgent> getFile = new Task<ResultDataFromAgent>(
-                    () => service.GetFileFromDevice(fullPathWithName));
+                    () => service.GetFileFromDevice(fullPathWithName, agentGuid));
 
                 getFile.Start();
 
