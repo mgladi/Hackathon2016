@@ -26,7 +26,7 @@ namespace HybridSearch
             Guid searchId = Guid.NewGuid();
             Searches[searchId] = new ConcurrentDictionary<Guid, AgentResult>();
 
-            List<Agent> agents = this.clients.GetAgents(customerId);
+            List<Agent> agents = this.clients.GetAgents(customerId, (agent) => (DateTime.Now - agent.lastSeen).TotalSeconds < timeToAgentCleanup);
             foreach (Agent agent in agents)
             {
                 SearchQuery searchQuery = new SearchQuery(searchId, query, type);
