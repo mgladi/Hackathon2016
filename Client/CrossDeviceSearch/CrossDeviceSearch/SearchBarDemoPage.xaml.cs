@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -97,7 +97,7 @@ namespace CrossDeviceSearch
 
             Label arrowLabel = new Label
             {
-                Text = "^",
+                Text = "▶",
                 TextColor = Color.FromRgb(30, 144, 255),
                 BackgroundColor = Color.White
             };
@@ -137,11 +137,11 @@ namespace CrossDeviceSearch
                 Label label = (Label)titleStackLayout.Children[0];
                 if (stackLayout.Children[1].IsVisible)
                 {                    
-                    label.Text = ">";
+                    label.Text = "▼";
                 }
                 else
                 {
-                    label.Text = "^";
+                    label.Text = "▶";
                 }
             };
             deviceTitle.GestureRecognizers.Add(tapGestureRecognizer);
@@ -185,7 +185,7 @@ namespace CrossDeviceSearch
             resultItemStack.Children.Add(new Label()
             {
                 HorizontalOptions = LayoutOptions.FillAndExpand,
-                Text = fileMetadata.FullPathAndName,
+                Text = Path.GetFileName(fileMetadata.FullPathAndName),
                 FontSize = 14,
                 TextColor = Color.Gray,
                 BackgroundColor = Color.White,
@@ -215,13 +215,17 @@ namespace CrossDeviceSearch
             button.Clicked += async(object s, EventArgs e) =>
             {
                 Button openButton = (Button)s;
-                string fullPathWithName = (string)openButton.Resources["FullPath"]; 
-                
-                bool shouldOpen = await DisplayAlert("", GetDetailsString(openButton), "Open", "Cancel");
+                string fullPathWithName = (string)openButton.Resources["FullPath"];
+                Task<ResultDataFromAgent> getFile = new Task<ResultDataFromAgent>(
+                    () => service.GetFileFromDevice(fullPathWithName, agentGuid, userGuid));
+
+                getFile.Start();
+
+                bool shouldOpen = !(await DisplayAlert("", GetDetailsString(openButton) , "Close", "Open File"));
                 if (shouldOpen)
                 {
-                    var result = service.GetFileFromDevice(fullPathWithName, agentGuid, userGuid);
-                    fileHelper.SaveAndOpenFile(fullPathWithName, result.FileContent);                 
+                    getFile.ContinueWith(
+                        task => fileHelper.SaveAndOpenFile(fullPathWithName, task.Result.FileContent)).Wait();                 
                 }
             };
 
