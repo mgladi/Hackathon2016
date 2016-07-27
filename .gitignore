@@ -1,5 +1,6 @@
 Service/HybridSearchSVC/.vs/HybridSearchSVC/v14/.suo
 Service/HybridSearchSVC/WorkerRole1/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+!Client/CrossDeviceSearch/CrossDeviceSearch.UWP/CrossDeviceSearch.UWP_TemporaryKey.pfx
 
 
 ## Ignore Visual Studio temporary files, build results, and

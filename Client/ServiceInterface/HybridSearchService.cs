@@ -79,7 +79,7 @@ namespace ServiceInterface
                     ResultDataFromAgent tempResult = new ResultDataFromAgent()
                     {
                         AgentGuid = item.agentId,
-                        FilesMetadata = GetFilesMetadataFromByte(item.result),
+                        FilesMetadata = item.result != null ? GetFilesMetadataFromByte(item.result) : new List<FileMetadata>(),
                         ResultType = ResultDataFromAgentType.FilesMetadataList, 
                         DeviceType = (DeviceType)Enum.Parse(typeof(DeviceType), item.deviceType),
                         DeviceName = item.deviceName
