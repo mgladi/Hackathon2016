@@ -109,6 +109,10 @@
     <Content Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ServiceInterface\ServiceInterface.csproj">
+      <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
+      <Name>ServiceInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrossDeviceSearch\CrossDeviceSearch.csproj">
       <Name>CrossDeviceSearch</Name>
       <Project>{F724B962-BF22-4690-B0DA-4B8CBB2D413B}</Project>
