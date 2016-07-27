@@ -45,14 +45,16 @@ namespace HybridSearch
 
         public bool IsAwaitingResults(Guid customerId, Guid searchId)
         {
-            List<Agent> agents = GetActiveAgents(customerId);
-            foreach (Agent agent in agents)
+            // for Ziv: return !this.Searches[searchId].Any(s => !s.Value.isSearchDone);
+
+            foreach (var searchValue in this.Searches[searchId])
             {
-                if (!this.Searches[searchId].ContainsKey(agent.getId()))
+                if (searchValue.Value.isSearchDone == false)
                 {
                     return true;
                 }
             }
+
             return false;
         }
 
