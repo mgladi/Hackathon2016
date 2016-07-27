@@ -99,7 +99,7 @@ namespace CrossDeviceSearch.UWP
 
             if (!searchPattern.Contains("*"))
             {
-                return fileName.Contains(searchPattern);
+                return fileName.ToLower().Contains(searchPattern.ToLower()); // ToLower to support key sensetive
             }
             else // has *. search by extenstion
             {
@@ -164,7 +164,7 @@ namespace CrossDeviceSearch.UWP
             return new FileMetadata
             {
                 FullPathAndName = file.Path,
-                Time = file.DateCreated.Date,
+                Time = file.DateCreated.DateTime,
                 Size = (int)stream.Length 
             };
 
