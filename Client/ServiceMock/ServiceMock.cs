@@ -85,6 +85,11 @@ namespace ServiceMock
         public void Register(string deviceName, string deviceType)
         {
 
+	}
+
+        public List<AgentData> GetAgentsStatus()
+        {
+            return new List<AgentData>();
         }
     }
 }

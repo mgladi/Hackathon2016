@@ -191,5 +191,28 @@ namespace ServiceInterface
                 this.agentId = JsonConvert.DeserializeObject<Guid>(resultContent);
             }
         }
+
+        public List<AgentData> GetAgentsStatus()
+        {
+            string resultContent;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Add("CustomerId", customerName);
+                HttpResponseMessage result = client.GetAsync("/GetStatus").Result;
+                resultContent = result.Content.ReadAsStringAsync().Result;
+            }
+
+
+            if (!string.IsNullOrEmpty(resultContent))
+            {
+                List<AgentData> agentData = JsonConvert.DeserializeObject<List<AgentData>>(resultContent);
+                return agentData;
+            }
+            else
+            {
+                throw new InvalidDataException("No data");
+            }
+        }
     }
 }

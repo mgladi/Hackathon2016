@@ -25,7 +25,7 @@ namespace HybridSearch
         {
             Guid searchId = Guid.NewGuid();
             Searches[searchId] = new ConcurrentDictionary<Guid, AgentResult>();       
-            List<Agent> agents = GetActiveAgents(customerId);
+            List<Agent> agents = this.clients.GetActiveAgents(customerId);
             foreach (Agent agent in agents)
             {
                 var agentResult = new AgentResult(agent.agentId, type, agent.deviceName + " - Error", null);
@@ -45,7 +45,7 @@ namespace HybridSearch
 
         public bool IsAwaitingResults(Guid customerId, Guid searchId)
         {
-            List<Agent> agents = GetActiveAgents(customerId);
+            List<Agent> agents = this.clients.GetActiveAgents(customerId);
             foreach (Agent agent in agents)
             {
                 if (!this.Searches[searchId].ContainsKey(agent.getId()))
@@ -69,11 +69,6 @@ namespace HybridSearch
         public void DeleteSearch(Guid searchId)
         {
               this.Searches.Remove(searchId);
-        }
-
-        private List<Agent> GetActiveAgents(Guid customerId)
-        {
-            return this.clients.GetAgents(customerId, (agent) => (DateTime.Now - agent.lastSeen).TotalSeconds < timeToAgentCleanup);
         }
     }
 }
