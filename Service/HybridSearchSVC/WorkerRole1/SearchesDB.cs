@@ -74,13 +74,13 @@ namespace HybridSearch
         {
             if (this.Searches[searchId].ContainsKey(agentId))
             {
-                if (Searches[searchId][agentId].isSearchDone)
+                if (Searches[searchId][agentId].isSearchDone == false)
                 {
-                    return false;
+                    return true;
                 }
             }
 
-            return true;
+            return false;
         }
 
         public SearchResults GetSearchResults(Guid customerId, Guid searchId, string type)
