@@ -13,7 +13,7 @@ namespace HybridSearch
         private IClientsDB clients;
         private IAgentsPendingDB agentsPending;
 
-        private const int timeToAgentCleanup = 10;
+        private const int timeToAgentCleanupSec = 60;
 
         public SearchesDB(IClientsDB clients, IAgentsPendingDB agentsPending)
         {
