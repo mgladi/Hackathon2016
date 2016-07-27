@@ -7,14 +7,21 @@ using ServiceInterface;
 using ServiceMock;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace CrossDeviceSearch
 {
     public partial class RegisterPage : ContentPage
     {
-        string username;
+        string previousUsername = null;
+        string username = null;
         //string bookText;
+        private static Task pollTask;
+        private static CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        CancellationToken ct = cancellationTokenSource.Token;
+
         private readonly IService service;
+
         FileHelper fileHelper = new FileHelper();
 
         public RegisterPage()
@@ -45,12 +52,22 @@ namespace CrossDeviceSearch
 
         async void OnContinueButtonPressed(object sender, EventArgs args)
         {
-            //NavigationPage navPage = new NavigationPage();
+    
             IService service = new HybridSearchService("http://hybridsearchsvc.cloudapp.net", this.username);
-            service.Register(fileHelper.DeviceModel, fileHelper.DeviceType.ToString());
-            Task task = new Task(() =>
+           if (this.previousUsername == null || this.username != this.previousUsername)
             {
-                while (true)
+                service.Register(fileHelper.DeviceModel, fileHelper.DeviceType.ToString());
+                this.previousUsername = this.username;
+            }
+            if (pollTask != null)
+            {
+                cancellationTokenSource.Cancel();
+            }
+
+            //NavigationPage navPage = new NavigationPage();
+            pollTask = new Task(() =>
+            {
+                while (true && !ct.IsCancellationRequested)
                 {
                     SearchItem searchItem = service.PollService();
                     Task.Run(() =>
@@ -67,8 +84,11 @@ namespace CrossDeviceSearch
                     });
                     Task.Delay(2000).Wait();
                 }
+                cancellationTokenSource = new CancellationTokenSource();
+                ct = cancellationTokenSource.Token;
             });
-            task.Start();
+
+            pollTask.Start();
             await Navigation.PushModalAsync(new CrossDeviceSearchPage(service, this.username));
         }
 
