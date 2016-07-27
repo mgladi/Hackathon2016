@@ -8,12 +8,16 @@ namespace HybridSearch
 {
     public class Agent
     {
-        private Guid agentId;
+        public Guid agentId;
+        public string deviceName;
+        public string deviceType;
         public DateTime lastSeen;
 
-        public Agent(Guid agentId, string content)
+        public Agent(Guid agentId, string deviceName, string deviceType)
         {
             this.agentId = agentId;
+            this.deviceName = deviceName;
+            this.deviceType = deviceType;
             this.lastSeen = DateTime.Now;
         }
 

@@ -12,13 +12,17 @@ namespace ServiceInterface
     public class HybridSearchService : IService
     {
         private readonly string url;
+        private readonly string customerName;
+        private Guid agentId;
 
-        public HybridSearchService(string url)
+        public HybridSearchService(string url, string customerName)
         {
             this.url = url;
+            this.customerName = customerName;
+            this.agentId = Guid.NewGuid();
         }
 
-        public SearchItem PollService(Guid agentId, string customerName)
+        public SearchItem PollService()
         {
             string resultContent;
             using (var client = new HttpClient())
@@ -52,7 +56,7 @@ namespace ServiceInterface
             }
         }
 
-        public List<ResultDataFromAgent> SearchFileInAllDevices(string query, string customerName)
+        public List<ResultDataFromAgent> SearchFileInAllDevices(string query)
         {
             string resultContent;
             using (var client = new HttpClient())
@@ -91,14 +95,14 @@ namespace ServiceInterface
             }
         }
 
-        public ResultDataFromAgent GetFileFromDevice(string path, Guid agentId, string customerName)
+        public ResultDataFromAgent GetFileFromDevice(string path, Guid agentIdForFile)
         {
             string resultContent;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Add("CustomerId", customerName);
-                client.DefaultRequestHeaders.Add("AgentId", agentId.ToString());
+                client.DefaultRequestHeaders.Add("AgentId", agentIdForFile.ToString());
 
                 HttpResponseMessage result = client.GetAsync("/GetFile?p=" + path).Result;
                 resultContent = result.Content.ReadAsStringAsync().Result;
@@ -147,38 +151,67 @@ namespace ServiceInterface
             return Encoding.UTF8.GetBytes(fileContent);
         }
 
-        public void SendResult(string customerName, Guid agentId, Guid requestId, ResultDataFromAgent agentResult)
+        public void SendResult(Guid requestId, ResultDataFromAgent agentResult)
         {
-            if (agentResult.ResultType == ResultDataFromAgentType.FileContent)
+
+            using (var client = new HttpClient())
             {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Add("CustomerId", customerName);
+                client.DefaultRequestHeaders.Add("AgentId", agentId.ToString());
+                client.DefaultRequestHeaders.Add("RequestId", requestId.ToString());
+                client.DefaultRequestHeaders.Add("DeviceType", agentResult.DeviceType.ToString());
+                client.DefaultRequestHeaders.Add("DeviceName", agentResult.DeviceName.ToString());
 
-                using (var client = new HttpClient())
+                if (agentResult.ResultType == ResultDataFromAgentType.FileContent)
                 {
-                    client.BaseAddress = new Uri(url);
-                    client.DefaultRequestHeaders.Add("CustomerId", customerName);
-                    client.DefaultRequestHeaders.Add("AgentId", agentId.ToString());
-                    client.DefaultRequestHeaders.Add("RequestId", requestId.ToString());
-                    client.DefaultRequestHeaders.Add("DeviceType", agentResult.DeviceType.ToString());
-                    client.DefaultRequestHeaders.Add("DeviceName", agentResult.DeviceName.ToString());
-
                     HttpContent content = new ByteArrayContent(CreateByteArrayFromFileContent(agentResult.FileContent));
-                    HttpResponseMessage result = client.PostAsync("/PostResults", content).Result;
                 }
-            }
-            else if (agentResult.ResultType == ResultDataFromAgentType.FilesMetadataList)
-            {
-                using (var client = new HttpClient())
+                else if (agentResult.ResultType == ResultDataFromAgentType.FilesMetadataList)
                 {
-                    client.BaseAddress = new Uri(url);
-                    client.DefaultRequestHeaders.Add("CustomerId", customerName);
-                    client.DefaultRequestHeaders.Add("AgentId", agentId.ToString());
-                    client.DefaultRequestHeaders.Add("RequestId", requestId.ToString());
-                    client.DefaultRequestHeaders.Add("DeviceType", agentResult.DeviceType.ToString());
-                    client.DefaultRequestHeaders.Add("DeviceName", agentResult.DeviceName.ToString());
-
                     HttpContent content = new ByteArrayContent(CreateByteArrayFromFilesMetadata(agentResult.FilesMetadata));
-                    HttpResponseMessage result = client.PostAsync("/PostResults", content).Result;
                 }
+
+                HttpResponseMessage result = client.PostAsync("/PostResults", content).Result;
+            }
+        }
+
+        public void Register(string deviceName, string deviceType)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Add("CustomerId", customerName);
+                client.DefaultRequestHeaders.Add("AgentId", agentId.ToString());
+                client.DefaultRequestHeaders.Add("DeviceName", deviceName);
+                client.DefaultRequestHeaders.Add("DeviceType", deviceType);
+
+                HttpResponseMessage result = client.GetAsync("/Register").Result;
+                string resultContent = result.Content.ReadAsStringAsync().Result;
+                this.agentId = JsonConvert.DeserializeObject<Guid>(resultContent);
+            }
+        }
+
+        public List<AgentData> GetAgentsStatus()
+        {
+            string resultContent;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(url);
+                client.DefaultRequestHeaders.Add("CustomerId", customerName);
+                HttpResponseMessage result = client.GetAsync("/GetStatus").Result;
+                resultContent = result.Content.ReadAsStringAsync().Result;
+            }
+
+
+            if (!string.IsNullOrEmpty(resultContent))
+            {
+                List<AgentData> agentData = JsonConvert.DeserializeObject<List<AgentData>>(resultContent);
+                return agentData;
+            }
+            else
+            {
+                throw new InvalidDataException("No data");
             }
         }
     }

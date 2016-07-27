@@ -14,11 +14,10 @@ namespace CrossDeviceSearch
     {
         const double MaxMatches = 100;
         //string bookText;
-        IService service = new HybridSearchService("http://hybridsearchsvc.cloudapp.net");
+        private readonly IService service;
         FileHelper fileHelper = new FileHelper();
-        string userGuid = "User1";
 
-        public CrossDeviceSearchPage()
+        public CrossDeviceSearchPage(IService service)
         {
             InitializeComponent();
 
@@ -82,6 +81,9 @@ namespace CrossDeviceSearch
             });
 
             resultsStack.Children.Add(deviceNameStack1);
+
+            this.service = service;
+            InitializeComponent();            
         }
 
         void OnSearchBarTextChanged(object sender, TextChangedEventArgs args)
@@ -107,7 +109,7 @@ namespace CrossDeviceSearch
             resultsScroll.Content = resultsStack;
             var results = await Task.Run(() =>
             {
-                return service.SearchFileInAllDevices(searchBar.Text, userGuid);
+                return service.SearchFileInAllDevices(searchBar.Text);
             });
             
             resultsStack.Children.Clear();
@@ -164,10 +166,14 @@ namespace CrossDeviceSearch
             };
 
             deviceTitle.Children.Add(arrowLabel);
-
+            string resultCount = resultFromDevice.FilesMetadata.Count.ToString();
+            if(resultFromDevice.FilesMetadata.Count >= 50)
+            {
+                resultCount = "50+";
+            }
             Label nameLabel = new Label
             {
-                Text = resultFromDevice.DeviceName+ "  (" + resultFromDevice.FilesMetadata.Count + ")",
+                Text = resultFromDevice.DeviceName+ "  (" + resultCount + ")",
                 TextColor = Color.FromRgb(30, 144, 255),
                 BackgroundColor = Color.White,
                 VerticalTextAlignment = TextAlignment.Center,
@@ -243,28 +249,19 @@ namespace CrossDeviceSearch
                 VerticalOptions = LayoutOptions.Center
             };
             
-            resultItemStack.Children.Add(new Label()
-            {
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                Text = Path.GetFileName(fileMetadata.FullPathAndName),
-                FontSize = 14,
-                TextColor = Color.Gray,
-                BackgroundColor = Color.White,
-                VerticalTextAlignment = TextAlignment.Center,
-                VerticalOptions = LayoutOptions.Center                
-            });
+            resultItemStack.Children.Add(GetFileNameStack(fileMetadata));
 
             Button button = new Button
             {
-                Text = "...",
-                BackgroundColor = Color.White,
-                TextColor = Color.Gray,
-                BorderColor = Color.FromRgb(211, 211, 211),
+                Text = "View",
+                BackgroundColor = Color.FromRgb(30, 144, 255),
+                TextColor = Color.White,
+                BorderColor = Color.White,
                 BorderWidth = 0.5,
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center,
                 HeightRequest = 25,
-                WidthRequest = 25,
+                WidthRequest = 40,
                 FontSize = 10
             };
 
@@ -278,7 +275,7 @@ namespace CrossDeviceSearch
                 Button openButton = (Button)s;
                 string fullPathWithName = (string)openButton.Resources["FullPath"];
                 Task<ResultDataFromAgent> getFile = new Task<ResultDataFromAgent>(
-                    () => service.GetFileFromDevice(fullPathWithName, agentGuid, userGuid));
+                    () => service.GetFileFromDevice(fullPathWithName, agentGuid));
 
                 getFile.Start();
 
@@ -301,6 +298,37 @@ namespace CrossDeviceSearch
             });
 
             return resultStack;
+        }
+
+        private StackLayout GetFileNameStack(FileMetadata fileMetadata)
+        {
+            StackLayout filenameStack = new StackLayout()
+            {
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                BackgroundColor = Color.White
+            };
+
+            filenameStack.Children.Add(new Label()
+            {
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                Text = Path.GetFileName(fileMetadata.FullPathAndName),
+                FontSize = 14,
+                TextColor = Color.Gray,
+                BackgroundColor = Color.White,
+                VerticalTextAlignment = TextAlignment.Center,
+                VerticalOptions = LayoutOptions.Center
+            });
+            filenameStack.Children.Add(new Label()
+            {
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                Text = "Created: " + fileMetadata.Time.ToString(),
+                FontSize = 10,
+                TextColor = Color.FromRgb(211, 211, 211),
+                BackgroundColor = Color.White,
+                VerticalTextAlignment = TextAlignment.End,
+                VerticalOptions = LayoutOptions.End
+            });
+            return filenameStack;
         }
 
         private string GetDetailsString(Button button)
