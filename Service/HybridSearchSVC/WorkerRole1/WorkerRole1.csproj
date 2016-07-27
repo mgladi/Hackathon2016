@@ -79,6 +79,8 @@
     <Compile Include="AgentPollRequest.cs" />
     <Compile Include="AgentResult.cs" />
     <Compile Include="AgentsPendingDB.cs" />
+    <Compile Include="AgentsStatusRequest.cs" />
+    <Compile Include="Contract.cs" />
     <Compile Include="FileRequest.cs" />
     <Compile Include="ClientsDB.cs" />
     <Compile Include="ErrorRequest.cs" />
