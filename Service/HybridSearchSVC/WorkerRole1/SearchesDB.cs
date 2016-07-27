@@ -51,6 +51,7 @@ namespace HybridSearch
 
         public void UpdateSearch(Guid searchId, Guid agentId, AgentResult result)
         {
+            result.isSearchDone = true;
             this.Searches[searchId][agentId] = result;
         }
 

@@ -15,75 +15,84 @@ namespace CrossDeviceSearch
         const double MaxMatches = 100;
         //string bookText;
         private readonly IService service;
+        private readonly string username;
         FileHelper fileHelper = new FileHelper();
 
-        public CrossDeviceSearchPage(IService service)
+        public CrossDeviceSearchPage(IService service, string username)
         {
-            InitializeComponent();
+			this.service = service;
+            this.username = username;
+            InitializeComponent();            
+            
+            service.Register("MY DEVICE", DeviceType.Windows.ToString());
+            SetDevicesList();
+        }
 
+        private void SetDevicesList()
+        {
+
+            List<AgentData> devicesList = service.GetAgentsStatus();
+
+            StackLayout devicesInGroupStack = new StackLayout();
             StackLayout devicesTitleStack = new StackLayout();
 
-            devicesTitleStack.Children.Add(new Label()
+            if (devicesList.Count == 0)
             {
-                BackgroundColor = Color.White,
-                Text = "Devices in group GROUPNAME",
-                TextColor = Color.Gray,
-                FontSize = 20
-            });
+                devicesTitleStack.Children.Add(new Label()
+                {
+                    BackgroundColor = Color.White,
+                    Text = "No devices in group GROUPNAME",
+                    TextColor = Color.Gray,
+                    FontSize = 20
+                });
 
-            resultsStack.Children.Add(devicesTitleStack);
-
-            //GET DEVICES LIST FOR THE GROUP
-
-            StackLayout devicesListStack = new StackLayout();
-
-            StackLayout deviceNameStack = new StackLayout()
+                devicesInGroupStack.Children.Add(devicesTitleStack);
+            }
+            else
             {
-                Orientation = StackOrientation.Horizontal
-            };
+                devicesTitleStack.Children.Add(new Label()
+                {
+                    BackgroundColor = Color.White,
+                    Text = string.Format("Devices in group {0}", "NEED TO BE REPLACED"),
+                    TextColor = Color.Gray,
+                    FontSize = 20
+                });
 
-            deviceNameStack.Children.Add(new Image()
-            {
-                Source = ImageSource.FromResource("CrossDeviceSearch.Images.AndroidIcon.png"),
-                 HeightRequest = 30,
-                 WidthRequest = 30
-            });
+                devicesInGroupStack.Children.Add(devicesTitleStack);
 
-            deviceNameStack.Children.Add(new Label()
-            {
-                BackgroundColor = Color.White,
-                Text = "MY ANDROID",
-                TextColor = Color.Gray,
-                FontSize = 30,
-            });
+                StackLayout devicesListStack = new StackLayout();
 
-            resultsStack.Children.Add(deviceNameStack);
+                foreach (AgentData agentData in devicesList)
+                {
+                    StackLayout deviceNameStack = new StackLayout()
+                    {
+                        Orientation = StackOrientation.Horizontal
+                    };
 
-            StackLayout deviceNameStack1 = new StackLayout()
-            {
-                Orientation = StackOrientation.Horizontal
-            };
+                    string osImage = agentData.DeviceType == DeviceType.Android ? "CrossDeviceSearch.Images.AndroidIcon.png" : "CrossDeviceSearch.Images.WindowsIcon.png";
 
+                    deviceNameStack.Children.Add(new Image()
+                    {
+                        Source = ImageSource.FromResource(osImage),
+                        HeightRequest = 30,
+                        WidthRequest = 30
+                    });
 
-            deviceNameStack1.Children.Add(new Image()
-            {
-                Source = ImageSource.FromResource("CrossDeviceSearch.Images.WindowsIcon.png"),
-                HeightRequest = 30,
-                WidthRequest = 30
-            });
+                    deviceNameStack.Children.Add(new Label()
+                    {
+                        BackgroundColor = Color.White,
+                        Text = agentData.DeviceName,
+                        TextColor = Color.Gray,
+                        FontSize = 30,
+                    });
 
-            deviceNameStack1.Children.Add(new Label()
-            {
-                BackgroundColor = Color.White,
-                Text = "MY WINDOWS",
-                TextColor = Color.Gray,
-                FontSize = 30,
-            });
+                    devicesListStack.Children.Add(deviceNameStack);
+                }
 
-            resultsStack.Children.Add(deviceNameStack1);
+                devicesInGroupStack.Children.Add(devicesListStack);
 
-            this.service = service;
-            InitializeComponent();            
+                resultsStack.Children.Add(devicesInGroupStack);
+            }
         }
 
         void OnSearchBarTextChanged(object sender, TextChangedEventArgs args)
