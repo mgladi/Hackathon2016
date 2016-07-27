@@ -22,9 +22,6 @@ namespace HybridSearch
         public Task ProcessRequest(HttpListenerContext context)
         {
             SearchQuery nextSearchQuery;
-            
-            //TODO
-            this.clientsDb.CreateNewAgentByID(this.customerId, this.agentId, "CHANGE ME!!!", DeviceType.Android.ToString());
 
             this.clientsDb.updateAgentLastSeen(this.customerId, this.agentId);
 
