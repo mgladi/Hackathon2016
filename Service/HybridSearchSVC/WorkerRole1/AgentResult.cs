@@ -12,7 +12,7 @@ namespace HybridSearch
         public Guid agentId { get; set; }
         public string deviceType { get; set; }
         public string deviceName { get; set; }
-
+        public bool isSearchDone { get; set; }
 
 
         public AgentResult()

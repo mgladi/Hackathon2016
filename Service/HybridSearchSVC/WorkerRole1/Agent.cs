@@ -8,7 +8,8 @@ namespace HybridSearch
 {
     public class Agent
     {
-        private Guid agentId;
+        public Guid agentId;
+        public string name;
         public DateTime lastSeen;
 
         public Agent(Guid agentId, string content)
