@@ -77,6 +77,7 @@ namespace CrossDeviceSearch
             FileHelper fileHelper = new FileHelper();
             ResultDataFromAgent results = new ResultDataFromAgent
             {
+                AgentGuid = new Guid(), /////// IS NOT NEEDED !!
                 DeviceType = fileHelper.DeviceType,
                 DeviceName = fileHelper.DeviceModel,
                 FilesMetadata = fileHelper.SearchFiles(query),
@@ -89,6 +90,7 @@ namespace CrossDeviceSearch
             FileHelper fileHelper = new FileHelper();
             return new ResultDataFromAgent
             {
+                AgentGuid = new Guid(), /////// IS NOT NEEDED !!
                 DeviceType = fileHelper.DeviceType,
                 DeviceName = fileHelper.DeviceModel,
                 FileContent = fileHelper.ReadFile(filepath),
