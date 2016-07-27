@@ -52,7 +52,7 @@ namespace HybridSearch
 
                 string content = HttpHelper.GetRequestPostData(request);
                 string deviceNameWithDuration = string.Format("{0} ({1})", deviceName, searchDuration);
-                return new PostResultsRequest(searchesDb, StringToGuid(customerId), Guid.Parse(agentId), Guid.Parse(searchId), deviceType, deviceName, content);
+                return new PostResultsRequest(searchesDb, StringToGuid(customerId), Guid.Parse(agentId), Guid.Parse(searchId), deviceType, deviceNameWithDuration, content);
             }
             else if (path.StartsWith("/Register"))
             {
