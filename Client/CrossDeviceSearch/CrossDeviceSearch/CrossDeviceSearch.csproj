@@ -52,6 +52,12 @@
     <EmbeddedResource Include="Texts\MobyDick.txt" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Images\AndroidIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\WindowsIcon.png" />
+  </ItemGroup>  
+  <ItemGroup>
     <Reference Include="Mono.Android">
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v6.0\Mono.Android.dll</HintPath>
     </Reference>

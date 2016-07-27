@@ -20,7 +20,68 @@ namespace CrossDeviceSearch
 
         public CrossDeviceSearchPage()
         {
-            InitializeComponent();            
+            InitializeComponent();
+
+            StackLayout devicesTitleStack = new StackLayout();
+
+            devicesTitleStack.Children.Add(new Label()
+            {
+                BackgroundColor = Color.White,
+                Text = "Devices in group GROUPNAME",
+                TextColor = Color.Gray,
+                FontSize = 20
+            });
+
+            resultsStack.Children.Add(devicesTitleStack);
+
+            //GET DEVICES LIST FOR THE GROUP
+
+            StackLayout devicesListStack = new StackLayout();
+
+            StackLayout deviceNameStack = new StackLayout()
+            {
+                Orientation = StackOrientation.Horizontal
+            };
+
+            deviceNameStack.Children.Add(new Image()
+            {
+                Source = ImageSource.FromResource("CrossDeviceSearch.Images.AndroidIcon.png"),
+                 HeightRequest = 30,
+                 WidthRequest = 30
+            });
+
+            deviceNameStack.Children.Add(new Label()
+            {
+                BackgroundColor = Color.White,
+                Text = "MY ANDROID",
+                TextColor = Color.Gray,
+                FontSize = 30,
+            });
+
+            resultsStack.Children.Add(deviceNameStack);
+
+            StackLayout deviceNameStack1 = new StackLayout()
+            {
+                Orientation = StackOrientation.Horizontal
+            };
+
+
+            deviceNameStack1.Children.Add(new Image()
+            {
+                Source = ImageSource.FromResource("CrossDeviceSearch.Images.WindowsIcon.png"),
+                HeightRequest = 30,
+                WidthRequest = 30
+            });
+
+            deviceNameStack1.Children.Add(new Label()
+            {
+                BackgroundColor = Color.White,
+                Text = "MY WINDOWS",
+                TextColor = Color.Gray,
+                FontSize = 30,
+            });
+
+            resultsStack.Children.Add(deviceNameStack1);
         }
 
         void OnSearchBarTextChanged(object sender, TextChangedEventArgs args)
