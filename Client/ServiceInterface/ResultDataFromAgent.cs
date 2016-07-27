@@ -35,6 +35,8 @@ namespace ServiceInterface
         //2.
         public List<FileMetadata> FilesMetadata { get; set; }
 
+        public string SearchDuration { get; set; }
+
         public override string ToString()
         {
             return "Device Name: " + DeviceName + "\nDevice Type: " + DeviceType;

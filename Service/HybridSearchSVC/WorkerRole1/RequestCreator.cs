@@ -43,7 +43,7 @@ namespace HybridSearch
             }
             else if (path.StartsWith("/PostResults"))
             {
-
+                string searchDuration = request.Headers["SearchDuration"];
                 string customerId = request.Headers["CustomerId"];
                 string agentId = request.Headers["AgentId"];
                 string searchId = request.Headers["RequestId"];
@@ -51,7 +51,8 @@ namespace HybridSearch
                 string deviceName = request.Headers["DeviceName"];
 
                 string content = HttpHelper.GetRequestPostData(request);
-                return new PostResultsRequest(searchesDb, StringToGuid(customerId), Guid.Parse(agentId), Guid.Parse(searchId), deviceType, deviceName, content);
+                string deviceNameWithDuration = string.Format("{0} ({1})", deviceName, searchDuration);
+                return new PostResultsRequest(searchesDb, StringToGuid(customerId), Guid.Parse(agentId), Guid.Parse(searchId), deviceType, deviceNameWithDuration, content);
             }
             else if (path.StartsWith("/Register"))
             {
