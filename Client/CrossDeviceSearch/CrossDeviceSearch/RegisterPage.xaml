@@ -9,7 +9,7 @@
                     WinPhone="10, 0" />
     </ContentPage.Padding>
     
-    <StackLayout x:Name="MainStack" BackgroundColor="White" HorizontalOptions="Center" VerticalOptions="Center">
+    <StackLayout x:Name="MainStack" BackgroundColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
       <Label x:Name="EnterNameLabel"
              BackgroundColor="White"
              Text="Username:"
