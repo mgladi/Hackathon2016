@@ -24,7 +24,8 @@ namespace HybridSearch
             List<Agent> agents = this.clientsDb.GetActiveAgents(customerId);
             List<AgentData> agentsData = agents.Select(a => new AgentData()
             {
-                DeviceName = a.deviceName + "   - Last seen:" + a.lastSeen,
+                // workaround for displaying time in israel timezone
+                DeviceName = a.deviceName + "   - Last seen: " + a.lastSeen.AddHours(3).ToString("HH:mm:ss"),
                 DeviceType = (DeviceType)Enum.Parse(typeof(DeviceType), a.deviceType)
             }).ToList();
 
