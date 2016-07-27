@@ -62,7 +62,7 @@ namespace ServiceMock
                 DeviceName = "My PC2",
                 DeviceType = DeviceType.Android,
                 AgentGuid = Guid.NewGuid(),
-                
+
                 ResultType = ResultDataFromAgentType.FilesMetadataList,
                 FilesMetadata = new List<FileMetadata>
             {
@@ -81,6 +81,11 @@ namespace ServiceMock
         {
             return new ResultDataFromAgent { FileContent = "A file content!" };
         }
+
+        public void Register(string deviceName, string deviceType)
+        {
+
+	}
 
         public List<AgentData> GetAgentsStatus()
         {

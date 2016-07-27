@@ -32,7 +32,7 @@ namespace HybridSearch
             Console.WriteLine("Got request of type SearchRequest");
 
             // initiate new search
-            var searchId = searchesDB.CreateNewSearch(this.customerId, this.query, type);
+            var searchId = searchesDB.CreateSearchRequest(this.customerId, this.query);
 
             // wait for results
             await GetSearchResults(context.Response, this.customerId, searchId);

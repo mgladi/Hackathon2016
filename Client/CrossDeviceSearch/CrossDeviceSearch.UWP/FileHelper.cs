@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Xamarin.Forms;
+using Windows.Networking;
+using Windows.Networking.Connectivity;
+using System.Linq;
 
 [assembly: Dependency(typeof(CrossDeviceSearch.UWP.FileHelper))]
 
@@ -25,8 +28,9 @@ namespace CrossDeviceSearch.UWP
         {
             get
             {
-                // TODO: 
-                return "";
+                var hostNames = NetworkInformation.GetHostNames();
+                var hostName = hostNames.FirstOrDefault(name => name.Type == HostNameType.DomainName)?.DisplayName ?? "???";
+                return hostName;
             }
         }
 
@@ -37,18 +41,59 @@ namespace CrossDeviceSearch.UWP
 
         private async Task<List<FileMetadata>> SearchFilesAsync(string searchPattern)
         {
-            // TODO: Extend with mask functionality ("*.jpeg"), subfolders, all public libraries
             StorageFolder picturesFolder = KnownFolders.PicturesLibrary;
+            List<FileMetadata> allFilesMetadata = await RecursiveFileSearch(picturesFolder, searchPattern);
 
-            IReadOnlyList<StorageFile> fileList = await picturesFolder.GetFilesAsync();
+            return allFilesMetadata;
+        }
+
+        private async Task<List<FileMetadata>> RecursiveFileSearch(StorageFolder folder, string searchPattern)
+        {
+            List<FileMetadata> filesInCurrentFolder = await GetMetadataFilesListOfFolder(folder, searchPattern); // initialized with first level files, and will be added recursivly
+
+            var subFoldersList = await folder.GetFoldersAsync();
+            foreach (var subFolder in subFoldersList)
+            {
+                List<FileMetadata> filesInSubFolders = await RecursiveFileSearch(subFolder, searchPattern);
+                filesInCurrentFolder.AddRange(filesInSubFolders);
+            }
+
+            return filesInCurrentFolder;
+        }
+
+        private async Task<List<FileMetadata>> GetMetadataFilesListOfFolder(StorageFolder folder, string searchPattern)
+        {
+            IReadOnlyList <StorageFile> fileList = await folder.GetFilesAsync();
 
             List<FileMetadata> filenames = new List<FileMetadata>();
             foreach (StorageFile file in fileList)
             {
-                filenames.Add(GetFileMetaData(file.Path));
+                if (isFileNameMatchThePattern(Path.GetFileName(file.Path), searchPattern))
+                {
+                    filenames.Add(GetFileMetaData(file.Path));
+                }
             }
 
             return filenames;
+        }
+
+        private bool isFileNameMatchThePattern(string fileNameAndExtension, string searchPattern)
+        {
+            string[] fileNameAndExtensionArray = fileNameAndExtension.Split('.');
+            string fileName = string.Join(".", fileNameAndExtensionArray, 0, fileNameAndExtensionArray.Length - 1);
+            string fileExtension = fileNameAndExtensionArray.Last();
+
+            if(!searchPattern.Contains("*"))
+            {
+                return fileName.Contains(searchPattern);
+            }
+            else // has *. search by extenstion
+            {
+                string[] patternNameAndExtenstionArray = searchPattern.Split('.');
+                string patternExtenstion = patternNameAndExtenstionArray.Last();
+
+                return fileExtension.StartsWith(patternExtenstion);
+            }
         }
 
         public byte[] ReadFile(string filepath)

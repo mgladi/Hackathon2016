@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using WorkerRole1;
 
 namespace HybridSearch
 {
@@ -21,7 +22,10 @@ namespace HybridSearch
         public Task ProcessRequest(HttpListenerContext context)
         {
             SearchQuery nextSearchQuery;
-            this.clientsDb.CreateNewAgentByID(this.customerId, this.agentId, "content");
+            
+            //TODO
+            this.clientsDb.CreateNewAgentByID(this.customerId, this.agentId, "CHANGE ME!!!", DeviceType.Android.ToString());
+
             this.clientsDb.updateAgentLastSeen(this.customerId, this.agentId);
 
             bool isNextQueryAvailable = this.agentsPendingDb.TryGetNextQuery(this.agentId, out nextSearchQuery);

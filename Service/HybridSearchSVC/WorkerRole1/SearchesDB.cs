@@ -13,7 +13,7 @@ namespace HybridSearch
         private IClientsDB clients;
         private IAgentsPendingDB agentsPending;
 
-        private const int timeToAgentCleanup = 10;
+        private const int timeToAgentCleanupSec = 60;
 
         public SearchesDB(IClientsDB clients, IAgentsPendingDB agentsPending)
         {
@@ -21,44 +21,71 @@ namespace HybridSearch
             this.agentsPending = agentsPending;
         }
 
-        public Guid CreateNewSearch(Guid customerId, string query, string type)
+        public Guid CreateSearchRequest(Guid customerId, string query)
         {
             Guid searchId = Guid.NewGuid();
-            Searches[searchId] = new ConcurrentDictionary<Guid, AgentResult>();       
-            List<Agent> agents = GetActiveAgents(customerId);
+            Searches[searchId] = new ConcurrentDictionary<Guid, AgentResult>();
+            List<Agent> agents = this.clients.GetActiveAgents(customerId);
             foreach (Agent agent in agents)
             {
-                var agentResult = new AgentResult(agent.agentId, type, agent.deviceName + " - Error", null);
+                var agentResult = new AgentResult(agent.agentId, agent.deviceType, agent.deviceName + " - Error", null);
                 Searches[searchId].Add(agent.agentId, agentResult);
 
-                SearchQuery searchQuery = new SearchQuery(searchId, query, type);
+                SearchQuery searchQuery = new SearchQuery(searchId, query, "search");
                 this.agentsPending.SubmitNewQuery(agent, searchQuery);
             }
 
             return searchId;
         }
 
+        public Guid CreateFileRequest(Guid customerId, Guid agentId, string filePath)
+        {
+            Guid requestId = Guid.NewGuid();
+            Agent agent = this.clients.GetAgent(customerId, agentId);
+
+            var agentResult = new AgentResult(agent.agentId, agent.deviceType, agent.deviceName + " - Error", null);
+
+            Searches[requestId] = new ConcurrentDictionary<Guid, AgentResult>();
+            Searches[requestId][agent.agentId] = agentResult;
+
+            SearchQuery searchQuery = new SearchQuery(requestId, filePath, "file");
+            this.agentsPending.SubmitNewQuery(agent, searchQuery);
+
+            return requestId;
+        }
+
         public void UpdateSearch(Guid searchId, Guid agentId, AgentResult result)
         {
+            result.isSearchDone = true;
             this.Searches[searchId][agentId] = result;
         }
 
         public bool IsAwaitingResults(Guid customerId, Guid searchId)
         {
-            List<Agent> agents = GetActiveAgents(customerId);
-            foreach (Agent agent in agents)
+            // for Ziv: return !this.Searches[searchId].Any(s => !s.Value.isSearchDone);
+
+            foreach (var searchValue in this.Searches[searchId])
             {
-                if (!this.Searches[searchId].ContainsKey(agent.getId()))
+                if (searchValue.Value.isSearchDone == false)
                 {
                     return true;
                 }
             }
+
             return false;
         }
 
         public bool IsAwaitingFile(Guid customerId, Guid searchId, Guid agentId)
         {
-            return !this.Searches[searchId].ContainsKey(agentId);
+            if (this.Searches[searchId].ContainsKey(agentId))
+            {
+                if (Searches[searchId][agentId].isSearchDone == false)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public SearchResults GetSearchResults(Guid customerId, Guid searchId, string type)
@@ -69,11 +96,6 @@ namespace HybridSearch
         public void DeleteSearch(Guid searchId)
         {
               this.Searches.Remove(searchId);
-        }
-
-        private List<Agent> GetActiveAgents(Guid customerId)
-        {
-            return this.clients.GetAgents(customerId, (agent) => (DateTime.Now - agent.lastSeen).TotalSeconds < timeToAgentCleanup);
         }
     }
 }

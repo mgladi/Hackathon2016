@@ -16,6 +16,8 @@ namespace ServiceInterface
 
         void SendResult(Guid requestId, ResultDataFromAgent agentResult);
 
+        void Register(string deviceName, string deviceType);
+
         List<AgentData> GetAgentsStatus();
     }
 }

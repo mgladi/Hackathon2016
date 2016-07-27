@@ -15,12 +15,84 @@ namespace CrossDeviceSearch
         const double MaxMatches = 100;
         //string bookText;
         private readonly IService service;
+        private readonly string username;
         FileHelper fileHelper = new FileHelper();
 
-        public CrossDeviceSearchPage(IService service)
+        public CrossDeviceSearchPage(IService service, string username)
         {
 			this.service = service;
+            this.username = username;
             InitializeComponent();            
+            
+            service.Register("MY DEVICE", DeviceType.Windows.ToString());
+            SetDevicesList();
+        }
+
+        private void SetDevicesList()
+        {
+
+            List<AgentData> devicesList = service.GetAgentsStatus();
+
+            StackLayout devicesInGroupStack = new StackLayout();
+            StackLayout devicesTitleStack = new StackLayout();
+
+            if (devicesList.Count == 0)
+            {
+                devicesTitleStack.Children.Add(new Label()
+                {
+                    BackgroundColor = Color.White,
+                    Text = "No devices in group GROUPNAME",
+                    TextColor = Color.Gray,
+                    FontSize = 20
+                });
+
+                devicesInGroupStack.Children.Add(devicesTitleStack);
+            }
+            else
+            {
+                devicesTitleStack.Children.Add(new Label()
+                {
+                    BackgroundColor = Color.White,
+                    Text = string.Format("Devices in group {0}", "NEED TO BE REPLACED"),
+                    TextColor = Color.Gray,
+                    FontSize = 20
+                });
+
+                devicesInGroupStack.Children.Add(devicesTitleStack);
+
+                StackLayout devicesListStack = new StackLayout();
+
+                foreach (AgentData agentData in devicesList)
+                {
+                    StackLayout deviceNameStack = new StackLayout()
+                    {
+                        Orientation = StackOrientation.Horizontal
+                    };
+
+                    string osImage = agentData.DeviceType == DeviceType.Android ? "CrossDeviceSearch.Images.AndroidIcon.png" : "CrossDeviceSearch.Images.WindowsIcon.png";
+
+                    deviceNameStack.Children.Add(new Image()
+                    {
+                        Source = ImageSource.FromResource(osImage),
+                        HeightRequest = 30,
+                        WidthRequest = 30
+                    });
+
+                    deviceNameStack.Children.Add(new Label()
+                    {
+                        BackgroundColor = Color.White,
+                        Text = agentData.DeviceName,
+                        TextColor = Color.Gray,
+                        FontSize = 30,
+                    });
+
+                    devicesListStack.Children.Add(deviceNameStack);
+                }
+
+                devicesInGroupStack.Children.Add(devicesListStack);
+
+                resultsStack.Children.Add(devicesInGroupStack);
+            }
         }
 
         void OnSearchBarTextChanged(object sender, TextChangedEventArgs args)
