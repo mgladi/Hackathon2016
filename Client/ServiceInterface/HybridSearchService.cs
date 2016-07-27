@@ -162,14 +162,15 @@ namespace ServiceInterface
                 client.DefaultRequestHeaders.Add("RequestId", requestId.ToString());
                 client.DefaultRequestHeaders.Add("DeviceType", agentResult.DeviceType.ToString());
                 client.DefaultRequestHeaders.Add("DeviceName", agentResult.DeviceName.ToString());
+                HttpContent content;
 
                 if (agentResult.ResultType == ResultDataFromAgentType.FileContent)
                 {
-                    HttpContent content = new ByteArrayContent(CreateByteArrayFromFileContent(agentResult.FileContent));
+                    content = new ByteArrayContent(CreateByteArrayFromFileContent(agentResult.FileContent));
                 }
                 else if (agentResult.ResultType == ResultDataFromAgentType.FilesMetadataList)
                 {
-                    HttpContent content = new ByteArrayContent(CreateByteArrayFromFilesMetadata(agentResult.FilesMetadata));
+                    content = new ByteArrayContent(CreateByteArrayFromFilesMetadata(agentResult.FilesMetadata));
                 }
 
                 HttpResponseMessage result = client.PostAsync("/PostResults", content).Result;
