@@ -15,13 +15,15 @@ namespace CrossDeviceSearch
         const double MaxMatches = 100;
         //string bookText;
         private readonly IService service;
+        private readonly string username;
         FileHelper fileHelper = new FileHelper();
 
-        public CrossDeviceSearchPage(IService service)
+        public CrossDeviceSearchPage(IService service, string username)
         {
-            this.service = service;
-
-            InitializeComponent();
+			this.service = service;
+            this.username = username;
+            InitializeComponent();            
+            
             service.Register("MY DEVICE", DeviceType.Windows.ToString());
             SetDevicesList();
         }

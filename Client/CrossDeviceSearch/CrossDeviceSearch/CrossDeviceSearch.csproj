@@ -41,15 +41,23 @@
     <Compile Include="CrossDeviceSearchPage.xaml.cs">
       <DependentUpon>CrossDeviceSearchPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RegisterPage.xaml.cs">
+      <DependentUpon>RegisterPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CrossDeviceSearchPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Include="RegisterPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Texts\MobyDick.txt" />
+    <EmbeddedResource Include="Images\Logo.jpg" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Images\AndroidIcon.png" />
