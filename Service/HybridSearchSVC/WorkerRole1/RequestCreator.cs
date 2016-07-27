@@ -60,6 +60,12 @@ namespace HybridSearch
 
                 return new RegisterRequest(clientsDb, StringToGuid(customerId), content);
             }
+            else if (path.StartsWith("/GetStatus"))
+            {
+                string customerId = request.Headers["CustomerId"];
+
+                return new AgentsStatusRequest(clientsDb, StringToGuid(customerId));
+            }
             return new ErrorRequest();
         }
 
