@@ -92,7 +92,7 @@ namespace CrossDeviceSearch.UWP
                 string[] patternNameAndExtenstionArray = searchPattern.Split('.');
                 string patternExtenstion = patternNameAndExtenstionArray.Last();
 
-                return fileExtension.StartsWith(patternExtenstion);
+                return fileExtension.StartsWith(patternExtenstion) || patternExtenstion.Equals("*");
             }
         }
 
