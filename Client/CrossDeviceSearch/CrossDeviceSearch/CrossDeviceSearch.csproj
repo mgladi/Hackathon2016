@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CrossDeviceSearch</RootNamespace>
-    <AssemblyName>CrossDeviceSearch</AssemblyName>
+    <AssemblyName>OmniSearch</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -38,12 +38,12 @@
     <Compile Include="FileHelper.cs" />
     <Compile Include="IFileHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SearchBarDemoPage.xaml.cs">
-      <DependentUpon>SearchBarDemoPage.xaml</DependentUpon>
+    <Compile Include="CrossDeviceSearchPage.xaml.cs">
+      <DependentUpon>CrossDeviceSearchPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SearchBarDemoPage.xaml">
+    <EmbeddedResource Include="CrossDeviceSearchPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

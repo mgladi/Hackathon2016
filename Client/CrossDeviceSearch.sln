@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossDeviceSearch", "CrossD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossDeviceSearch.UWP", "CrossDeviceSearch\CrossDeviceSearch.UWP\CrossDeviceSearch.UWP.csproj", "{47DC09B1-182E-4C61-B794-31A4E37F860E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossDeviceSearch.Droid", "CrossDeviceSearch\SearchBarDemo.Droid\CrossDeviceSearch.Droid.csproj", "{EAFAE842-B352-4C62-B6C6-152BFCC8EF38}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrossDeviceSearch.Droid", "CrossDeviceSearch\CrossDeviceSearch.Droid\CrossDeviceSearch.Droid.csproj", "{EAFAE842-B352-4C62-B6C6-152BFCC8EF38}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceInterface", "ServiceInterface\ServiceInterface.csproj", "{67F9D3A8-F71E-4428-913F-C37AE82CDB24}"
 EndProject
