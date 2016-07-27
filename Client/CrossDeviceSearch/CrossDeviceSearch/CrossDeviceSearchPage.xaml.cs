@@ -17,6 +17,7 @@ namespace CrossDeviceSearch
         private readonly IService service;
         private readonly string username;
         FileHelper fileHelper = new FileHelper();
+        private bool isDeviceView;
 
         public CrossDeviceSearchPage(IService service, string username)
         {
@@ -29,7 +30,7 @@ namespace CrossDeviceSearch
 
         private void SetDevicesList()
         {
-
+            resultsStack.Children.Clear();
             List<AgentData> devicesList = service.GetAgentsStatus();
 
             StackLayout devicesInGroupStack = new StackLayout();
@@ -92,12 +93,17 @@ namespace CrossDeviceSearch
                 devicesInGroupStack.Children.Add(devicesListStack);
             }
             resultsStack.Children.Add(devicesInGroupStack);
-
+            isDeviceView = true;
         }
 
         void OnSearchBarTextChanged(object sender, TextChangedEventArgs args)
         {
-            resultsStack.Children.Clear();
+            if(!isDeviceView && args.NewTextValue == string.Empty)
+            {
+                SetDevicesList();
+            }
+            //resultsStack.Children.Clear();
+
         }
 
         async void OnSearchBarButtonPressed(object sender, EventArgs args)
@@ -132,9 +138,9 @@ namespace CrossDeviceSearch
             else
             {
                 SetResults(results);
-
             }
 
+            isDeviceView = false;
             // Reattach resultsStack to layout.
 
         }

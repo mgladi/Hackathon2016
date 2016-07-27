@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="afd2bd6c-3a44-45c2-a70b-81f016d19371" Publisher="CN=markwai" Version="1.0.7.0" />
+  <Identity Name="afd2bd6c-3a44-45c2-a70b-81f016d19371" Publisher="CN=markwai" Version="1.0.8.0" />
   <mp:PhoneIdentity PhoneProductId="afd2bd6c-3a44-45c2-a70b-81f016d19371" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>CrossDeviceSearch.UWP</DisplayName>

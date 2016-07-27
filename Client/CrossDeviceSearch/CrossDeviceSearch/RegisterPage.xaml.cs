@@ -20,8 +20,6 @@ namespace CrossDeviceSearch
         private static CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         CancellationToken ct = cancellationTokenSource.Token;
 
-        private readonly IService service;
-
         FileHelper fileHelper = new FileHelper();
 
         public RegisterPage()

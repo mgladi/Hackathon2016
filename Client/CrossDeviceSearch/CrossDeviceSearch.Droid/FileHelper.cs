@@ -42,7 +42,17 @@ namespace CrossDeviceSearch.Droid
 
         public List<FileMetadata> SearchFiles(string searchPattern)
         {
-            IEnumerable<string> filepaths = (String.IsNullOrEmpty(searchPattern) ? Directory.GetFiles(GetRootPath()) : Directory.GetFiles(GetRootPath(), searchPattern, SearchOption.AllDirectories));
+            //IEnumerable<string> filepaths = (String.IsNullOrEmpty(searchPattern) ? Directory.GetFiles(GetRootPath()) : Directory.GetFiles(GetRootPath(), searchPattern, SearchOption.AllDirectories));
+            List<string> filepaths = new List<string>();
+            if (!String.IsNullOrEmpty(searchPattern))
+            {
+                filepaths.AddRange(GetFilesInFolder(AndroidOSEnvironment.DirectoryDownloads, searchPattern));
+                filepaths.AddRange(GetFilesInFolder(AndroidOSEnvironment.DirectoryDcim, searchPattern));
+                filepaths.AddRange(GetFilesInFolder(AndroidOSEnvironment.DirectoryDocuments, searchPattern));
+                filepaths.AddRange(GetFilesInFolder(AndroidOSEnvironment.DirectoryPictures, searchPattern));
+                filepaths.AddRange(GetFilesInFolder(AndroidOSEnvironment.DirectoryMovies, searchPattern));
+                filepaths.AddRange(GetFilesInFolder(AndroidOSEnvironment.DirectoryMusic, searchPattern));
+            }
             List<FileMetadata> filenames = new List<FileMetadata>();
 
             foreach (string filepath in filepaths)
@@ -105,7 +115,22 @@ namespace CrossDeviceSearch.Droid
         // Private methods.
         private string GetRootPath()
         {
-            return AndroidOSEnvironment.ExternalStorageDirectory.AbsolutePath;
+            return Path.Combine(AndroidOSEnvironment.ExternalStorageDirectory.AbsolutePath, AndroidOSEnvironment.DirectoryDownloads);
+                //AndroidOSEnvironment.ExternalStorageDirectory.AbsolutePath;
+        }
+
+        private IEnumerable<string> GetFilesInFolder(string folder, string searchPattern)
+        {
+            string[] files;
+            try
+            {
+                string folderPath = Path.Combine(AndroidOSEnvironment.ExternalStorageDirectory.AbsolutePath, folder);
+                files = Directory.GetFiles(folderPath, searchPattern, SearchOption.AllDirectories);
+            }
+            catch {
+                files = new string[0];
+            }
+            return files;
         }
 
         private string GetPersonalPath()
