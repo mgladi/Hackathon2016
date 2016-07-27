@@ -162,8 +162,7 @@ namespace ServiceInterface
                 client.DefaultRequestHeaders.Add("RequestId", requestId.ToString());
                 client.DefaultRequestHeaders.Add("DeviceType", agentResult.DeviceType.ToString());
                 client.DefaultRequestHeaders.Add("DeviceName", agentResult.DeviceName.ToString());
-                HttpContent content;
-
+                HttpContent content = null;
                 if (agentResult.ResultType == ResultDataFromAgentType.FileContent)
                 {
                     content = new ByteArrayContent(CreateByteArrayFromFileContent(agentResult.FileContent));
