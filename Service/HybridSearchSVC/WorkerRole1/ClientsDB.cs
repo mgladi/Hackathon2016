@@ -10,7 +10,7 @@ namespace HybridSearch
     public class ClientsDB : IClientsDB
     {
         private IDictionary<Guid, List<Agent>> Clients = new ConcurrentDictionary<Guid, List<Agent>>();
-
+        private const int timeToAgentCleanup = 10;
         private void addAgentToList(Guid customerId, Agent agent)
         {
             if (!this.Clients.ContainsKey(customerId))
@@ -20,7 +20,7 @@ namespace HybridSearch
             this.Clients[customerId].Add(agent);
         }
         public Agent CreateNewAgent(Guid customerId, string deviceName, string deviceType)
-       { 
+        {
             Guid agentId = Guid.NewGuid();
             return CreateNewAgentByID(customerId, agentId, deviceName, deviceType);
         }
@@ -33,7 +33,7 @@ namespace HybridSearch
                 addAgentToList(customerId, newAgent);
                 return newAgent;
             }
-            
+
             Agent agent = this.Clients[customerId].FirstOrDefault(a => a.getId() == agentId);
             if (agent == null)
             {
@@ -73,5 +73,9 @@ namespace HybridSearch
             }
         }
 
+        public List<Agent> GetActiveAgents(Guid customerId)
+        {
+            return GetAgents(customerId, (agent) => (DateTime.Now - agent.lastSeen).TotalSeconds < timeToAgentCleanup);
+        }
     }
 }

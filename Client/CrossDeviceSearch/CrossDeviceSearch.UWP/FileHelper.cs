@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Xamarin.Forms;
+using Windows.Networking;
+using Windows.Networking.Connectivity;
+using System.Linq;
 
 [assembly: Dependency(typeof(CrossDeviceSearch.UWP.FileHelper))]
 
@@ -25,8 +28,9 @@ namespace CrossDeviceSearch.UWP
         {
             get
             {
-                // TODO: 
-                return "";
+                var hostNames = NetworkInformation.GetHostNames();
+                var hostName = hostNames.FirstOrDefault(name => name.Type == HostNameType.DomainName)?.DisplayName ?? "???";
+                return hostName;
             }
         }
 
