@@ -14,12 +14,12 @@ namespace CrossDeviceSearch
     {
         const double MaxMatches = 100;
         //string bookText;
-        IService service = new HybridSearchService("http://hybridsearchsvc.cloudapp.net");
+        private readonly IService service;
         FileHelper fileHelper = new FileHelper();
-        string userGuid = "User1";
 
-        public CrossDeviceSearchPage()
+        public CrossDeviceSearchPage(IService service)
         {
+			this.service = service;
             InitializeComponent();            
         }
 
@@ -46,7 +46,7 @@ namespace CrossDeviceSearch
             resultsScroll.Content = resultsStack;
             var results = await Task.Run(() =>
             {
-                return service.SearchFileInAllDevices(searchBar.Text, userGuid);
+                return service.SearchFileInAllDevices(searchBar.Text);
             });
             
             resultsStack.Children.Clear();
@@ -217,7 +217,7 @@ namespace CrossDeviceSearch
                 Button openButton = (Button)s;
                 string fullPathWithName = (string)openButton.Resources["FullPath"];
                 Task<ResultDataFromAgent> getFile = new Task<ResultDataFromAgent>(
-                    () => service.GetFileFromDevice(fullPathWithName, agentGuid, userGuid));
+                    () => service.GetFileFromDevice(fullPathWithName));
 
                 getFile.Start();
 

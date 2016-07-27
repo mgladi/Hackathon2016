@@ -28,7 +28,7 @@ namespace HybridSearch
             List<Agent> agents = GetActiveAgents(customerId);
             foreach (Agent agent in agents)
             {
-                var agentResult = new AgentResult(agent.agentId, type, agent.name + " - Error", null);
+                var agentResult = new AgentResult(agent.agentId, type, agent.deviceName + " - Error", null);
                 Searches[searchId].Add(agent.agentId, agentResult);
 
                 SearchQuery searchQuery = new SearchQuery(searchId, query, type);

@@ -9,12 +9,15 @@ namespace HybridSearch
     public class Agent
     {
         public Guid agentId;
-        public string name;
+        public string deviceName;
+        public string deviceType;
         public DateTime lastSeen;
 
-        public Agent(Guid agentId, string content)
+        public Agent(Guid agentId, string deviceName, string deviceType)
         {
             this.agentId = agentId;
+            this.deviceName = deviceName;
+            this.deviceType = deviceType;
             this.lastSeen = DateTime.Now;
         }
 
