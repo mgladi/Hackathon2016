@@ -190,12 +190,19 @@ namespace CrossDeviceSearch
             };
 
             deviceTitle.Children.Add(nameLabel);
-            
-            StackLayout deviceResultsStack = CreateDeviceResultsStack(resultFromDevice);
+
+            StackLayout deviceResultsStack = null;
+            if (resultFromDevice.FilesMetadata.Count > 0)
+            {
+                deviceResultsStack = CreateDeviceResultsStack(resultFromDevice);
+            }
 
             deviceStack.Children.Add(deviceTitle);
 
-            deviceStack.Children.Add(deviceResultsStack);
+            if (resultFromDevice.FilesMetadata.Count > 0)
+            {
+                deviceStack.Children.Add(deviceResultsStack);
+            }
 
             deviceStack.Children.Add(new BoxView
             {
