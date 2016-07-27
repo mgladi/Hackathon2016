@@ -56,9 +56,9 @@ namespace HybridSearch
             else if (path.StartsWith("/Register"))
             {
                 string customerId = request.Headers["CustomerId"];
-                string content = request.Headers["agentId"];
-                string deviceName = request.Headers["deviceName"];
-                string deviceType = request.Headers["deviceType"];
+                string content = request.Headers["AgentId"];
+                string deviceName = request.Headers["DeviceName"];
+                string deviceType = request.Headers["DeviceType"];
 
                 return new RegisterRequest(clientsDb, StringToGuid(customerId), deviceName, deviceType);
             }

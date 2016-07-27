@@ -183,10 +183,10 @@ namespace ServiceInterface
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Add("CustomerId", customerName);
                 client.DefaultRequestHeaders.Add("AgentId", agentId.ToString());
-                client.DefaultRequestHeaders.Add("deviceName", deviceName);
-                client.DefaultRequestHeaders.Add("deviceType", deviceType);
+                client.DefaultRequestHeaders.Add("DeviceName", deviceName);
+                client.DefaultRequestHeaders.Add("DeviceType", deviceType);
 
-                HttpResponseMessage result = client.PostAsync("/Register", content).Result;
+                HttpResponseMessage result = client.GetAsync("/Register").Result;
                 string resultContent = result.Content.ReadAsStringAsync().Result;
                 this.agentId = JsonConvert.DeserializeObject<Guid>(resultContent);
             }
