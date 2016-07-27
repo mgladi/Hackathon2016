@@ -8,7 +8,8 @@ namespace HybridSearch
 {
     public interface ISearchesDB
     {
-        Guid CreateNewSearch(Guid customerId, string query, string type);
+        Guid CreateSearchRequest(Guid customerId, string query);
+        Guid CreateFileRequest(Guid customerId, Guid agentId, string filePath);
         void UpdateSearch(Guid searchId, Guid agentId, AgentResult result);
         bool IsAwaitingResults(Guid customerId, Guid searchId);
         bool IsAwaitingFile(Guid customerId, Guid searchId, Guid agentId);

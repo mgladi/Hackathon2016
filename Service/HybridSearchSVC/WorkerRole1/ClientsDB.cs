@@ -77,5 +77,15 @@ namespace HybridSearch
         {
             return GetAgents(customerId, (agent) => (DateTime.Now - agent.lastSeen).TotalSeconds < timeToAgentCleanup);
         }
+
+        public Agent GetAgent(Guid customerId, Guid agentId)
+        {
+            if (this.Clients.ContainsKey(customerId))
+            {
+                return this.Clients[customerId].FirstOrDefault(a => a.agentId == agentId);
+            }
+
+            return null;
+        }
     }
 }

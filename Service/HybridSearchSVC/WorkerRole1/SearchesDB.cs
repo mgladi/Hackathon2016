@@ -21,21 +21,32 @@ namespace HybridSearch
             this.agentsPending = agentsPending;
         }
 
-        public Guid CreateNewSearch(Guid customerId, string query, string type)
+        public Guid CreateSearchRequest(Guid customerId, string query)
         {
             Guid searchId = Guid.NewGuid();
-            Searches[searchId] = new ConcurrentDictionary<Guid, AgentResult>();       
+            Searches[searchId] = new ConcurrentDictionary<Guid, AgentResult>();
             List<Agent> agents = this.clients.GetActiveAgents(customerId);
             foreach (Agent agent in agents)
             {
                 var agentResult = new AgentResult(agent.agentId, agent.deviceType, agent.deviceName + " - Error", null);
                 Searches[searchId].Add(agent.agentId, agentResult);
 
-                SearchQuery searchQuery = new SearchQuery(searchId, query, type);
+                SearchQuery searchQuery = new SearchQuery(searchId, query, "search");
                 this.agentsPending.SubmitNewQuery(agent, searchQuery);
             }
 
             return searchId;
+        }
+
+        public Guid CreateFileRequest(Guid customerId, Guid agentId, string filePath)
+        {
+            Guid requestId = Guid.NewGuid();
+            Agent agent = this.clients.GetAgent(customerId, agentId);
+
+            var agentResult = new AgentResult(agent.agentId, agent.deviceType, agent.deviceName + " - Error", null);
+            Searches[requestId].Add(agent.agentId, agentResult);
+
+            return requestId;
         }
 
         public void UpdateSearch(Guid searchId, Guid agentId, AgentResult result)
@@ -60,7 +71,15 @@ namespace HybridSearch
 
         public bool IsAwaitingFile(Guid customerId, Guid searchId, Guid agentId)
         {
-            return !this.Searches[searchId].ContainsKey(agentId);
+            if (this.Searches[searchId].ContainsKey(agentId))
+            {
+                if (Searches[searchId][agentId].isSearchDone)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public SearchResults GetSearchResults(Guid customerId, Guid searchId, string type)
