@@ -11,17 +11,19 @@ namespace HybridSearch
     {
         private IClientsDB clientsDb;
         private Guid customerId;
-        private string content;
+        private string deviceName;
+        private string deviceType;
 
-        public RegisterRequest(IClientsDB clientsDb, Guid customerId, string content)
+        public RegisterRequest(IClientsDB clientsDb, Guid customerId, string deviceName, string deviceType)
         {
             this.clientsDb = clientsDb;
             this.customerId = customerId;
-            this.content = content;
+            this.deviceName = deviceName;
+            this.deviceType = deviceType;
         }
         public async Task ProcessRequest(HttpListenerContext context)
         {
-            Agent agent = this.clientsDb.CreateNewAgent(this.customerId, this.content);
+            Agent agent = this.clientsDb.CreateNewAgent(this.customerId, this.deviceName, this.deviceType);
             HttpHelper.SendObject(context.Response, agent.getId());
         }
     }
