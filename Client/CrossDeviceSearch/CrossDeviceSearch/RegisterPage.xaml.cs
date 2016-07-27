@@ -47,7 +47,7 @@ namespace CrossDeviceSearch
         {
             //NavigationPage navPage = new NavigationPage();
             IService service = new HybridSearchService("http://hybridsearchsvc.cloudapp.net", this.username);
-            service.Register(username, DeviceType.Windows.ToString());
+            service.Register(fileHelper.DeviceModel, fileHelper.DeviceType.ToString());
             Task task = new Task(() =>
             {
                 while (true)
