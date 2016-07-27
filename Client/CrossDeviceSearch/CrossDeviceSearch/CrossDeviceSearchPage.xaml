@@ -12,6 +12,7 @@
     <StackLayout BackgroundColor="Gray">
         <SearchBar x:Name="searchBar"
                    Placeholder="Search text"
+                   PlaceholderColor="Gray"
                    TextColor="Black"                   
                    TextChanged="OnSearchBarTextChanged"
                    SearchButtonPressed="OnSearchBarButtonPressed"

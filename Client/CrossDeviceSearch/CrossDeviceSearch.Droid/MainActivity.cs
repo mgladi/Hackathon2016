@@ -16,6 +16,8 @@ namespace CrossDeviceSearch.Droid
         {
             base.OnCreate(bundle);
 
+            this.Window.SetFlags(WindowManagerFlags.KeepScreenOn, WindowManagerFlags.KeepScreenOn);
+
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
         }
