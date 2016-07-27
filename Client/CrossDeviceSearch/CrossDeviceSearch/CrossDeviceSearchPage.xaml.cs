@@ -8,6 +8,7 @@ using ServiceMock;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace CrossDeviceSearch
 {
@@ -358,7 +359,7 @@ namespace CrossDeviceSearch
             filenameStack.Children.Add(new Label()
             {
                 HorizontalOptions = LayoutOptions.FillAndExpand,
-                Text = Path.GetFileName(fileMetadata.FullPathAndName),
+                Text = GetFileName(fileMetadata.FullPathAndName),
                 FontSize = 14,
                 TextColor = Color.Gray,
                 BackgroundColor = Color.White,
@@ -376,6 +377,16 @@ namespace CrossDeviceSearch
                 VerticalOptions = LayoutOptions.End
             });
             return filenameStack;
+        }
+
+        private string GetFileName(string path)
+        {
+            string fileName = Path.GetFileName(path);
+            if (fileName == path)
+            {
+                fileName = fileName.Split(new char[] { '\\' }).Last();
+            }
+            return fileName;
         }
 
         private string GetDetailsString(Button button)
