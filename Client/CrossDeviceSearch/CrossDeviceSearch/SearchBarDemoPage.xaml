@@ -9,7 +9,7 @@
                     WinPhone="10, 0" />
     </ContentPage.Padding>
     
-    <StackLayout>
+    <StackLayout BackgroundColor="White">
         <SearchBar x:Name="searchBar"
                    Placeholder="Search text"
                    TextColor="Black"                   

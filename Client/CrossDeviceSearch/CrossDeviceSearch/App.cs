@@ -38,7 +38,7 @@ namespace CrossDeviceSearch
                 }
             });
             task.Start();
-            MainPage = new CrossDeviceSearchPage(service);
+            MainPage = new RegisterPage(service);
         }
 
         private ResultDataFromAgent SearchQuery(string query)
