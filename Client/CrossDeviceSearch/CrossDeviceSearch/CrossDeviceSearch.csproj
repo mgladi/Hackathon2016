@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CrossDeviceSearch</RootNamespace>
-    <AssemblyName>OmniSearch</AssemblyName>
+    <AssemblyName>CrossDeviceSearch</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -64,7 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Images\WindowsIcon.png" />
-  </ItemGroup>  
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Android">
       <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v6.0\Mono.Android.dll</HintPath>
