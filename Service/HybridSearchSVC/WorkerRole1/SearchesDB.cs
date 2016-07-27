@@ -44,7 +44,9 @@ namespace HybridSearch
             Agent agent = this.clients.GetAgent(customerId, agentId);
 
             var agentResult = new AgentResult(agent.agentId, agent.deviceType, agent.deviceName + " - Error", null);
-            Searches[requestId].Add(agent.agentId, agentResult);
+
+            Searches[requestId] = new ConcurrentDictionary<Guid, AgentResult>();
+            Searches[requestId][agent.agentId] = agentResult;
 
             return requestId;
         }
