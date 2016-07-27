@@ -9,7 +9,6 @@ namespace ServiceInterface
     public interface IService
     {
 
-
         SearchItem PollService();
 
         List<ResultDataFromAgent> SearchFileInAllDevices(string query);
@@ -17,5 +16,7 @@ namespace ServiceInterface
         ResultDataFromAgent GetFileFromDevice(string path, Guid agentId);
 
         void SendResult(Guid requestId, ResultDataFromAgent agentResult);
+
+        void Register(string deviceName, string deviceType);
     }
 }
