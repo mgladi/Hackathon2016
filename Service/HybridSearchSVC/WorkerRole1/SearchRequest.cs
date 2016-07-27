@@ -9,8 +9,8 @@ namespace HybridSearch
 {
     public class SearchRequest : IRequest
     {
-        private const int maxIterations = 150;
-        private const int iterationDelayMilliseconds = 200;
+        private const int maxIterations = 300;
+        private const int iterationDelayMilliseconds = 100;
 
         private readonly Guid customerId;
 

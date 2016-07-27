@@ -24,8 +24,7 @@ namespace HybridSearch
         public Guid CreateNewSearch(Guid customerId, string query, string type)
         {
             Guid searchId = Guid.NewGuid();
-            Searches[searchId] = new ConcurrentDictionary<Guid, AgentResult>();
-
+            Searches[searchId] = new ConcurrentDictionary<Guid, AgentResult>();       
             List<Agent> agents = GetActiveAgents(customerId);
             foreach (Agent agent in agents)
             {
