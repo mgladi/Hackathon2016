@@ -12,13 +12,17 @@ namespace ServiceInterface
     public class HybridSearchService : IService
     {
         private readonly string url;
+        private readonly string customerName;
+        private Guid agentId;
 
-        public HybridSearchService(string url)
+        public HybridSearchService(string url, string customerName)
         {
             this.url = url;
+            this.customerName = customerName;
+            this.agentId = Guid.NewGuid();
         }
 
-        public SearchItem PollService(Guid agentId, string customerName)
+        public SearchItem PollService()
         {
             string resultContent;
             using (var client = new HttpClient())
@@ -52,7 +56,7 @@ namespace ServiceInterface
             }
         }
 
-        public List<ResultDataFromAgent> SearchFileInAllDevices(string query, string customerName)
+        public List<ResultDataFromAgent> SearchFileInAllDevices(string query)
         {
             string resultContent;
             using (var client = new HttpClient())
@@ -91,14 +95,14 @@ namespace ServiceInterface
             }
         }
 
-        public ResultDataFromAgent GetFileFromDevice(string path, Guid agentId, string customerName)
+        public ResultDataFromAgent GetFileFromDevice(string path, Guid agentIdForFile)
         {
             string resultContent;
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Add("CustomerId", customerName);
-                client.DefaultRequestHeaders.Add("AgentId", agentId.ToString());
+                client.DefaultRequestHeaders.Add("AgentId", agentIdForFile.ToString());
 
                 HttpResponseMessage result = client.GetAsync("/GetFile?p=" + path).Result;
                 resultContent = result.Content.ReadAsStringAsync().Result;
@@ -147,8 +151,9 @@ namespace ServiceInterface
             return Encoding.UTF8.GetBytes(fileContent);
         }
 
-        public void SendResult(string customerName, Guid agentId, Guid requestId, ResultDataFromAgent agentResult)
+        public void SendResult(Guid requestId, ResultDataFromAgent agentResult)
         {
+
             if (agentResult.ResultType == ResultDataFromAgentType.FileContent)
             {
 
