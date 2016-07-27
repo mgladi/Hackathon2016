@@ -48,6 +48,9 @@ namespace HybridSearch
             Searches[requestId] = new ConcurrentDictionary<Guid, AgentResult>();
             Searches[requestId][agent.agentId] = agentResult;
 
+            SearchQuery searchQuery = new SearchQuery(requestId, filePath, "file");
+            this.agentsPending.SubmitNewQuery(agent, searchQuery);
+
             return requestId;
         }
 
