@@ -14,7 +14,6 @@ namespace CrossDeviceSearch
     {
         const double MaxMatches = 100;
         //string bookText;
-        IService service = new HybridSearchService("http://hybridsearchsvc.cloudapp.net");
         private readonly IService service;
         FileHelper fileHelper = new FileHelper();
 
