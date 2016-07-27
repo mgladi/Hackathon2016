@@ -70,19 +70,30 @@ namespace CrossDeviceSearch
                 while (true && !ct.IsCancellationRequested)
                 {
                     SearchItem searchItem = service.PollService();
-                    Task.Run(() =>
+                    if (searchItem.PollingResultType != PollingResultType.NoRequest)
                     {
-                        switch (searchItem.PollingResultType)
+                        Task.Run(() =>
                         {
-                            case PollingResultType.SearchQuery:
-                                service.SendResult(searchItem.RequestId, SearchQuery(searchItem.ResultQuery));
-                                break;
-                            case PollingResultType.FileToTransferPath:
-                                service.SendResult(searchItem.RequestId, FileToTransferPath(searchItem.ResultQuery));
-                                break;
-                        }
-                    });
-                    Task.Delay(2000).Wait();
+                            try
+
+                            {
+                                switch (searchItem.PollingResultType)
+                                {
+                                    case PollingResultType.SearchQuery:
+                                        service.SendResult(searchItem.RequestId, SearchQuery(searchItem.ResultQuery));
+                                        break;
+                                    case PollingResultType.FileToTransferPath:
+                                        service.SendResult(searchItem.RequestId, FileToTransferPath(searchItem.ResultQuery));
+                                        break;
+                                }
+                            }
+                            catch (Exception e)
+                            {
+
+                            }
+                        });
+                    }
+                    Task.Delay(1000).Wait();
                 }
                 cancellationTokenSource = new CancellationTokenSource();
                 ct = cancellationTokenSource.Token;
@@ -94,14 +105,21 @@ namespace CrossDeviceSearch
 
         private ResultDataFromAgent SearchQuery(string query)
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             FileHelper fileHelper = new FileHelper();
+
+            List<FileMetadata> filesMetadata = fileHelper.SearchFiles(query);
+            sw.Stop();
+          
             ResultDataFromAgent results = new ResultDataFromAgent
             {
                 AgentGuid = new Guid(), /////// IS NOT NEEDED !!
                 DeviceType = fileHelper.DeviceType,
                 DeviceName = fileHelper.DeviceModel,
-                FilesMetadata = fileHelper.SearchFiles(query),
-                ResultType = ResultDataFromAgentType.FilesMetadataList
+                FilesMetadata = filesMetadata,
+                ResultType = ResultDataFromAgentType.FilesMetadataList,
+                SearchDuration = sw.Elapsed.ToString()
             };
             return results;
         }

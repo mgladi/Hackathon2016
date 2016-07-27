@@ -162,6 +162,8 @@ namespace ServiceInterface
                 client.DefaultRequestHeaders.Add("RequestId", requestId.ToString());
                 client.DefaultRequestHeaders.Add("DeviceType", agentResult.DeviceType.ToString());
                 client.DefaultRequestHeaders.Add("DeviceName", agentResult.DeviceName.ToString());
+                client.DefaultRequestHeaders.Add("SearchDuration", agentResult.SearchDuration);
+
                 HttpContent content = null;
                 if (agentResult.ResultType == ResultDataFromAgentType.FileContent)
                 {
