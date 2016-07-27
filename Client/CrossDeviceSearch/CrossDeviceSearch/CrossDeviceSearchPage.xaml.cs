@@ -7,6 +7,7 @@ using ServiceInterface;
 using ServiceMock;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace CrossDeviceSearch
 {
@@ -64,30 +65,54 @@ namespace CrossDeviceSearch
 
                 foreach (AgentData agentData in devicesList)
                 {
-                    StackLayout deviceNameStack = new StackLayout()
+                    StackLayout deviceIconStack = new StackLayout()
                     {
                         Orientation = StackOrientation.Horizontal
                     };
 
                     string osImage = agentData.DeviceType == DeviceType.Android ? "CrossDeviceSearch.Images.AndroidIcon.png" : "CrossDeviceSearch.Images.WindowsIcon.png";
 
-                    deviceNameStack.Children.Add(new Image()
+                    deviceIconStack.Children.Add(new Image()
                     {
                         Source = ImageSource.FromResource(osImage),
                         HeightRequest = 25,
                         WidthRequest = 25
                     });
 
+                    StackLayout deviceNameStack = new StackLayout()
+                    {
+                        HorizontalOptions = LayoutOptions.FillAndExpand,
+                    };
+
+
                     deviceNameStack.Children.Add(new Label()
                     {
+                        HorizontalOptions = LayoutOptions.FillAndExpand,
                         BackgroundColor = Color.White,
-                        Text = agentData.DeviceName,
+                        Text = Regex.Split(agentData.DeviceName, "  - ")[0],
                         TextColor = Color.Gray,
                         FontSize = 14,
                         VerticalTextAlignment = TextAlignment.Center
                     });
 
-                    devicesListStack.Children.Add(deviceNameStack);
+                    deviceNameStack.Children.Add(new Label()
+                    {
+                        HorizontalOptions = LayoutOptions.FillAndExpand,
+                        Text = Regex.Split(agentData.DeviceName, "  - ")[1],
+                        FontSize = 11,
+                        TextColor = Color.FromRgb(211, 211, 211),
+                        BackgroundColor = Color.White,
+                        VerticalTextAlignment = TextAlignment.End,
+                        VerticalOptions = LayoutOptions.End
+                    });
+
+                    deviceIconStack.Children.Add(deviceNameStack);
+                    devicesListStack.Children.Add(deviceIconStack);
+                    devicesListStack.Children.Add(new BoxView
+                    {
+                        HeightRequest = 0.5,
+                        BackgroundColor = Color.FromRgb(211, 211, 211)
+                    });
                 }
 
                 devicesInGroupStack.Children.Add(devicesListStack);

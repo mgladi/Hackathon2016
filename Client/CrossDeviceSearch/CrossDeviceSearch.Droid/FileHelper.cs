@@ -52,6 +52,7 @@ namespace CrossDeviceSearch.Droid
                 filepaths.AddRange(GetFilesInFolder(AndroidOSEnvironment.DirectoryPictures, searchPattern));
                 filepaths.AddRange(GetFilesInFolder(AndroidOSEnvironment.DirectoryMovies, searchPattern));
                 filepaths.AddRange(GetFilesInFolder(AndroidOSEnvironment.DirectoryMusic, searchPattern));
+                filepaths.AddRange(GetFilesInFolder("WhatsApp", searchPattern));
             }
             List<FileMetadata> filenames = new List<FileMetadata>();
 
