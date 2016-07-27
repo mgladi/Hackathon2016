@@ -24,7 +24,7 @@ namespace HybridSearch
             List<Agent> agents = this.clientsDb.GetActiveAgents(customerId);
             List<AgentData> agentsData = agents.Select(a => new AgentData()
             {
-                DeviceName = a.deviceName,
+                DeviceName = a.deviceName + "   - Last seen:" + a.lastSeen,
                 DeviceType = (DeviceType)Enum.Parse(typeof(DeviceType), a.deviceType)
             }).ToList();
 

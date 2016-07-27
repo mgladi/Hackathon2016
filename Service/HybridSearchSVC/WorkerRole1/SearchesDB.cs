@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace HybridSearch
 {
+    public enum RequestType { Search, File };
+
     public class SearchesDB : ISearchesDB
     {
         private IDictionary<Guid, IDictionary<Guid, AgentResult>> Searches = new ConcurrentDictionary<Guid, IDictionary<Guid, AgentResult>>();
