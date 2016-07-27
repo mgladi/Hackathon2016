@@ -81,5 +81,10 @@ namespace ServiceMock
         {
             return new ResultDataFromAgent { FileContent = "A file content!" };
         }
+
+        public List<AgentData> GetAgentsStatus()
+        {
+            return new List<AgentData>();
+        }
     }
 }

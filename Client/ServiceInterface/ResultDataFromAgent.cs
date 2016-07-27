@@ -41,6 +41,13 @@ namespace ServiceInterface
         }
     }
 
+    public class AgentData
+    {
+        public DeviceType DeviceType { get; set; }
+
+        public string DeviceName { get; set; }
+    }
+
     public class SearchResults
     {
         public List<AgentResult> results { get; set; }
