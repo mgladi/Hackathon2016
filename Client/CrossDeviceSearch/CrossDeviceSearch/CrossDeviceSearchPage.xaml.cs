@@ -24,7 +24,6 @@ namespace CrossDeviceSearch
             this.username = username;
             InitializeComponent();            
             
-            service.Register("MY DEVICE", DeviceType.Windows.ToString());
             SetDevicesList();
         }
 
@@ -41,9 +40,9 @@ namespace CrossDeviceSearch
                 devicesTitleStack.Children.Add(new Label()
                 {
                     BackgroundColor = Color.White,
-                    Text = "No devices in group GROUPNAME",
+                    Text = string.Format("No devices for '{0}'.", username),
                     TextColor = Color.Gray,
-                    FontSize = 20
+                    FontSize = 14
                 });
 
                 devicesInGroupStack.Children.Add(devicesTitleStack);
@@ -53,9 +52,9 @@ namespace CrossDeviceSearch
                 devicesTitleStack.Children.Add(new Label()
                 {
                     BackgroundColor = Color.White,
-                    Text = string.Format("Devices in group {0}", "NEED TO BE REPLACED"),
+                    Text = string.Format("Devices for '{0}':", username),
                     TextColor = Color.Gray,
-                    FontSize = 20
+                    FontSize = 14
                 });
 
                 devicesInGroupStack.Children.Add(devicesTitleStack);
@@ -74,8 +73,8 @@ namespace CrossDeviceSearch
                     deviceNameStack.Children.Add(new Image()
                     {
                         Source = ImageSource.FromResource(osImage),
-                        HeightRequest = 30,
-                        WidthRequest = 30
+                        HeightRequest = 25,
+                        WidthRequest = 25
                     });
 
                     deviceNameStack.Children.Add(new Label()
@@ -83,16 +82,17 @@ namespace CrossDeviceSearch
                         BackgroundColor = Color.White,
                         Text = agentData.DeviceName,
                         TextColor = Color.Gray,
-                        FontSize = 30,
+                        FontSize = 14,
+                        VerticalTextAlignment = TextAlignment.Center
                     });
 
                     devicesListStack.Children.Add(deviceNameStack);
                 }
 
                 devicesInGroupStack.Children.Add(devicesListStack);
-
-                resultsStack.Children.Add(devicesInGroupStack);
             }
+            resultsStack.Children.Add(devicesInGroupStack);
+
         }
 
         void OnSearchBarTextChanged(object sender, TextChangedEventArgs args)
@@ -276,8 +276,8 @@ namespace CrossDeviceSearch
                 BorderWidth = 0.5,
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center,
-                HeightRequest = 25,
-                WidthRequest = 40,
+                HeightRequest = 30,
+                WidthRequest = 60,
                 FontSize = 10
             };
 

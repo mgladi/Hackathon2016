@@ -8,7 +8,9 @@
                     Android="10, 0"
                     WinPhone="10, 0" />
     </ContentPage.Padding>
-    
+    <ContentPage.BackgroundColor>
+      White
+    </ContentPage.BackgroundColor>
     <StackLayout x:Name="MainStack" BackgroundColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
       <Label x:Name="EnterNameLabel"
              BackgroundColor="White"
@@ -18,8 +20,8 @@
         <Entry x:Name="UserNameEntry"
                    TextColor="Gray"                   
                    TextChanged="OnEntryTextChanged"
-                   BackgroundColor="White"
-               WidthRequest="200"
+                   BackgroundColor="#D3D3D3"
+                   WidthRequest="200"
                    />
       <Button  x:Name="ContinueButton"
                    Text="Continue"
