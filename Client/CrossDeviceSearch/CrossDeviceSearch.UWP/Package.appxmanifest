@@ -42,6 +42,7 @@
     <uap:Capability Name="userAccountInformation" />
     <uap:Capability Name="videosLibrary" />
     <uap:Capability Name="voipCall" />
+    <uap:Capability Name="documentsLibrary" />
     <DeviceCapability Name="bluetooth" />
     <DeviceCapability Name="location" />
     <DeviceCapability Name="proximity" />
